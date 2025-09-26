@@ -5,7 +5,7 @@ public class PupilManager : MonoBehaviour
 {
     public Pupil pupilPrefab;
     public int pupilCount = 50;
-    public Vector2 areaSize = new Vector2(20f, 20f); // box width/height
+    public Vector2 areaSize; // box width/height
 
     [Header("Boid Settings")]
     public float neighborRadius = 3f;
@@ -23,6 +23,15 @@ public class PupilManager : MonoBehaviour
 
     void Start()
     {
+        // Set areaSize to match the screen size in world units
+        Vector3 bottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
+        Vector3 topRight = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+        areaSize = new Vector2(
+            topRight.x - bottomLeft.x,
+            topRight.y - bottomLeft.y
+        );
+        transform.position = (bottomLeft + topRight) / 2f;
+
         for (int i = 0; i < pupilCount; i++)
         {
             Debug.Log("Spawning pupil " + i);
