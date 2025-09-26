@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
 
+    public GamePlaySettings gamePlaySettings;
     public PupilManager pupilManager;
     public EventManager eventManager;
     public TimeAndMoneyManager timeMoneyManager;
