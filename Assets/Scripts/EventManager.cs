@@ -5,8 +5,9 @@ using UnityEngine.Events;
 public class EventManager : MonoBehaviour
 {
     public UnityEvent<EventData> onTryEventTrigger = new UnityEvent<EventData>();
-    public UnityEvent<InfluencableStats, float> onOneTimeStatChanged = new UnityEvent<InfluencableStats, float>();
-    public UnityEvent<InfluencableStats, float, Pupil> onPupilStatChanged = new UnityEvent<InfluencableStats, float, Pupil>();
+    public UnityEvent<InfluencableStats, float> onOneTimeStatInfluenced = new UnityEvent<InfluencableStats, float>();
+    public UnityEvent<InfluencableStats, float, Pupil> onPupilStatInfluenced = new UnityEvent<InfluencableStats, float, Pupil>();
+    public UnityEvent<InfluencableStats, float> OnStatChanged = new UnityEvent<InfluencableStats, float>();
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -93,11 +94,11 @@ public class EventManager : MonoBehaviour
                 Debug.LogError("Trying to apply per-pupil stat effect without a pupil context"); 
                 return false;
             }
-            onPupilStatChanged.Invoke(effect.stat, effect.amount, pupil);
+            onPupilStatInfluenced.Invoke(effect.stat, effect.amount, pupil);
         }
         else
         {
-            onOneTimeStatChanged.Invoke(effect.stat, effect.amount);
+            onOneTimeStatInfluenced.Invoke(effect.stat, effect.amount);
         }
         return true;
     }

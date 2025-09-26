@@ -10,7 +10,7 @@ public class TimeAndMoneyManager : MonoBehaviour
 // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        GameManager.instance.eventManager.onOneTimeStatChanged.AddListener(ChangeStat);
+        GameManager.instance.eventManager.onOneTimeStatInfluenced.AddListener(ChangeStat);
     }
 
     // Update is called once per frame
@@ -29,12 +29,15 @@ public class TimeAndMoneyManager : MonoBehaviour
         {
             case InfluencableStats.MoneyTotal:
                 MoneyTotal += amount;
+                GameManager.instance.eventManager.OnStatChanged.Invoke(stat, MoneyTotal);
                 break;
             case InfluencableStats.MoneyPerDay:
                 MoneyPerDay += amount;
+                GameManager.instance.eventManager.OnStatChanged.Invoke(stat, MoneyPerDay);
                 break;
             case InfluencableStats.DaysPassed:
                 DaysPassed += (int)amount;
+                GameManager.instance.eventManager.OnStatChanged.Invoke(stat, DaysPassed);
                 break;
             default:
                 Debug.LogError("Unknown stat in TimeAndMoneyManager: " + stat);

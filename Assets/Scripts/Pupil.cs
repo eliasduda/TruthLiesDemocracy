@@ -9,7 +9,7 @@ public class Pupil : MonoBehaviour
 
     void Start()
     {
-        GameManager.instance.eventManager.onPupilStatChanged.AddListener(ApplyStatChange);
+        GameManager.instance.eventManager.onPupilStatInfluenced.AddListener(ApplyStatChange);
 
         velocity = Random.insideUnitCircle * manager.maxSpeed;
     }

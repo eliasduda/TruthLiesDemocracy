@@ -16,20 +16,13 @@ MonoBehaviour:
   description: 
   icon: {fileID: 0}
   category: 0
-  effects:
+  PerPupilEffects:
   - effects:
-    - stat: 1
-      amount: 0
-    - stat: 1
+    - stat: 0
       amount: 0
     whereAllOfTheseApply:
     - stat: 0
       comparator: 0
-      amount: 5
-    - stat: 1
-      comparator: 0
-      amount: 5
+      amount: 0
     andWhereOneOfTheseApply: []
-  cost:
-    stat: 0
-    amount: 0
+  OneTimeEffects: []
