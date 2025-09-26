@@ -1,3 +1,6 @@
+using NUnit.Framework;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Pupil : MonoBehaviour
@@ -7,95 +10,78 @@ public class Pupil : MonoBehaviour
 
     public PupilStats stats = new PupilStats();
 
+    private Rigidbody2D rb;
+
+    private bool isFrozen = false;
+    private Vector2 pendingVelocity;
+    public float freezeDuration = 0.5f; // Duration to freeze on collision
+    private Coroutine freezeCoroutine;
+
+    public List<Pupil> connectedPupils = new List<Pupil>();
+
     void Start()
     {
         GameManager.instance.eventManager.onPupilStatInfluenced.AddListener(ApplyStatChange);
 
         velocity = Random.insideUnitCircle * manager.maxSpeed;
+        rb = GetComponent<Rigidbody2D>();
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        velocity = Random.insideUnitCircle.normalized * manager.MaxSpeed;
+        rb.linearVelocity = velocity;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        Vector2 separation = Vector2.zero;
-        Vector2 alignment = Vector2.zero;
-        Vector2 cohesion = Vector2.zero;
-
-        int neighborCount = 0;
-        int separationCount = 0;
-
-        foreach (var pupil in manager.pupils)
-        {
-            if (pupil == this) continue;
-
-            float d = Vector2.Distance(transform.position, pupil.transform.position);
-
-            // Within neighbor radius -> affects alignment & cohesion
-            if (d < manager.neighborRadius)
-            {
-                alignment += pupil.velocity;
-                cohesion += (Vector2)pupil.transform.position;
-                neighborCount++;
-            }
-
-            // Within separation radius -> steer away
-            if (d < manager.separationDistance && d > 0)
-            {
-                separation += ((Vector2)transform.position - (Vector2)pupil.transform.position).normalized / d;
-                separationCount++;
-            }
-        }
-
-        // Finalize averages
-        if (neighborCount > 0)
-        {
-            alignment = (alignment / neighborCount).normalized * manager.maxSpeed - velocity;
-            cohesion = ((cohesion / neighborCount) - (Vector2)transform.position).normalized;
-        }
-
-        if (separationCount > 0)
-        {
-            separation /= separationCount;
-        }
-
-        // Add boundary force
-        Vector2 boundary = ComputeBoundaryForce();
-
-        // Combine forces with weights
-        Vector2 acceleration = Vector2.zero;
-        acceleration += separation * manager.separationWeight;
-        acceleration += alignment * manager.alignmentWeight;
-        acceleration += cohesion * manager.cohesionWeight;
-        acceleration += boundary * manager.boundaryWeight;
-
-        // Update velocity
-        velocity += acceleration * Time.deltaTime;
-        velocity = Vector2.ClampMagnitude(velocity, manager.maxSpeed);
-
-        // Move
-        transform.position += (Vector3)(velocity * Time.deltaTime);
-
-        // Rotate to face direction of movement (optional)
-        if (velocity.sqrMagnitude > 0.01f)
-            transform.up = velocity.normalized;
+        rb.linearVelocity = isFrozen ? Vector2.zero : velocity; // Keep moving in the current direction
     }
 
-    Vector2 ComputeBoundaryForce()
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        Rect bounds = manager.GetBounds();
-        Vector2 pos = transform.position;
-        Vector2 force = Vector2.zero;
+        if (collision.contacts.Length > 0)
+        {
+            Vector2 normal = collision.contacts[0].normal;
+            Vector2 bounceVelocity = normal * manager.MaxSpeed;
+            if (collision.gameObject.GetComponent<Pupil>() != null)
+            {
+                pendingVelocity = bounceVelocity;
+                Pupil otherPupil = collision.gameObject.GetComponent<Pupil>();
 
-        float margin = 1f; // distance before turning back
+                if (isFrozen) // already part of group -> add new pupil to everyones group and re-freeze all
+                {
+                    foreach (Pupil pupil in new List<Pupil>(connectedPupils))
+                    {
+                        pupil.Freeze(freezeDuration);
+                        pupil.connectedPupils.Add(otherPupil);
+                    }
 
-        if (pos.x < bounds.xMin + margin) force.x = 1;
-        else if (pos.x > bounds.xMax - margin) force.x = -1;
-
-        if (pos.y < bounds.yMin + margin) force.y = 1;
-        else if (pos.y > bounds.yMax - margin) force.y = -1;
-
-        return force;
+                }
+                connectedPupils.Add(otherPupil);
+                Freeze(freezeDuration);
+            }
+            else
+            {
+                // Wall collision
+                velocity = bounceVelocity;
+            }
+        }
     }
 
+    public void Freeze(float duration)
+    {
+        if (freezeCoroutine != null)
+            StopCoroutine(freezeCoroutine);
+        freezeCoroutine = StartCoroutine(FreezeCoroutine(duration));
+    }
+
+    IEnumerator FreezeCoroutine(float duration)
+    {
+        isFrozen = true;
+        yield return new WaitForSeconds(duration);
+        isFrozen = false;
+        velocity = pendingVelocity;
+        freezeCoroutine = null;
+        connectedPupils.Clear();
+    }
     void ApplyStatChange(InfluencableStats stat, float amount, Pupil pupil)
     {
         if(pupil == this) stats.ApplyChange(stat, amount);

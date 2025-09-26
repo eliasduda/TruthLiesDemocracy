@@ -5,19 +5,11 @@ public class PupilManager : MonoBehaviour
 {
     public Pupil pupilPrefab;
     public int pupilCount = 50;
-    public Vector2 areaSize; // box width/height
 
-    [Header("Boid Settings")]
-    public float neighborRadius = 3f;
-    public float separationDistance = 1f;
-    public float maxSpeed = 5f;
-    public float maxForce = 0.5f;
+    [SerializeField] private float _maxSpeed = 1f;
+    public float MaxSpeed => _maxSpeed;
 
-    [Header("Behavior Weights")]
-    public float separationWeight = 1.5f;
-    public float alignmentWeight = 1f;
-    public float cohesionWeight = 1f;
-    public float boundaryWeight = 5f;
+    private Vector2 areaSize; // box width/height
 
     [HideInInspector] public List<Pupil> pupils = new List<Pupil>();
 
@@ -32,9 +24,12 @@ public class PupilManager : MonoBehaviour
         );
         transform.position = (bottomLeft + topRight) / 2f;
 
+        // Create screen boundary walls
+        CreateScreenWalls();
+
+        // Spawn pupils at random positions within the area
         for (int i = 0; i < pupilCount; i++)
         {
-            Debug.Log("Spawning pupil " + i);
             Vector2 pos = (Vector2)transform.position + new Vector2(
                 Random.Range(-areaSize.x / 2, areaSize.x / 2),
                 Random.Range(-areaSize.y / 2, areaSize.y / 2)
@@ -52,5 +47,41 @@ public class PupilManager : MonoBehaviour
             (Vector2)transform.position - areaSize / 2,
             areaSize
         );
+    }
+
+    void CreateScreenWalls()
+    {
+        Rect bounds = GetBounds();
+        float thickness = 1f; // Thickness of the wall
+
+        // Bottom
+        CreateWall(
+            new Vector2(bounds.center.x, bounds.yMin - thickness / 2),
+            new Vector2(bounds.width + thickness * 2, thickness)
+        );
+        // Top
+        CreateWall(
+            new Vector2(bounds.center.x, bounds.yMax + thickness / 2),
+            new Vector2(bounds.width + thickness * 2, thickness)
+        );
+        // Left
+        CreateWall(
+            new Vector2(bounds.xMin - thickness / 2, bounds.center.y),
+            new Vector2(thickness, bounds.height + thickness * 2)
+        );
+        // Right
+        CreateWall(
+            new Vector2(bounds.xMax + thickness / 2, bounds.center.y),
+            new Vector2(thickness, bounds.height + thickness * 2)
+        );
+    }
+
+    void CreateWall(Vector2 position, Vector2 size)
+    {
+        GameObject wall = new GameObject("Wall");
+        wall.transform.position = position;
+        var collider = wall.AddComponent<BoxCollider2D>();
+        collider.size = size;
+        collider.isTrigger = false;
     }
 }
