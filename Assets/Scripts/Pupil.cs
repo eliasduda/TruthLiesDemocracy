@@ -43,12 +43,12 @@ public class Pupil : MonoBehaviour
 
                 if (isFrozen) // already part of group -> add new pupil to everyones group and re-freeze all
                 {
-                    foreach (Pupil pupil in connectedPupils)
+                    foreach (Pupil pupil in new List<Pupil>(connectedPupils))
                     {
                         pupil.Freeze(freezeDuration);
                         pupil.connectedPupils.Add(otherPupil);
                     }
-                    
+
                 }
                 connectedPupils.Add(otherPupil);
                 Freeze(freezeDuration);
