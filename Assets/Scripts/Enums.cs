@@ -12,8 +12,9 @@ public enum InfluencableStats
 {
     Alignment,
     Engagement,
-    MoneyPerSecond,
+    MoneyPerDay,
     MoneyTotal,
+    DaysPassed
 }
 
 public enum StatComparator

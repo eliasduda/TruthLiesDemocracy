@@ -5,8 +5,12 @@ public class Pupil : MonoBehaviour
     [HideInInspector] public PupilManager manager;
     public Vector2 velocity;
 
+    public PupilStats stats = new PupilStats();
+
     void Start()
     {
+        GameManager.instance.eventManager.onPupilStatChanged.AddListener(ApplyStatChange);
+
         velocity = Random.insideUnitCircle * manager.maxSpeed;
     }
 
@@ -92,4 +96,43 @@ public class Pupil : MonoBehaviour
         return force;
     }
 
+    void ApplyStatChange(InfluencableStats stat, float amount, Pupil pupil)
+    {
+        if(pupil == this) stats.ApplyChange(stat, amount);
+    }
+
+}
+
+public class PupilStats
+{
+    public float alignment;
+    public float engagement;
+
+    public float GetStat(InfluencableStats stat)
+    {
+        return stat switch
+        {
+            InfluencableStats.Alignment => alignment,
+            InfluencableStats.Engagement => engagement,
+            _ => 0f,
+        };
+    }
+
+    public void ApplyChange(InfluencableStats stat, float amount)
+    {
+        switch (stat)
+        {
+            case InfluencableStats.Alignment:
+                alignment = Mathf.Clamp01(alignment + amount);
+                break;
+            case InfluencableStats.Engagement:
+                engagement = Mathf.Clamp01(engagement + amount);
+                break;
+        }
+    }
+
+    public static bool IsPerPupilStat(InfluencableStats stat)
+    {
+        return stat == InfluencableStats.Alignment || stat == InfluencableStats.Engagement;
+    }
 }

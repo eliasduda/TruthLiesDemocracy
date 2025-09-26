@@ -11,7 +11,7 @@ public class EventData : ScriptableObject
 
     public EventCategory category;
 
-    public EventEffect[] effects;
+    public EventEffect[] PerPupilEffects;
 
-    public EventEffectPair cost;
+    public EventEffect[] OneTimeEffects;
 }

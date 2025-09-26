@@ -6,12 +6,19 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public PupilManager pupilManager;
+    public EventManager eventManager;
+    public TimeAndMoneyManager timeMoneyManager;
 
     private void Awake()
     {
         if (!instance)
         {
             instance = this;
+
+            timeMoneyManager = GetComponent<TimeAndMoneyManager>();
+            eventManager = GetComponent<EventManager>();
+            if( timeMoneyManager == null) Debug.LogError("TimeAndMoneyManager component not found on GameManager");
+            if( eventManager == null) Debug.LogError("EventManager component not found on GameManager");
         }
         else
         {
