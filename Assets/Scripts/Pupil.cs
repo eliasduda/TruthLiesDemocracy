@@ -1,5 +1,7 @@
-using UnityEngine;
+using NUnit.Framework;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class Pupil : MonoBehaviour
 {
@@ -11,6 +13,9 @@ public class Pupil : MonoBehaviour
     private bool isFrozen = false;
     private Vector2 pendingVelocity;
     public float freezeDuration = 0.5f; // Duration to freeze on collision
+    private Coroutine freezeCoroutine;
+
+    public List<Pupil> connectedPupils = new List<Pupil>();
 
     void Start()
     {
@@ -29,16 +34,24 @@ public class Pupil : MonoBehaviour
     {
         if (collision.contacts.Length > 0)
         {
-            Debug.Log("Colliding with some object");
             Vector2 normal = collision.contacts[0].normal;
             Vector2 bounceVelocity = normal * manager.MaxSpeed;
             if (collision.gameObject.GetComponent<Pupil>() != null)
             {
-                if (!isFrozen)
+                pendingVelocity = bounceVelocity;
+                Pupil otherPupil = collision.gameObject.GetComponent<Pupil>();
+
+                if (isFrozen) // already part of group -> add new pupil to everyones group and re-freeze all
                 {
-                    pendingVelocity = bounceVelocity;
-                    StartCoroutine(FreezeCoroutine(freezeDuration));
-                }  
+                    foreach (Pupil pupil in connectedPupils)
+                    {
+                        pupil.Freeze(freezeDuration);
+                        pupil.connectedPupils.Add(otherPupil);
+                    }
+                    
+                }
+                connectedPupils.Add(otherPupil);
+                Freeze(freezeDuration);
             }
             else
             {
@@ -46,31 +59,22 @@ public class Pupil : MonoBehaviour
                 velocity = bounceVelocity;
             }
         }
+    }
 
-        // Only freeze if colliding with another pupil
-        if (collision.gameObject.GetComponent<Pupil>() != null && !isFrozen)
-        {
-            Vector2 normal = collision.contacts[0].normal;
-            pendingVelocity = normal * manager.MaxSpeed;
-            StartCoroutine(FreezeCoroutine(freezeDuration));
-        }
-        else
-        {
-            // Wall collision
-            if (collision.contacts.Length > 0)
-            {
-                Vector2 normal = collision.contacts[0].normal;
-                velocity = normal * manager.MaxSpeed;
-            }
-        }
+    public void Freeze(float duration)
+    {
+        if (freezeCoroutine != null)
+            StopCoroutine(freezeCoroutine);
+        freezeCoroutine = StartCoroutine(FreezeCoroutine(duration));
     }
 
     IEnumerator FreezeCoroutine(float duration)
     {
-        Debug.Log("Starting freezing");
         isFrozen = true;
         yield return new WaitForSeconds(duration);
         isFrozen = false;
         velocity = pendingVelocity;
+        freezeCoroutine = null;
+        connectedPupils.Clear();
     }
 }
