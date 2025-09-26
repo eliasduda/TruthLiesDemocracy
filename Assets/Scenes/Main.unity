@@ -151,6 +151,7 @@ MonoBehaviour:
   pupilPrefab: {fileID: -3267188324088731708, guid: b1c138f706f734648aa23d5e6f25dff8, type: 3}
   pupilCount: 100
   _maxSpeed: 1
+  freezeDuration: 3
   pupils: []
 --- !u!4 &621636015
 Transform:
