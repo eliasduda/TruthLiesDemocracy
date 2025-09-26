@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public PupilManager pupilManager;
     public EventManager eventManager;
     public TimeAndMoneyManager timeMoneyManager;
+    public HoverPopUpManager hoverPopUpManager;
 
     private void Awake()
     {
@@ -18,8 +19,10 @@ public class GameManager : MonoBehaviour
 
             timeMoneyManager = GetComponent<TimeAndMoneyManager>();
             eventManager = GetComponent<EventManager>();
+            hoverPopUpManager = GetComponent<HoverPopUpManager>();
             if( timeMoneyManager == null) Debug.LogError("TimeAndMoneyManager component not found on GameManager");
             if( eventManager == null) Debug.LogError("EventManager component not found on GameManager");
+            if( hoverPopUpManager == null) Debug.LogError("HoverPopUpManager component not found on GameManager");
         }
         else
         {

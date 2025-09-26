@@ -1,0 +1,138 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7944117342685800788
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8272362084053024618}
+  - component: {fileID: 445447176675857984}
+  - component: {fileID: 4830637231211274579}
+  - component: {fileID: 4584034827258009542}
+  - component: {fileID: 5856936539743806147}
+  - component: {fileID: 3618698471025772336}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8272362084053024618
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7944117342685800788}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &445447176675857984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7944117342685800788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4482a6f8a463c51458930a5a2583fb64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  gamePlaySettings: {fileID: 11400000, guid: 859d90322d307a5478449e5feafc8562, type: 2}
+  pupilManager: {fileID: 0}
+  eventManager: {fileID: 0}
+  timeMoneyManager: {fileID: 0}
+  hoverPopUpManager: {fileID: 0}
+--- !u!114 &4830637231211274579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7944117342685800788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12adcfc134ac7e941a5feb03f40f56e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PupilManager
+  pupilPrefab: {fileID: -3267188324088731708, guid: b1c138f706f734648aa23d5e6f25dff8, type: 3}
+  pupilCount: 50
+  areaSize: {x: 0, y: 0}
+  neighborRadius: 3
+  separationDistance: 1
+  maxSpeed: 5
+  maxForce: 0.5
+  separationWeight: 1.5
+  alignmentWeight: 1
+  cohesionWeight: 1
+  boundaryWeight: 5
+  pupils: []
+--- !u!114 &4584034827258009542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7944117342685800788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f78913d2a2332446ad211473c860be7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventManager
+  onTryEventTrigger:
+    m_PersistentCalls:
+      m_Calls: []
+  onOneTimeStatInfluenced:
+    m_PersistentCalls:
+      m_Calls: []
+  onPupilStatInfluenced:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStatChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  onHoverableWordHovered:
+    m_PersistentCalls:
+      m_Calls: []
+  onPopUpUnhovered:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &5856936539743806147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7944117342685800788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fe8618958ac5ae4bb6f90969928c5a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TimeAndMoneyManager
+--- !u!114 &3618698471025772336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7944117342685800788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e5724938e5e04b45a749db7b51ec10c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HoverPopUpManager
+  hoverableWords:
+  - {fileID: 11400000, guid: b48d93e674838de41b4ce065808f8b2c, type: 2}
+  - {fileID: 11400000, guid: 2182169dce5ee9647bcbd171c6b34e41, type: 2}
+  hoverInfoPopUpPrefab: {fileID: 5233148126153688133, guid: 1212037a881c2cd46a943d98563c9e92, type: 3}
+  popUpCanvas: {fileID: 0}

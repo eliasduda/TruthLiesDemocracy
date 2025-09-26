@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88d02b45310fc9e478f77093a7f2f6e9, type: 3}
+  m_Name: HW_Money
+  m_EditorClassIdentifier: Assembly-CSharp::HoverableWord
+  title: Money
+  description: Currency used to do any action
+  iconName: 
+  fontColor: {r: 0.9685534, g: 0.82786125, b: 0.4294528, a: 1}
