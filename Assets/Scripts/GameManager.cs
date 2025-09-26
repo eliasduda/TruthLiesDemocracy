@@ -5,6 +5,8 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
 
+    public PupilManager pupilManager;
+
     private void Awake()
     {
         if (!instance)
