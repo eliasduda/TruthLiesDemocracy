@@ -245,6 +245,34 @@ PrefabInstance:
       propertyPath: 'bumpSounds.Array.data[0]'
       value: 
       objectReference: {fileID: 8300000, guid: 281f4237bf11cf14894a1751fbf8ff23, type: 3}
+    - target: {fileID: 4830637231211274579, guid: 487bdab5e0bf42b458d3ebbef20674f2, type: 3}
+      propertyPath: 'bumpSounds.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 4aca3328aff35874594b1b0963d82b37, type: 3}
+    - target: {fileID: 4830637231211274579, guid: 487bdab5e0bf42b458d3ebbef20674f2, type: 3}
+      propertyPath: 'bumpSounds.Array.data[3]'
+      value: 
+      objectReference: {fileID: 8300000, guid: f7f7e5889a1efc446847d88ae340f4de, type: 3}
+    - target: {fileID: 6993759569265847366, guid: 487bdab5e0bf42b458d3ebbef20674f2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 12.641154
+      objectReference: {fileID: 0}
+    - target: {fileID: 6993759569265847366, guid: 487bdab5e0bf42b458d3ebbef20674f2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 7.5290885
+      objectReference: {fileID: 0}
+    - target: {fileID: 6993759569265847366, guid: 487bdab5e0bf42b458d3ebbef20674f2, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.693
+      objectReference: {fileID: 0}
+    - target: {fileID: 6993759569265847366, guid: 487bdab5e0bf42b458d3ebbef20674f2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 6993759569265847366, guid: 487bdab5e0bf42b458d3ebbef20674f2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.08
+      objectReference: {fileID: 0}
     - target: {fileID: 7944117342685800788, guid: 487bdab5e0bf42b458d3ebbef20674f2, type: 3}
       propertyPath: m_Name
       value: GameManager
