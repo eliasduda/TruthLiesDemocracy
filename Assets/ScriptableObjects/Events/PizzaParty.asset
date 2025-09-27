@@ -25,10 +25,11 @@ MonoBehaviour:
       amount: 1
     whereAllOfTheseApply: []
     andWhereOneOfTheseApply: []
+    pupilSelector: 0
   OneTimeEffects: []
   cost:
     stat: 4
-    amount: 30
+    amount: -30
   duration:
     stat: 0
     amount: 0

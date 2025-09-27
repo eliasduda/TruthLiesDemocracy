@@ -12,6 +12,7 @@ public class Pupil : MonoBehaviour
     public Sprite unawareSprite;
     public Sprite awareSprite;
     public Sprite supportingSprite;
+    public Sprite youSprite;
     private SpriteRenderer spriteRenderer;
 
     public GameObject armLeft;
@@ -46,6 +47,8 @@ public class Pupil : MonoBehaviour
         velocity = Random.insideUnitCircle.normalized * manager.MaxSpeed;
 
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        UpdateSprite();
+
 
         // --- Arm positioning ---
         // Get the radius from the CircleCollider2D
@@ -222,6 +225,7 @@ public class Pupil : MonoBehaviour
     }
     void ApplyStatChange(InfluencableStats stat, float amount, Pupil pupil)
     {
+        UpdateSprite();
         if(pupil == this && !isYou) stats.ApplyChange(stat, amount);
     }
     public bool IsInMyRadius(Pupil other)
@@ -231,10 +235,16 @@ public class Pupil : MonoBehaviour
 
     void UpdateSprite()
     {
-        if (stats.isAware == 0f) spriteRenderer.sprite = unawareSprite;
-        else if (stats.support < 0.5f) spriteRenderer.sprite = awareSprite;
-        else spriteRenderer.sprite = supportingSprite;
+        Sprite shouldHaveSprite;
+        if (isYou) shouldHaveSprite = youSprite;
+        else if (stats.isAware == 0f) shouldHaveSprite = unawareSprite;
+        else if (stats.support < 0.5f) shouldHaveSprite = awareSprite;
+        else shouldHaveSprite = supportingSprite;
 
+        if (spriteRenderer.sprite != shouldHaveSprite)
+        {
+            spriteRenderer.sprite = shouldHaveSprite;
+        }
     }
 }
 
@@ -280,7 +290,7 @@ public class PupilStats
 
     public static bool IsPerPupilStat(InfluencableStats stat)
     {
-        return stat == InfluencableStats.Support || stat == InfluencableStats.Trust;
+        return stat == InfluencableStats.Support || stat == InfluencableStats.Trust || stat == InfluencableStats.Awareness;
     }
 
     public void CopyStats(PupilStats stats)

@@ -22,15 +22,17 @@ MonoBehaviour:
       amount: 2
     whereAllOfTheseApply: []
     andWhereOneOfTheseApply: []
+    pupilSelector: 0
   OneTimeEffects:
   - effects:
     - stat: 4
       amount: 2
     whereAllOfTheseApply: []
     andWhereOneOfTheseApply: []
+    pupilSelector: 0
   cost:
     stat: 4
-    amount: 10
+    amount: -10
   duration:
     stat: 5
     amount: 3

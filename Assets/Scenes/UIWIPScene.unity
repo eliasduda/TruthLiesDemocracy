@@ -304,7 +304,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &946281841
+--- !u!224 &971704922 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8057398362180313429, guid: 76cce783114640247af883ab23452c17, type: 3}
+  m_PrefabInstance: {fileID: 5344469352698289687}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1016279063
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -374,11 +379,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 290320149174421019, guid: 90b138d9ba1f5874a862df42bf66ad97, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 41
+      value: -542.8125
       objectReference: {fileID: 0}
     - target: {fileID: 290320149174421019, guid: 90b138d9ba1f5874a862df42bf66ad97, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -141
+      value: -26.517212
       objectReference: {fileID: 0}
     - target: {fileID: 290320149174421019, guid: 90b138d9ba1f5874a862df42bf66ad97, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -449,15 +454,10 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90b138d9ba1f5874a862df42bf66ad97, type: 3}
---- !u!224 &946281842 stripped
+--- !u!224 &1016279064 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 290320149174421019, guid: 90b138d9ba1f5874a862df42bf66ad97, type: 3}
-  m_PrefabInstance: {fileID: 946281841}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &971704922 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8057398362180313429, guid: 76cce783114640247af883ab23452c17, type: 3}
-  m_PrefabInstance: {fileID: 5344469352698289687}
+  m_PrefabInstance: {fileID: 1016279063}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1101451646
 GameObject:
@@ -693,7 +693,7 @@ RectTransform:
   - {fileID: 971704922}
   - {fileID: 516641479}
   - {fileID: 1124349350}
-  - {fileID: 946281842}
+  - {fileID: 1016279064}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -819,6 +819,10 @@ PrefabInstance:
       propertyPath: popUpCanvas
       value: 
       objectReference: {fileID: 1114941362}
+    - target: {fileID: 4830637231211274579, guid: 487bdab5e0bf42b458d3ebbef20674f2, type: 3}
+      propertyPath: pupils.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7944117342685800788, guid: 487bdab5e0bf42b458d3ebbef20674f2, type: 3}
       propertyPath: m_Name
       value: GameManager

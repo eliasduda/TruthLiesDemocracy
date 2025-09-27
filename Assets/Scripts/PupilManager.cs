@@ -16,9 +16,10 @@ public class PupilManager : MonoBehaviour
     public float DiscussDuration => _discussDuration;
     [SerializeField] private float discussGroupSize = 1f; // Extra space for discussion ring
 
-    private Vector2 areaSize; // box width/height
+    private BoxCollider2D pupilArea;
+    Bounds bounds;
 
-    [HideInInspector] public List<Pupil> pupils = new List<Pupil>();
+    public List<Pupil> pupils = new List<Pupil>();
     public Pupil you;
 
     public List<AudioClip> bumpSounds;
@@ -30,13 +31,12 @@ public class PupilManager : MonoBehaviour
 
     void Start()
     {
+        pupilArea = GetComponentInChildren<BoxCollider2D>();
+        bounds = pupilArea.bounds;
+
         // Set areaSize to match the screen size in world units
         Vector3 bottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
         Vector3 topRight = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
-        areaSize = new Vector2(
-            topRight.x - bottomLeft.x,
-            topRight.y - bottomLeft.y
-        );
         transform.position = (bottomLeft + topRight) / 2f;
 
         // Create screen boundary walls
@@ -47,8 +47,8 @@ public class PupilManager : MonoBehaviour
         for (int i = 0; i < pupilCount; i++)
         {
             Vector2 pos = (Vector2)transform.position + new Vector2(
-                Random.Range(-areaSize.x / 2, areaSize.x / 2),
-                Random.Range(-areaSize.y / 2, areaSize.y / 2)
+                Random.Range(bounds.min.x / 2, bounds.max.x / 2),
+                Random.Range(bounds.min.y / 2, bounds.max.y / 2)
             );
             Pupil pupil = Instantiate(pupilPrefab, pos, Quaternion.identity);
             pupil.manager = this;
@@ -65,39 +65,29 @@ public class PupilManager : MonoBehaviour
         discussionSource = GetComponent<AudioSource>();
     }
 
-    // Helper to get the box bounds in world space
-    public Rect GetBounds()
-    {
-        return new Rect(
-            (Vector2)transform.position - areaSize / 2,
-            areaSize
-        );
-    }
-
     void CreateScreenWalls()
     {
-        Rect bounds = GetBounds();
         float thickness = 1f; // Thickness of the wall
 
         // Bottom
         CreateWall(
-            new Vector2(bounds.center.x, bounds.yMin - thickness / 2),
-            new Vector2(bounds.width + thickness * 2, thickness)
+            new Vector2(bounds.center.x, bounds.min.y - thickness / 2),
+            new Vector2(bounds.max.x-bounds.min.x, thickness)
         );
         // Top
         CreateWall(
-            new Vector2(bounds.center.x, bounds.yMax + thickness / 2),
-            new Vector2(bounds.width + thickness * 2, thickness)
+            new Vector2(bounds.center.x, bounds.max.y + thickness / 2),
+            new Vector2(bounds.max.x - bounds.min.x, thickness)
         );
         // Left
         CreateWall(
-            new Vector2(bounds.xMin - thickness / 2, bounds.center.y),
-            new Vector2(thickness, bounds.height + thickness * 2)
+            new Vector2(bounds.min.x - thickness / 2, bounds.center.y),
+            new Vector2(thickness, bounds.max.y - bounds.min.y)
         );
         // Right
         CreateWall(
-            new Vector2(bounds.xMax + thickness / 2, bounds.center.y),
-            new Vector2(thickness, bounds.height + thickness * 2)
+            new Vector2(bounds.max.x + thickness / 2, bounds.center.y),
+            new Vector2(thickness, bounds.max.y - bounds.min.y)
         );
     }
 

@@ -23,14 +23,13 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         GameManager.instance.eventManager.OnStatChanged.AddListener(MoneyUpdated);
 
         if (isUnlocked) OnLockStateChanged(true);
-        bool affrd = isUnlocked ? triggeringEvent.CanAfford() : triggeringEvent.CanAffordUnlock();
-        OnCanAffordChanged(affrd);
     }
 
     private void MoneyUpdated(InfluencableStats stat, float amount)
     {
         if(stat == InfluencableStats.MoneyTotal)
         {
+            Debug.Log("MoneyUpdated for " + triggeringEvent.eventName + " to "+amount);
             bool affrd = isUnlocked? triggeringEvent.CanAfford() : triggeringEvent.CanAffordUnlock();
             if (affrd != canAfford) OnCanAffordChanged(affrd);
         }
@@ -40,11 +39,7 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         if (canAfford && !isUnlocked)
         {
-            button.onClick.RemoveListener(OnTryUnlock);
-            button.onClick.AddListener(OnTriggerEvent);
             OnLockStateChanged(true);
-            bool affrd = triggeringEvent.CanAfford();
-            if(affrd != canAfford) OnCanAffordChanged(affrd);
         }
     }
 
@@ -60,6 +55,15 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         this.isUnlocked = isUnlocked;
         button.enabled = isUnlocked && canAfford;
+
+        if (isUnlocked)
+        {
+            button.onClick.RemoveListener(OnTryUnlock);
+            button.onClick.AddListener(OnTriggerEvent);
+        }
+
+        bool affrd = triggeringEvent.CanAfford();
+        if (affrd != canAfford) OnCanAffordChanged(affrd);
     }
 
     void OnCanAffordChanged(bool canAfford)
