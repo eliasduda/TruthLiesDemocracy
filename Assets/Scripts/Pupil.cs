@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,82 +5,204 @@ using UnityEngine;
 public class Pupil : MonoBehaviour
 {
     [HideInInspector] public PupilManager manager;
-    public Vector2 velocity;
+    private Vector2 velocity;
+    private float colliderRadius;
+
+    public GameObject armLeft;
+    public GameObject armRight;
+    public float swingAmplitude = 40f;  // max angle (±40)
+    public float swingSpeed = 3f;
 
     public PupilStats stats = new PupilStats();
 
     private Rigidbody2D rb;
+    private Vector2? lastPos = null;
 
-    private bool isFrozen = false;
-    private Vector2 pendingVelocity;
-    public float freezeDuration = 0.5f; // Duration to freeze on collision
-    private Coroutine freezeCoroutine;
+    private bool inDiscussion = false;
+    [HideInInspector] public Vector2 pendingVelocity;
+    private Coroutine discussCoroutine;
 
-    public List<Pupil> connectedPupils = new List<Pupil>();
+    [HideInInspector] public Vector2 ringTargetPosition;
+    [HideInInspector] public bool moveToRing = false;
+    [HideInInspector] public Vector2 ringCenter;
+
+    public HashSet<Pupil> connectedPupils = new HashSet<Pupil>();
 
     public bool isYou;
 
     void Start()
     {
-        GameManager.instance.eventManager.onPupilStatInfluenced.AddListener(ApplyStatChange);
-
-        velocity = Random.insideUnitCircle * manager.MaxSpeed;
         rb = GetComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.gravityScale = 0f;
         velocity = Random.insideUnitCircle.normalized * manager.MaxSpeed;
-        rb.linearVelocity = velocity;
+
+        // --- Arm positioning ---
+        // Get the radius from the CircleCollider2D
+        var circle = GetComponent<CircleCollider2D>();
+        colliderRadius = circle.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.y);
+
+        Transform capsuleTransform = armLeft.transform.Find("Capsule");
+        var armCollider = armLeft.GetComponent<CapsuleCollider>();
+        CapsuleCollider capsuleCol = capsuleTransform.GetComponent<CapsuleCollider>();
+        float margin = capsuleCol.radius*capsuleCol.transform.lossyScale.x;
+
+        armLeft.transform.localPosition = new Vector3(-(colliderRadius + margin), 0, 0);
+        armRight.transform.localPosition = new Vector3((colliderRadius + margin), 0, 0);
+
+        GameManager.instance.eventManager.onPupilStatInfluenced.AddListener(ApplyStatChange);
     }
 
     void FixedUpdate()
     {
-        rb.linearVelocity = isFrozen ? Vector2.zero : velocity; // Keep moving in the current direction
+        // --- Move ---
+        if (inDiscussion)
+        {
+            if (moveToRing)
+            {
+                Vector2 toTarget = ringTargetPosition - rb.position;
+                float distance = toTarget.magnitude;
+
+                if (distance > 0.01f)
+                {
+                    rb.linearVelocity = toTarget.normalized * manager.MaxSpeed;
+                }
+                else
+                {
+                    rb.linearVelocity = Vector2.zero;
+                }
+            }
+            else
+            {
+                rb.linearVelocity = Vector2.zero;
+            }
+            lastPos = null; // Reset last position tracking while in discussion
+        }
+        else
+        {
+            // Detect if stuck against wall
+            if (lastPos != null) //only check if they moved normally last frame
+            {
+                Vector2 intendedMove = velocity * Time.fixedDeltaTime;
+                Vector2 actualMove = (Vector2)transform.position - (Vector2)lastPos;
+
+                float intendedMag = intendedMove.magnitude;
+                float actualMag = actualMove.magnitude;
+
+                // If actual movement is much smaller, we probably hit or are stuck against a wall
+                if (actualMove.magnitude < intendedMove.magnitude * 0.9f)
+                {
+                    TryBounce();
+                }
+            }
+            lastPos = transform.position;
+
+            // Normal movement
+            rb.linearVelocity = velocity;
+        }
+
+
+        // --- Rotate Arms ---
+        float rotateAngle = 0f;
+        if (!inDiscussion)
+        {
+            rotateAngle = Mathf.Atan2(rb.linearVelocity.y, rb.linearVelocity.x) * Mathf.Rad2Deg;
+        }
+        else if (moveToRing)
+        {
+            rotateAngle = Mathf.Atan2((ringCenter-rb.position).y, (ringCenter - rb.position).x) * Mathf.Rad2Deg;
+        }
+        rb.MoveRotation(rotateAngle - 90f);
+
+        // Swing arms
+        if (!inDiscussion)
+        {
+            float swingAngle = Mathf.Sin(Time.time * swingSpeed) * swingAmplitude;
+            armLeft.transform.localRotation = Quaternion.Euler(swingAngle, 0f, 0f);
+            armRight.transform.localRotation = Quaternion.Euler(-swingAngle, 0f, 0f);
+        }
+        else
+        {
+            armLeft.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+            armRight.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+        }
+    }
+
+    void TryBounce()
+    {
+        // Move them back slightly to make them bounce off the wall
+        transform.position = (Vector2)transform.position + -velocity.normalized * 0.1f;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.contacts.Length > 0)
+        if (collision.contacts.Length == 0) return;
+
+        Pupil otherPupil = collision.gameObject.GetComponent<Pupil>();
+        Vector2 normal = collision.contacts[0].normal;
+        Vector2 bounceVelocity = normal * manager.MaxSpeed;
+
+        if (otherPupil != null)  //collision with another pupil
         {
-            Vector2 normal = collision.contacts[0].normal;
-            Vector2 bounceVelocity = normal * manager.MaxSpeed;
-            if (collision.gameObject.GetComponent<Pupil>() != null)
+            if (connectedPupils.Contains(otherPupil))
             {
-                pendingVelocity = bounceVelocity;
-                Pupil otherPupil = collision.gameObject.GetComponent<Pupil>();
-
-                if (isFrozen) // already part of group -> add new pupil to everyones group and re-freeze all
-                {
-                    foreach (Pupil pupil in new List<Pupil>(connectedPupils))
-                    {
-                        pupil.Freeze(freezeDuration);
-                        pupil.connectedPupils.Add(otherPupil);
-                    }
-
-                }
-                connectedPupils.Add(otherPupil);
-                Freeze(freezeDuration);
+                return; // ignore collisions with other pupils in the same group
             }
-            else
+
+            // Build the full group (including all connected pupils recursively)
+            HashSet<Pupil> group = new HashSet<Pupil>();
+            CollectGroup(this, group);
+            CollectGroup(otherPupil, group);
+
+            // Update all group members' connectedPupils sets
+            foreach (var pupil in group)
             {
-                // Wall collision
-                velocity = bounceVelocity;
+                pupil.connectedPupils = new HashSet<Pupil>(group);
+                pupil.connectedPupils.Remove(pupil); // Don't include self
             }
+
+            // Discuss and arrange ring for all
+            foreach (var pupil in group)
+            {
+                pupil.Discuss();
+            }
+            PupilManager.ArrangeRing(new List<Pupil>(group));
+        }
+        else
+        {
+            // Wall collision
+            bounceVelocity = Vector2.Reflect(velocity, bounceVelocity);
+            velocity = bounceVelocity;
+            lastPos = null; // Reset last position tracking after bounce
         }
     }
 
-    public void Freeze(float duration)
+    // Recursively collect all connected pupils
+    static void CollectGroup(Pupil pupil, HashSet<Pupil> group)
     {
-        if (freezeCoroutine != null)
-            StopCoroutine(freezeCoroutine);
-        freezeCoroutine = StartCoroutine(FreezeCoroutine(duration));
+        if (group.Contains(pupil)) return;
+        group.Add(pupil);
+        foreach (var p in pupil.connectedPupils)
+            CollectGroup(p, group);
     }
 
-    IEnumerator FreezeCoroutine(float duration)
+    public void Discuss()
     {
-        isFrozen = true;
+        if (discussCoroutine != null)
+            StopCoroutine(discussCoroutine);
+        discussCoroutine = StartCoroutine(DiscussCoroutine(manager.discussDuration));
+    }
+
+    IEnumerator DiscussCoroutine(float duration)
+    {
+        inDiscussion = true;
+        moveToRing = true;
         yield return new WaitForSeconds(duration);
-        isFrozen = false;
+
+        inDiscussion = false;
+        moveToRing = false;
         velocity = pendingVelocity;
-        freezeCoroutine = null;
+        discussCoroutine = null;
         connectedPupils.Clear();
     }
     void ApplyStatChange(InfluencableStats stat, float amount, Pupil pupil)
