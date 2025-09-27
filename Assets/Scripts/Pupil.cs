@@ -284,7 +284,7 @@ public class Pupil : MonoBehaviour
 
     public bool IsInMyRadius(Pupil other)
     {
-        Debug.Log("Checking if " + other.name + " is in radius of " + name + " dist "+(other.transform.position - transform.position).magnitude + " rad "+ stats.radius);
+        //Debug.Log("Checking if " + other.name + " is in radius of " + name + " dist "+(other.transform.position - transform.position).magnitude + " rad "+ stats.radius);
         return (other.transform.position - transform.position).magnitude < stats.radius;
     }
 
@@ -329,7 +329,7 @@ public class Pupil : MonoBehaviour
         var sr = radiusObject.AddComponent<SpriteRenderer>();
         sr.sprite = circleSprite;
         sr.color = radiusColor;
-        sr.sortingOrder = -10;
+        sr.sortingOrder = 0;
     }
 }
 
@@ -369,15 +369,15 @@ public class PupilStats
         {
             case InfluencableStats.Trust:
                 trust = Mathf.Clamp01(trust + amount);
-                Debug.Log("Pupil's trust changed to " + trust);
+               // Debug.Log("Pupil's trust changed to " + trust);
                 break;
             case InfluencableStats.Support:
                 support = Mathf.Clamp01(support + amount);
-                Debug.Log("Pupil's support changed to " + support);
+                //Debug.Log("Pupil's support changed to " + support);
                 break;
             case InfluencableStats.Awareness:
                 isAware = Mathf.Clamp01(isAware + amount);
-                Debug.Log("Pupil's awareness changed to " + isAware);
+                //Debug.Log("Pupil's awareness changed to " + isAware);
                 break;
         }
     }

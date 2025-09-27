@@ -37,7 +37,15 @@ public class EventManager : MonoBehaviour
             delta = delta / eI.eventData.duration.amount;
             
             if (!GameManager.instance.pupilManager.you.IsFrozen) GameManager.instance.pupilManager.you.IsFrozen = true;
-            if(eI.eventData.occupiesYou) GameManager.instance.pupilManager.you.isOccupied = true;
+            if (eI.eventData.occupiesYou)
+            {
+                GameManager.instance.pupilManager.you.isOccupied = true;
+                EventButton[] buttons = FindObjectsByType<EventButton>(FindObjectsSortMode.None);
+                foreach (EventButton button in buttons)
+                {
+                    button.OnCoolDownChanged(true, eI.timeRemaining, eI);
+                }
+            }
 
 
             if (eI.timeRemaining >= 0)
@@ -96,7 +104,7 @@ public class EventManager : MonoBehaviour
                     else if (eventData.IsTimedEvent() && !pupil.IsFrozen) pupil.IsFrozen = true;
                 }
 
-                if (effect.pupilSelector == PupilSelector.InMyRadius) Debug.Log("pupil " + pupil.name+ " is in radius");
+                //if (effect.pupilSelector == PupilSelector.InMyRadius) Debug.Log("pupil " + pupil.name+ " is in radius");
                 TriggerEventEffectPerPupil(effect, pupil, ratio);
             }
         }

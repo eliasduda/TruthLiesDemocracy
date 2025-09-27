@@ -10,6 +10,9 @@ public class TimeAndMoneyManager : MonoBehaviour
 
     private float dayTimer;
 
+    public AudioClip dayPassedSound;
+    public AudioSource audioSource;
+
 
 // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -58,6 +61,7 @@ public class TimeAndMoneyManager : MonoBehaviour
                 break;
             case InfluencableStats.DaysPassed:
                 DaysPassed += (int)amount;
+                audioSource.PlayOneShot(dayPassedSound);
                 GameManager.instance.eventManager.OnStatChanged.Invoke(stat, DaysPassed);
                 break;
             case InfluencableStats.Signatures:
@@ -72,7 +76,7 @@ public class TimeAndMoneyManager : MonoBehaviour
 
     internal bool CanAfford(float amount)
     {
-        Debug.Log("Checking if can afford " + amount + " with total " + MoneyTotal);
+        //Debug.Log("Checking if can afford " + amount + " with total " + MoneyTotal);
         return MoneyTotal - Mathf.Abs(amount) >= 0;
     }
 }

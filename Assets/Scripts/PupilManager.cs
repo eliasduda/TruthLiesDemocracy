@@ -1,9 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
-using UnityEditor.Overlays;
 using UnityEngine;
-using UnityEngine.Audio;
 
 public class PupilManager : MonoBehaviour
 {

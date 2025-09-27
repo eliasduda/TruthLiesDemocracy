@@ -10,6 +10,8 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public Slider cooldownSlider;
     public TextMeshProUGUI buttonTitle;
     public EventData triggeringEvent;
+    public TextMeshProUGUI costsText;
+    public TextMeshProUGUI eventDescription;
 
     public bool isUnlocked = false;
     [System.NonSerialized]
@@ -21,7 +23,11 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        buttonTitle.text = triggeringEvent.eventName;
+        buttonTitle.text = triggeringEvent.eventName; ;
+        float day = triggeringEvent.duration.amount / GameManager.instance.gamePlaySettings.dayDurationSeconds;
+        costsText.text = day == 1 ? day+" day" : day+" days" + " || " + triggeringEvent.cost.stat.ToString() + " " + triggeringEvent.cost.amount;
+      eventDescription.text = triggeringEvent.eventDescription;
+
         button.onClick.AddListener(OnTryUnlock);
 
         cooldownSlider.gameObject.SetActive(false);
@@ -44,11 +50,13 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
     }
 
+
+
     private void MoneyUpdated(InfluencableStats stat, float amount)
     {
         if(stat == InfluencableStats.MoneyTotal)
         {
-            Debug.Log("MoneyUpdated for " + triggeringEvent.eventName + " to "+amount);
+            //Debug.Log("MoneyUpdated for " + triggeringEvent.eventName + " to "+amount);
             bool affrd = isUnlocked? triggeringEvent.CanAfford() : triggeringEvent.CanAffordUnlock();
             if (affrd != canAfford) OnCanAffordChanged(affrd);
         }
@@ -96,7 +104,19 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     }
     void OnCoolDownChanged(bool isOnCooldown)
     {
-        coolDownTimer = triggeringEvent.coolDown + triggeringEvent.duration.amount;
+        if(isOnCooldown)
+        {
+            coolDownTimer = triggeringEvent.coolDown + triggeringEvent.duration.amount;
+        }     
+        this.isOnCooldown = isOnCooldown;
+        cooldownSlider.enabled = isOnCooldown;
+        cooldownSlider.gameObject.SetActive(isOnCooldown);
+    }
+
+   public void OnCoolDownChanged(bool isOnCooldown, float totalCD, EventInstance eI)
+    {
+        if (eI.eventData.eventName == triggeringEvent.eventName) return;
+        coolDownTimer = totalCD;
         this.isOnCooldown = isOnCooldown;
         cooldownSlider.enabled = isOnCooldown;
         cooldownSlider.gameObject.SetActive(isOnCooldown);
