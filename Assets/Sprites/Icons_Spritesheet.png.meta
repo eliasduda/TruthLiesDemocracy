@@ -14,6 +14,9 @@ TextureImporter:
   - first:
       213: -4750361723359548146
     second: Icons_Spritesheet_3
+  - first:
+      213: 2241331810129132982
+    second: Icons_Spritesheet_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -196,11 +199,33 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Icons_Spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 0
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6bdb78ef76fca1f10800000000000000
+      internalID: 2241331810129132982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 8e67764f49999354db43407e6dda05b5
+    spriteID: 890922866b8975c4d940a764865bb4f2
     internalID: 0
     vertices: []
     indices: 
@@ -216,6 +241,7 @@ TextureImporter:
       Icons_Spritesheet_1: -1009063153085919067
       Icons_Spritesheet_2: 5508246156682241296
       Icons_Spritesheet_3: -4750361723359548146
+      Icons_Spritesheet_4: 2241331810129132982
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
