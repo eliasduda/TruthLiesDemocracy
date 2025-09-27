@@ -1,3 +1,4 @@
+using NUnit.Framework.Constraints;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -55,6 +56,7 @@ public class Pupil : MonoBehaviour
         audioSource = GetComponentInChildren<AudioSource>();
 
         GameManager.instance.eventManager.onPupilStatInfluenced.AddListener(ApplyStatChange);
+        stats.CopyStats(GameManager.instance.gamePlaySettings.startStats);
     }
 
     void FixedUpdate()
@@ -251,5 +253,12 @@ public class PupilStats
     public static bool IsPerPupilStat(InfluencableStats stat)
     {
         return stat == InfluencableStats.Support || stat == InfluencableStats.Trust;
+    }
+
+    public void CopyStats(PupilStats stats)
+    {
+        this.support = stats.support;
+        this.trust = stats.trust;
+        this.isAware = stats.isAware;
     }
 }
