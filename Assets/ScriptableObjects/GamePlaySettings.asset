@@ -15,6 +15,9 @@ MonoBehaviour:
   mainColor: {r: 0, g: 1, b: 0, a: 1}
   lightColor: {r: 0, g: 0.8509804, b: 1, a: 1}
   backgroundColor: {r: 0.1254902, g: 0.12941177, b: 0.16470589, a: 1}
+  colorSupport: {r: 0.69182384, g: 0.1979746, b: 0.5125095, a: 1}
+  colorAwareness: {r: 0.7924528, g: 0.6023003, b: 0.14204334, a: 1}
+  colorTrust: {r: 0.134152, g: 0.836478, b: 0.70718485, a: 1}
   defaultFont: {fileID: 12800000, guid: ab5f9196eb1ae8046b56f03b78dd7c29, type: 3}
   startMoney: 30
   startStats:
@@ -22,8 +25,8 @@ MonoBehaviour:
     trust: 1
     isAware: 1
     radius: 2
-    name: 
-    hasSigned: 0
+    name: Me
+    hasSigned: 1
   daysTotal: 30
   dayDurationSeconds: 10
   signatureGoal: 50

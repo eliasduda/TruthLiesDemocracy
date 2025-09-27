@@ -14,6 +14,7 @@ public class EventManager : MonoBehaviour
     public UnityEvent<int, EventData, Vector2> onHoverableEventHovered = new UnityEvent<int, EventData, Vector2>();
     public UnityEvent<HoverInfoPopUp> onPopUpUnhovered = new UnityEvent<HoverInfoPopUp>();
     public UnityEvent<EventData> onTimedEventEnded = new UnityEvent<EventData>();
+    public UnityEvent onUpdateVisuals = new UnityEvent();
 
 
     public List<EventInstance> activeTimedEvents = new List<EventInstance>();
