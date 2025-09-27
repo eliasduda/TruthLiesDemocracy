@@ -17,10 +17,10 @@ MonoBehaviour:
   eventImage: {fileID: 0}
   category: 4
   PerPupilEffects: []
-  OneTimeEffects:
+  GeneralEffects:
   - effects:
     - stat: 4
-      amount: 5
+      amount: 80
     whereAllOfTheseApply: []
     andWhereOneOfTheseApply: []
     pupilSelector: 0
@@ -30,6 +30,8 @@ MonoBehaviour:
   duration:
     stat: 6
     amount: 5
+  coolDown: 0
+  occupiesYou: 0
   unlockCondition:
     AllOfTheseApply: []
     andOneOfTheseApply: []

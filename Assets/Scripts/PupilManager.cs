@@ -17,7 +17,7 @@ public class PupilManager : MonoBehaviour
     public float DiscussDuration => _discussDuration;
     [SerializeField] private float discussGroupSize = 1f; // Extra space for discussion ring
 
-    public InfluencableStats visualizeStat = InfluencableStats.Support;
+    public InfluencableStats visualizeStat = InfluencableStats.Signatures;
     private BoxCollider2D pupilArea;
     Bounds bounds;
 

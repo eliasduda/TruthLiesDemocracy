@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Pupil
+  m_Name: PupilGlow
   m_Shader: {fileID: -6465566751694194690, guid: f177955ee183efb4d99aacfbc2400f3c, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -57,18 +57,18 @@ Material:
     - _Outline: 0.12
     - _ZWrite: 0
     - _innerOpacity: 0
-    - _outerOpacity: 1
-    - _outline: 0.15
+    - _outerOpacity: 0.15
+    - _outline: 0.63
     - _radius: 1
-    - _smooth: 0.03
+    - _smooth: 0.39
     m_Colors:
     - _0utlineColor: {r: 0, g: 0.8509804, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _InnerColor: {r: 0.032051325, g: 1, b: 0, a: 1}
     - _OutlineColor: {r: 0, g: 0.8470589, b: 0.9921569, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Size: {r: 0.8, g: 0.8, b: 0, a: 0}
-    - _innerColor: {r: 0, g: 1, b: 0, a: 1}
+    - _Size: {r: 0.8, g: 0.81, b: 0, a: 0}
+    - _innerColor: {r: 0, g: 0.85098046, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &7486525835464389452

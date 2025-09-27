@@ -34,7 +34,7 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         if (isOnCooldown)
         {
             coolDownTimer -= Time.deltaTime;
-            cooldownSlider.value = 1 - (coolDownTimer / (triggeringEvent.coolDown + triggeringEvent.duration.amount));
+            if(cooldownSlider)cooldownSlider.value = 1 - (coolDownTimer / (triggeringEvent.coolDown + triggeringEvent.duration.amount));
             if (coolDownTimer <= 0)
             {
                 OnCoolDownChanged(false);
@@ -96,7 +96,7 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         coolDownTimer = triggeringEvent.coolDown + triggeringEvent.duration.amount;
         this.isOnCooldown = isOnCooldown;
-        cooldownSlider.enabled = isOnCooldown;
+        if(cooldownSlider)cooldownSlider.gameObject.SetActive(isOnCooldown);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

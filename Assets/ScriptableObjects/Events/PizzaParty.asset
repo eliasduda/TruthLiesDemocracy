@@ -20,13 +20,13 @@ MonoBehaviour:
   PerPupilEffects:
   - effects:
     - stat: 1
-      amount: 10
+      amount: 0.3
     - stat: 2
       amount: 1
     whereAllOfTheseApply: []
     andWhereOneOfTheseApply: []
     pupilSelector: 0
-  OneTimeEffects: []
+  GeneralEffects: []
   cost:
     stat: 4
     amount: -30
@@ -34,6 +34,7 @@ MonoBehaviour:
     stat: 6
     amount: 0
   coolDown: 0
+  occupiesYou: 0
   unlockCondition:
     AllOfTheseApply: []
     andOneOfTheseApply: []

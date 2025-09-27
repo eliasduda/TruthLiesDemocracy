@@ -7,6 +7,8 @@ public class GamePlaySettings : ScriptableObject
     public Color lightColor;
     public Color backgroundColor;
 
+    public Color colorSupport, colorAwareness, colorTrust;
+
     public Font defaultFont;
 
     public float startMoney;
