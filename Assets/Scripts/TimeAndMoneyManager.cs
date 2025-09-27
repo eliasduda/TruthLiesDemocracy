@@ -12,6 +12,7 @@ public class TimeAndMoneyManager : MonoBehaviour
     void Start()
     {
         GameManager.instance.eventManager.onOneTimeStatInfluenced.AddListener(ChangeStat);
+        MoneyTotal = GameManager.instance.gamePlaySettings.startMoney;
     }
 
     // Update is called once per frame

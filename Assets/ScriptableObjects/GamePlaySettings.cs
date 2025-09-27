@@ -9,4 +9,7 @@ public class GamePlaySettings : ScriptableObject
 
     public Font defaultFont;
 
+    public float startMoney;
+    public PupilStats startStats;
+
 }
