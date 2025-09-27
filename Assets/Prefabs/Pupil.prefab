@@ -51,10 +51,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Pupil
   manager: {fileID: 0}
+  unawareSprite: {fileID: 21300000, guid: 811c97041aa9fea4790731c70132cf50, type: 3}
+  awareSprite: {fileID: 21300000, guid: e410d486bc3209d4d845250569a670c6, type: 3}
+  supportingSprite: {fileID: 8040797040049565294, guid: 8093d4077321a5345b857de7227719fb, type: 3}
+  youSprite: {fileID: 663144637380208133, guid: ac4d4872c199aad42a95e967ca529bb6, type: 3}
   armLeft: {fileID: 5203024945206717571}
   armRight: {fileID: 8141284958600533632}
   swingAmplitude: 40
   swingSpeed: 6
+  stats:
+    support: 0
+    trust: 0
+    isAware: 0
+    radius: 0
   pendingVelocity: {x: 0, y: 0}
   ringTargetPosition: {x: 0, y: 0}
   moveToRing: 0
