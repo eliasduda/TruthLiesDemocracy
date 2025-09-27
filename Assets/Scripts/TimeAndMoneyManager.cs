@@ -65,6 +65,7 @@ public class TimeAndMoneyManager : MonoBehaviour
 
     internal bool CanAfford(float amount)
     {
-        return MoneyTotal > amount;
+        Debug.Log("Checking if can afford " + amount + " with total " + MoneyTotal);
+        return MoneyTotal - Mathf.Abs(amount) >= 0;
     }
 }

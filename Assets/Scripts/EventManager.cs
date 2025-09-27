@@ -78,7 +78,7 @@ public class EventManager : MonoBehaviour
 
         foreach (EventEffect effect in eventData.PerPupilEffects)
         {
-            foreach (var pupil in GameManager.instance.pupilManager.pupils)
+            foreach (Pupil pupil in GameManager.instance.pupilManager.pupils)
             {
                 if(effect.pupilSelector == PupilSelector.InMyRadius &&
                     !GameManager.instance.pupilManager.you.IsInMyRadius(pupil))
@@ -174,6 +174,8 @@ public class EventManager : MonoBehaviour
                 return condition.Compare(pupil.stats.trust);
             case InfluencableStats.Trust:
                 return condition.Compare(pupil.stats.support);
+            case InfluencableStats.Awareness:
+                return condition.Compare(pupil.stats.support);
             //aplied to game
             case InfluencableStats.MoneyPerDay:
                 return condition.Compare(GameManager.instance.timeMoneyManager.MoneyPerDay);
@@ -183,7 +185,7 @@ public class EventManager : MonoBehaviour
                 return condition.Compare(GameManager.instance.timeMoneyManager.DaysPassed);
 
             default:
-                Debug.LogError("Unknown InfluencableStat in CheckCondition");
+                Debug.LogError("Unknown InfluencableStat in CheckCondition "+condition.stat);
                 return false;
         }
     }

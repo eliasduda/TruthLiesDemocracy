@@ -18,7 +18,8 @@ public class PupilManager : MonoBehaviour
 
     private Vector2 areaSize; // box width/height
 
-    [HideInInspector] public List<Pupil> pupils = new List<Pupil>();
+
+    public List<Pupil> pupils = new List<Pupil>();
     public Pupil you;
 
     public List<AudioClip> bumpSounds;
