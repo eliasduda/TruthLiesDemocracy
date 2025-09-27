@@ -17,7 +17,8 @@ public class TimeAndMoneyManager : MonoBehaviour
         GameManager.instance.eventManager.onOneTimeStatInfluenced.AddListener(ChangeStat);
         MoneyTotal = GameManager.instance.gamePlaySettings.startMoney;
 
-        NewDayStarts();
+        dayTimer = GameManager.instance.gamePlaySettings.dayDurationSeconds;
+        //NewDayStarts();
         GameManager.instance.eventManager.OnStatChanged.Invoke(InfluencableStats.MoneyTotal, MoneyTotal);
         GameManager.instance.eventManager.OnStatChanged.Invoke(InfluencableStats.DaysPassed, DaysPassed);
         GameManager.instance.eventManager.OnStatChanged.Invoke(InfluencableStats.Signatures, SignaturesGained);
@@ -35,7 +36,7 @@ public class TimeAndMoneyManager : MonoBehaviour
 
     public void NewDayStarts()
     {
-        ChangeStat(InfluencableStats.DaysPassed, DaysPassed+1);
+        ChangeStat(InfluencableStats.DaysPassed, 1);
         dayTimer = GameManager.instance.gamePlaySettings.dayDurationSeconds;
     }
 

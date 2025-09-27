@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class GenerateDaysVisualizer : MonoBehaviour
 {
@@ -9,22 +9,40 @@ public class GenerateDaysVisualizer : MonoBehaviour
     public GameObject divider;
     public int dividerAfterDays = 5;
 
+    private List<DayPassed> dayVisualizeList = new List<DayPassed>();
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        for(int i = 0; i < maxDays; i++)
+        for (int i = 0; i < maxDays; i++)
         {
-            Instantiate(dayVisualizerPrefab, transform);
-            if((i + 1) % dividerAfterDays == 0 && i != maxDays - 1)
+           GameObject temp =  Instantiate(dayVisualizerPrefab, transform);
+            dayVisualizeList.Add(temp.GetComponent<DayPassed>());
+            if ((i + 1) % dividerAfterDays == 0 && i != maxDays - 1)
             {
                 Instantiate(divider, transform);
             }
         }
+
+        if(GameManager.instance.eventManager == null)
+        {
+            Debug.LogError("No EventManager found in GameManager");
+            return;
+        }
+        GameManager.instance.eventManager.OnStatChanged.AddListener((stat, value) =>
+        {          
+            if (stat == InfluencableStats.DaysPassed)
+            {
+                OnDayChange();
+            }
+        });
     }
 
-    // Update is called once per frame
-    void Update()
+
+    private void OnDayChange()
     {
-        
+        int index = GameManager.instance.timeMoneyManager.DaysPassed - 1;
+        dayVisualizeList[index].PassDay();
     }
+
 }
