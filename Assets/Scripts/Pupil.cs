@@ -19,11 +19,13 @@ public class Pupil : MonoBehaviour
 
     public List<Pupil> connectedPupils = new List<Pupil>();
 
+    public bool isYou;
+
     void Start()
     {
         GameManager.instance.eventManager.onPupilStatInfluenced.AddListener(ApplyStatChange);
 
-        velocity = Random.insideUnitCircle * manager.maxSpeed;
+        velocity = Random.insideUnitCircle * manager.MaxSpeed;
         rb = GetComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Dynamic;
         velocity = Random.insideUnitCircle.normalized * manager.MaxSpeed;
@@ -91,15 +93,16 @@ public class Pupil : MonoBehaviour
 
 public class PupilStats
 {
-    public float alignment;
-    public float engagement;
+    public float support;
+    public float trust;
+    public float isAware;
 
     public float GetStat(InfluencableStats stat)
     {
         return stat switch
         {
-            InfluencableStats.Alignment => alignment,
-            InfluencableStats.Engagement => engagement,
+            InfluencableStats.Support => trust,
+            InfluencableStats.Trust => support,
             _ => 0f,
         };
     }
@@ -108,17 +111,17 @@ public class PupilStats
     {
         switch (stat)
         {
-            case InfluencableStats.Alignment:
-                alignment = Mathf.Clamp01(alignment + amount);
+            case InfluencableStats.Support:
+                trust = Mathf.Clamp01(trust + amount);
                 break;
-            case InfluencableStats.Engagement:
-                engagement = Mathf.Clamp01(engagement + amount);
+            case InfluencableStats.Trust:
+                support = Mathf.Clamp01(support + amount);
                 break;
         }
     }
 
     public static bool IsPerPupilStat(InfluencableStats stat)
     {
-        return stat == InfluencableStats.Alignment || stat == InfluencableStats.Engagement;
+        return stat == InfluencableStats.Support || stat == InfluencableStats.Trust;
     }
 }

@@ -12,6 +12,7 @@ public class PupilManager : MonoBehaviour
     private Vector2 areaSize; // box width/height
 
     [HideInInspector] public List<Pupil> pupils = new List<Pupil>();
+    public Pupil you;
 
     void Start()
     {
@@ -27,6 +28,7 @@ public class PupilManager : MonoBehaviour
         // Create screen boundary walls
         CreateScreenWalls();
 
+        bool youSpawned = false;
         // Spawn pupils at random positions within the area
         for (int i = 0; i < pupilCount; i++)
         {
@@ -36,6 +38,12 @@ public class PupilManager : MonoBehaviour
             );
             Pupil pupil = Instantiate(pupilPrefab, pos, Quaternion.identity);
             pupil.manager = this;
+            if (!youSpawned)
+            {
+                you = pupil;
+                pupil.isYou = true;
+                youSpawned = true;
+            }
             pupils.Add(pupil);
         }
     }

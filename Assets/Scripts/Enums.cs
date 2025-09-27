@@ -3,15 +3,17 @@ using UnityEngine;
 public enum EventCategory
 {
     Other,
-    Engagement,
+    Support,
+    Trust,
     Awareness,
     Funding
 }
 
 public enum InfluencableStats
 {
-    Alignment,
-    Engagement,
+    Support,
+    Trust,
+    Awareness,
     MoneyPerDay,
     MoneyTotal,
     DaysPassed

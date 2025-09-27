@@ -116,10 +116,10 @@ public class EventManager : MonoBehaviour
         switch(condition.stat)
         {
             //aplied to student
-            case InfluencableStats.Alignment:
-                return condition.Compare(pupil.stats.alignment);
-            case InfluencableStats.Engagement:
-                return condition.Compare(pupil.stats.engagement);
+            case InfluencableStats.Support:
+                return condition.Compare(pupil.stats.trust);
+            case InfluencableStats.Trust:
+                return condition.Compare(pupil.stats.support);
             //aplied to game
             case InfluencableStats.MoneyPerDay:
                 return condition.Compare(GameManager.instance.timeMoneyManager.MoneyPerDay);
