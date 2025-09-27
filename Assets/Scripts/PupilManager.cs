@@ -24,6 +24,8 @@ public class PupilManager : MonoBehaviour
     private int concurrentBumpSounds = 0;
     [SerializeField] private int maxConcurrentBump = 3; // Max concurrent bump sounds
     public AudioClip discussionSound;
+    private AudioSource discussionSource;
+    [SerializeField] private int discussionSoundThreshold = 4; // Minimum group size to play discussion sound
 
     void Start()
     {
@@ -57,6 +59,8 @@ public class PupilManager : MonoBehaviour
             }
             pupils.Add(pupil);
         }
+
+        discussionSource = GetComponent<AudioSource>();
     }
 
     // Helper to get the box bounds in world space
@@ -116,10 +120,19 @@ public class PupilManager : MonoBehaviour
     {
         concurrentBumpSounds++;
         source.pitch = Random.Range(0.9f, 1.1f);
-        source.volume = Random.Range(1f, 2f);
+        source.volume = Random.Range(0.5f, 0.7f);
         source.PlayOneShot(clip);
         yield return new WaitForSeconds(clip.length);
         concurrentBumpSounds--;
+    }
+
+    private void PlayDiscussionSound(Vector2 position)
+    {
+        if (discussionSource.isPlaying) return;
+        discussionSource.transform.position = position;
+        discussionSource.pitch = Random.Range(0.9f, 1.1f);
+        discussionSource.volume = Random.Range(0.5f, 1f);
+        discussionSource.PlayOneShot(discussionSound);
     }
 
     public void ArrangeRing(List<Pupil> group)
@@ -183,6 +196,10 @@ public class PupilManager : MonoBehaviour
             // Remove assigned pupil and position
             unassignedPupils.RemoveAt(bestPupilIdx);
             unassignedPositions.RemoveAt(bestPosIdx);
+        }
+
+        if (group.Count >= discussionSoundThreshold) {
+            PlayDiscussionSound(center);
         }
     }
 }
