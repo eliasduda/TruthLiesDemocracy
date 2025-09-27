@@ -252,6 +252,7 @@ public class Pupil : MonoBehaviour
     }
     public bool IsInMyRadius(Pupil other)
     {
+        Debug.Log("Checking if " + other.name + " is in radius of " + name + " dist "+(other.transform.position - transform.position).magnitude + " rad "+ stats.radius);
         return (other.transform.position - transform.position).magnitude < stats.radius;
     }
 
@@ -279,6 +280,7 @@ public class PupilStats
     public float isAware;
 
     public float radius;
+    public string name;
 
     public PupilStats()
     {
@@ -302,11 +304,17 @@ public class PupilStats
     {
         switch (stat)
         {
-            case InfluencableStats.Support:
-                trust = Mathf.Clamp01(trust + amount);
-                break;
             case InfluencableStats.Trust:
+                trust = Mathf.Clamp01(trust + amount);
+                Debug.Log("Pupil's trust changed to " + trust);
+                break;
+            case InfluencableStats.Support:
                 support = Mathf.Clamp01(support + amount);
+                Debug.Log("Pupil's support changed to " + support);
+                break;
+            case InfluencableStats.Awareness:
+                isAware = Mathf.Clamp01(isAware + amount);
+                Debug.Log("Pupil's awareness changed to " + isAware);
                 break;
         }
     }
@@ -322,5 +330,19 @@ public class PupilStats
         this.trust = stats.trust;
         this.isAware = stats.isAware;
         this.radius = stats.radius;
+        this.name = PupilStats.names[Random.Range(0, PupilStats.names.Length)];
     }
+
+    public static string[] names = {
+    "Paul", "Jakob", "Maximilian", "Elias", "Felix", "Leon", "Tobias", "Jonas", "Noah", "Lukas",
+    "Alexander", "Moritz", "Leo", "Julian", "Simon", "Matteo", "Fabian", "Valentin", "Raphael", "Emil",
+    "Luca", "Samuel", "Anton", "Florian", "David", "Jakob", "Felix", "Lukas", "Noah", "Paul",
+    "Maximilian", "Elias", "Jonas", "Leon", "Tobias", "Jakob", "Maximilian", "Elias", "David", "Felix",
+    "Leon", "Tobias", "Jonas", "Noah", "Lukas", "Alexander", "Moritz", "Leo", "Julian", "Simon",
+    "Matteo", "Fabian", "Valentin", "Raphael", "Emil", "Luca", "Samuel", "Anton", "Florian", "David",
+    "Emilia", "Emma", "Marie", "Anna", "Sophia", "Mia", "Lena", "Valentina", "Laura", "Lea",
+    "Hannah", "Lina", "Sophie", "Johanna", "Leonie", "Lina", "Mia", "Valentina", "Anna", "Sophia",
+    "Emilia", "Marie", "Emma", "Anna", "Sophia", "Mia", "Lena", "Valentina", "Laura", "Lea",
+    "Hannah", "Lina", "Sophie", "Johanna", "Leonie", "Lina", "Mia", "Valentina", "Anna", "Sophia"
+    };
 }

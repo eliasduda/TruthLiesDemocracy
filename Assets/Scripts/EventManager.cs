@@ -85,6 +85,7 @@ public class EventManager : MonoBehaviour
                 {
                     continue;
                 }
+                if(effect.pupilSelector == PupilSelector.InMyRadius) Debug.Log("pupil " + pupil.name+ " is in radius");
                 TriggerEventEffectPerPupil(effect, pupil);
             }
         }
@@ -132,9 +133,11 @@ public class EventManager : MonoBehaviour
             }
             allConditionsMet = oneConditionMet;
         }
+        Debug.Log("TriggerEffect on " + (pupil != null ? pupil.name : "Game") + " allConditionsMet: " + allConditionsMet + " wanted to chane "+ effect.effects[0].stat);
         // If all conditions are met, apply the effects
         if (allConditionsMet)
         {
+
             foreach (var effectPair in effect.effects)
             {
                 ApplyEffect(effectPair, pupil);
@@ -175,7 +178,7 @@ public class EventManager : MonoBehaviour
             case InfluencableStats.Trust:
                 return condition.Compare(pupil.stats.support);
             case InfluencableStats.Awareness:
-                return condition.Compare(pupil.stats.support);
+                return condition.Compare(pupil.stats.isAware);
             //aplied to game
             case InfluencableStats.MoneyPerDay:
                 return condition.Compare(GameManager.instance.timeMoneyManager.MoneyPerDay);

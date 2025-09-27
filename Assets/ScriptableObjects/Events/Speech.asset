@@ -26,6 +26,7 @@ MonoBehaviour:
       comparator: 0
       amount: 0.9
     andWhereOneOfTheseApply: []
+    pupilSelector: 1
   - effects:
     - stat: 2
       amount: 1
@@ -34,6 +35,7 @@ MonoBehaviour:
       comparator: 1
       amount: 0.9
     andWhereOneOfTheseApply: []
+    pupilSelector: 1
   OneTimeEffects: []
   cost:
     stat: 4
