@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,6 +14,8 @@ public class HoverPopUpManager : MonoBehaviour
 
     private List<HoverInfoPopUp> popUpStack = new List<HoverInfoPopUp>();
 
+
+    private bool skipNextFrame = false;
     private void Awake()
     {
         int i = 0;
@@ -32,13 +35,22 @@ public class HoverPopUpManager : MonoBehaviour
         }
 
         GameManager.instance.eventManager.onHoverableWordHovered.AddListener(OnOpenNewPopUp);
+        GameManager.instance.eventManager.onHoverableEventHovered.AddListener(OnOpenNewPopUp);
         GameManager.instance.eventManager.onPopUpUnhovered.AddListener(OnLefPopUp);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (skipNextFrame)
+        {
+            skipNextFrame = false;
+            return;
+        }
+
+        if (popUpStack.Count == 0) return;
+        //else if (!popUpStack[popUpStack.Count - 1].isMouseOver) OnLefPopUp(popUpStack[popUpStack.Count - 1]); // Recursively close if the next one is also not hovered over
+
     }
 
     public string Parse(string input)
@@ -84,7 +96,26 @@ public class HoverPopUpManager : MonoBehaviour
         ui.transform.localPosition = pos;
         ui.transform.localScale = Vector3.one;
 
-        ui.Setup(hoverableWords[wordIndex]);
+        ui.SetupWord(hoverableWords[wordIndex]);
+
+        popUpStack.Add(ui);
+    }
+    void OnOpenNewPopUp(int unlockedAffordableState, EventData eventData, Vector2 mousePos)
+    {
+        Debug.Log("Opening pop-up for event : " + eventData.eventName);
+        Vector2 pos;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            popUpCanvas.transform as RectTransform,
+            mousePos,
+            popUpCanvas.worldCamera,
+            out pos
+        );
+
+        HoverInfoPopUp ui = Instantiate(hoverInfoPopUpPrefab, popUpCanvas.transform);
+        ui.transform.localPosition = pos;
+        ui.transform.localScale = Vector3.one;
+
+        ui.SetupEvent(eventData, unlockedAffordableState > 1, unlockedAffordableState > 0);
 
         popUpStack.Add(ui);
     }
@@ -97,9 +128,15 @@ public class HoverPopUpManager : MonoBehaviour
         {
             left.Close();
             popUpStack.RemoveAt(popUpStack.Count - 1);
-            if (popUpStack.Count == 0) return;
-            else if (!popUpStack[popUpStack.Count-1].isMouseOver) OnLefPopUp(popUpStack[popUpStack.Count - 1]); // Recursively close if the next one is also not hovered over
+            
         }
+        skipNextFrame = true;
+    }
+
+    public bool GetHoverableWordByCategory(InfluencableStats category, out HoverableWord outWord)
+    {
+        outWord = System.Array.Find(hoverableWords, w => w.category == category);
+        return outWord != null;
     }
 
 }
