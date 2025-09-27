@@ -10,6 +10,7 @@ public class EventManager : MonoBehaviour
     public UnityEvent<InfluencableStats, float> OnStatChanged = new UnityEvent<InfluencableStats, float>();
 
     public UnityEvent<int, TMPHoverableText, Vector2> onHoverableWordHovered = new UnityEvent<int, TMPHoverableText, Vector2>();
+    public UnityEvent<int, EventData, Vector2> onHoverableEventHovered = new UnityEvent<int, EventData, Vector2>();
     public UnityEvent<HoverInfoPopUp> onPopUpUnhovered = new UnityEvent<HoverInfoPopUp>();
 
 
@@ -27,6 +28,13 @@ public class EventManager : MonoBehaviour
 
     void OnEventTriggerd(EventData eventData)
     {
+        if (!eventData.CanAfford())
+        {
+            Debug.Log("Cannot afford event: " + eventData.eventName);
+            return;
+        }
+        ApplyEffect(eventData.cost, null);
+
         foreach (EventEffect effect in eventData.PerPupilEffects)
         {
             foreach (var pupil in GameManager.instance.pupilManager.pupils)

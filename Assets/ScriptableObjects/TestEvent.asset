@@ -10,19 +10,33 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 477ed058351877c459af045004f3a91d, type: 3}
-  m_Name: EventData
+  m_Name: TestEvent
   m_EditorClassIdentifier: Assembly-CSharp::EventData
-  eventName: 
-  description: 
-  icon: {fileID: 0}
-  category: 0
+  eventName: TestEvent
+  eventDescription: Test description
+  eventImage: {fileID: 0}
+  category: 2
   PerPupilEffects:
   - effects:
     - stat: 0
-      amount: 0
-    whereAllOfTheseApply:
-    - stat: 0
-      comparator: 0
-      amount: 0
+      amount: 2
+    whereAllOfTheseApply: []
     andWhereOneOfTheseApply: []
-  OneTimeEffects: []
+  OneTimeEffects:
+  - effects:
+    - stat: 4
+      amount: 2
+    whereAllOfTheseApply: []
+    andWhereOneOfTheseApply: []
+  cost:
+    stat: 4
+    amount: 10
+  duration:
+    stat: 5
+    amount: 3
+  unlockCondition:
+    AllOfTheseApply: []
+    andOneOfTheseApply: []
+    cost:
+      stat: 0
+      amount: 0

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class TimeAndMoneyManager : MonoBehaviour
@@ -43,5 +44,10 @@ public class TimeAndMoneyManager : MonoBehaviour
                 Debug.LogError("Unknown stat in TimeAndMoneyManager: " + stat);
                 break;
         }
+    }
+
+    internal bool CanAfford(float amount)
+    {
+        return MoneyTotal > amount;
     }
 }

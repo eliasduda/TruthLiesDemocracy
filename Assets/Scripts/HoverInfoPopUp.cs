@@ -1,16 +1,19 @@
 using System;
 using TMPro;
+using Unity.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class HoverInfoPopUp : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [System.NonSerialized]
+    //[System.NonSerialized]
     public bool isMouseOver;
 
     public TextMeshProUGUI titleTMP;
     public TextMeshProUGUI decription;
+
+    public TextMeshProUGUI changes;
 
     public TMPHoverableText hoverableText;
 
@@ -26,10 +29,18 @@ public class HoverInfoPopUp : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         
     }
 
-    public void Setup(HoverableWord word)
+    public void SetupWord(HoverableWord word)
     {
         titleTMP.text = word.title;
         decription.text = word.description;
+    }
+
+    public void SetupEvent(EventData eventData)
+    {
+        titleTMP.text = eventData.eventName;
+        string fulltext = GameManager.instance.hoverPopUpManager.Parse(eventData.eventDescription);
+        string changes = GetChangesText(eventData);
+        decription.text = fulltext + "\n\n" + changes;
     }
 
     public void Close()
@@ -47,4 +58,42 @@ public class HoverInfoPopUp : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         isMouseOver = false;
         GameManager.instance.eventManager.onPopUpUnhovered.Invoke(this);
     }
+
+    public string GetChangesText(EventData eventData)
+    {
+        string text = "Get: \n";
+        foreach (EventEffect effects in eventData.OneTimeEffects)
+        {
+            foreach (EventEffectPair effect in effects.effects) {
+                text += GetChangesText(effect, 0);
+            }
+        }
+        text += "Affect Pupils: \n";
+        foreach (EventEffect effects in eventData.PerPupilEffects)
+        {
+            foreach (EventEffectPair effect in effects.effects)
+            {
+                text += GetChangesText(effect, eventData.duration.amount, "", " per pupil");
+            }
+        }
+        if(eventData.cost.amount > 0) text += GetChangesText(eventData.cost, 0, "COST: ");
+        if(eventData.duration.amount > 0) text += GetChangesText(eventData.duration, 0, "Takes: ");
+        return text;
+    }
+
+    public string GetChangesText(EventEffectPair effect, float duration, string lineAdditionFron = "", string LineAdditionBack = "")
+    {
+        string text = "";
+        HoverableWord catergoryWord;
+        bool isValidStat = GameManager.instance.hoverPopUpManager.GetHoverableWordByCategory(effect.stat, out catergoryWord);
+        Color fontColor = isValidStat ? catergoryWord.fontColor : Color.white;
+        string hex = UnityEngine.ColorUtility.ToHtmlStringRGB(fontColor);
+        string perSec = duration > 0 ? $" ({(effect.amount / duration).ToString("F2")} sec)" : "";
+        string changeTxt = $"<color=#{hex}>{lineAdditionFron} {effect.stat.ToString()}: {effect.amount} {perSec} {LineAdditionBack} </color>";
+        if (isValidStat) changeTxt = $"<link=\"{catergoryWord.link}\">{changeTxt}</link>";
+        text += changeTxt;
+        text += "\n";
+        return text;
+    }
+
 }
