@@ -15,5 +15,5 @@ MonoBehaviour:
   category: 1
   title: Trust
   description: The more someone trusts you the easier it is to gain their support
-  iconName: 
+  iconName: trust
   fontColor: {r: 0.53333336, g: 0.7535574, b: 0.91764706, a: 1}
