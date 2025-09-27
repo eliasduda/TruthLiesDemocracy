@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6190069225593508089}
   - component: {fileID: 3863478521575184468}
   - component: {fileID: 6175752616418294724}
+  - component: {fileID: 5019896620801683386}
   m_Layer: 0
   m_Name: Pupil
   m_TagString: Untagged
@@ -66,6 +67,7 @@ MonoBehaviour:
     radius: 0
     name: 
     hasSigned: 0
+  isOccupied: 0
   displayRadius: 0
   circleSprite: {fileID: 357124911013023051, guid: d9303220dbfaa6248a4f336f53b2fb40, type: 3}
   radiusColor: {r: 1, g: 1, b: 1, a: 0.02745098}
@@ -234,6 +236,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5019896620801683386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3001826442457089329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a56633961f8e19b418732c2250cb84a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PupilVisualUpdater
+  pupil: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  radius: 0
+  radiusCurrent: 0
+  innerOpacity: 0
+  innerOpacityCurrent: 0
+  outline: 0
+  outlineCurrent: 0
+  smooth: 2
 --- !u!1 &5203024945206717571
 GameObject:
   m_ObjectHideFlags: 0
@@ -549,7 +572,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 489524502afb1b34cbd70e33035eed32, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
