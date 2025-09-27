@@ -404,6 +404,7 @@ public class PupilStats
         this.trust = stats.trust;
         this.isAware = stats.isAware;
         this.radius = stats.radius;
+        this.hasSigned = stats.hasSigned;
         this.name = PupilStats.names[Random.Range(0, PupilStats.names.Length)];
     }
 

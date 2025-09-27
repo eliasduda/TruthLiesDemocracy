@@ -25,8 +25,8 @@ MonoBehaviour:
     trust: 1
     isAware: 1
     radius: 2
-    name: 
-    hasSigned: 0
+    name: Me
+    hasSigned: 1
   daysTotal: 30
   dayDurationSeconds: 10
   signatureGoal: 50

@@ -202,4 +202,10 @@ public class PupilManager : MonoBehaviour
             duration /= 2; // Don't freeze too long for large groups
         return duration;
     }
+
+    public void ChnangeVisualisation(InfluencableStats stat)
+    {
+        visualizeStat = stat;
+        GameManager.instance.eventManager.onUpdateVisuals.Invoke();
+    }
 }

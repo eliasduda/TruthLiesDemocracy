@@ -22,6 +22,7 @@ public class PupilVisualUpdater : MonoBehaviour
         if (sefaultSR == null) Debug.LogError("No SpriteRenderer found in children of " + gameObject.name);
 
         GameManager.instance.eventManager.onPupilStatInfluenced.AddListener(UpdateVisuals);
+        GameManager.instance.eventManager.onUpdateVisuals.AddListener(UpdateVisuals);
     }
 
     void Start()
@@ -30,8 +31,7 @@ public class PupilVisualUpdater : MonoBehaviour
         innerOpacity = sefaultSR.material.GetFloat("_innerOpacity");
         outline = sefaultSR.material.GetFloat("_outline");
         outerOpacity = glowSR.material.GetFloat("_outerOpacity");
-
-        UpdateVisuals(InfluencableStats.Awareness, 0, pupil);
+        UpdateVisuals();
     }
 
     void Update()
@@ -50,6 +50,10 @@ public class PupilVisualUpdater : MonoBehaviour
     }
 
     // Update is called once per frame
+    void UpdateVisuals()
+    {
+        UpdateVisuals(InfluencableStats.Awareness, 0, pupil);
+    }
     void UpdateVisuals(InfluencableStats arg0, float arg1, Pupil arg2)
     {
         if (pupil != arg2) return;
@@ -66,7 +70,7 @@ public class PupilVisualUpdater : MonoBehaviour
                 mainColor = GameManager.instance.gamePlaySettings.colorAwareness;
                 break;
             case InfluencableStats.Trust:
-                innerOpacity = pupil.stats.isAware;
+                innerOpacity = pupil.stats.trust;
                 mainColor = GameManager.instance.gamePlaySettings.colorTrust;
                 break;
             case InfluencableStats.Support:
