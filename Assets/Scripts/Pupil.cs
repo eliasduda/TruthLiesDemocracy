@@ -291,7 +291,7 @@ public class PupilStats
 
     public static bool IsPerPupilStat(InfluencableStats stat)
     {
-        return stat == InfluencableStats.Support || stat == InfluencableStats.Trust;
+        return stat == InfluencableStats.Support || stat == InfluencableStats.Trust || stat == InfluencableStats.Awareness;
     }
 
     public void CopyStats(PupilStats stats)
