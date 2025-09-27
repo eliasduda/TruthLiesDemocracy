@@ -74,11 +74,6 @@ MonoBehaviour:
   you: {fileID: 0}
   bumpSounds:
   - {fileID: 8300000, guid: 281f4237bf11cf14894a1751fbf8ff23, type: 3}
-<<<<<<< HEAD
-  - {fileID: 8300000, guid: 4aca3328aff35874594b1b0963d82b37, type: 3}
-  - {fileID: 8300000, guid: f7f7e5889a1efc446847d88ae340f4de, type: 3}
-=======
->>>>>>> 49fceeffe5f6aa638c58857f0a4c38c7f2b34b94
   - {fileID: 8300000, guid: c6f25138ba2f90b428ace9297000b201, type: 3}
   maxConcurrentBump: 3
   discussionSound: {fileID: 8300000, guid: 6994c4245c8414c418e9e265f07f6773, type: 3}
