@@ -11,12 +11,14 @@ public class EventData : ScriptableObject
 
     public EventEffect[] PerPupilEffects;
 
-    public EventEffect[] OneTimeEffects;
+    public EventEffect[] GeneralEffects;
 
     public EventEffectPair cost;
     public EventEffectPair duration;
 
     public float coolDown;
+
+    public bool occupiesYou = false;
 
     public EventUnlockCondition unlockCondition;
 
@@ -27,6 +29,11 @@ public class EventData : ScriptableObject
     public bool CanAffordUnlock()
     {
         return unlockCondition.cost != null && GameManager.instance.timeMoneyManager.CanAfford(unlockCondition.cost.amount);
+    }
+
+    public bool IsTimedEvent()
+    {
+        return duration != null && duration.amount > 0;
     }
 
     public bool AffectedSupport()
@@ -43,6 +50,7 @@ public class EventData : ScriptableObject
 
 }
 
+[System.Serializable]
 public class EventInstance
 {
     public EventData eventData;

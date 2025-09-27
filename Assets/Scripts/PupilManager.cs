@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
+using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -128,7 +129,7 @@ public class PupilManager : MonoBehaviour
         discussionSource.PlayOneShot(discussionSound);
     }
 
-    public void ArrangeRing(List<Pupil> group)
+    public float ArrangeRing(List<Pupil> group)
     {
         // Calculate center
         Vector2 center = Vector2.zero;
@@ -194,5 +195,10 @@ public class PupilManager : MonoBehaviour
         if (group.Count >= discussionSoundThreshold) {
             PlayDiscussionSound(center);
         }
+
+        float duration = _discussDuration;
+        if (group.Count > 2)
+            duration /= 2; // Don't freeze too long for large groups
+        return duration;
     }
 }
