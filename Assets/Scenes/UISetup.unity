@@ -1927,7 +1927,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.1254902, g: 0.12941177, b: 0.16470589, a: 1}
   m_FlipX: 0
@@ -3164,6 +3164,18 @@ PrefabInstance:
       propertyPath: m_text
       value: School office work
       objectReference: {fileID: 0}
+    - target: {fileID: 1483609596735760615, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1483609596735760615, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1483609596735760615, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2102266435672029086, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
       propertyPath: isUnlocked
       value: 1
@@ -3279,6 +3291,18 @@ PrefabInstance:
     - target: {fileID: 4630057546473128112, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 5007319653823222130, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5007319653823222130, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5007319653823222130, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5724155882899310889, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
       propertyPath: m_text
@@ -3396,6 +3420,18 @@ PrefabInstance:
       propertyPath: m_text
       value: Host a party
       objectReference: {fileID: 0}
+    - target: {fileID: 1483609596735760615, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1483609596735760615, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1483609596735760615, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2102266435672029086, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
       propertyPath: isUnlocked
       value: 1
@@ -3487,6 +3523,18 @@ PrefabInstance:
     - target: {fileID: 4630057546473128112, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
       propertyPath: m_text
       value: Host a party to get to know your peers better and gain their trust.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5007319653823222130, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5007319653823222130, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5007319653823222130, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5724155882899310889, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
       propertyPath: m_text
@@ -4299,14 +4347,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 341688546}
     m_Modifications:
-    - target: {fileID: 2102266435672029086, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
-      propertyPath: isUnlocked
-      value: 1
+    - target: {fileID: 1483609596735760615, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2102266435672029086, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
-      propertyPath: triggeringEvent
-      value: 
-      objectReference: {fileID: 11400000, guid: 45db43cbda487a445b2b20ed9648624b, type: 2}
+    - target: {fileID: 1483609596735760615, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1483609596735760615, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3755927136591299363, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4387,17 +4439,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5007319653823222130, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5007319653823222130, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5007319653823222130, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9006666205979566430, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
       propertyPath: m_Name
       value: Panel_Support
-      objectReference: {fileID: 0}
-    - target: {fileID: 9043329848756914013, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 9043329848756914013, guid: 2bd33b6ecd35ee248a539f2170fbdb31, type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
