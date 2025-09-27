@@ -22,6 +22,11 @@ public class Pupil : MonoBehaviour
     public float swingSpeed = 3f;
 
     public PupilStats stats = new PupilStats();
+    public bool displayRadius = false;
+    public Sprite circleSprite;
+    public Color radiusColor = new Color(1f, 1f, 1f, 0.10f);
+    private GameObject radiusObject;
+
     private bool updatedSupportSinceLastVote;
 
     private Rigidbody2D rb;
@@ -293,6 +298,36 @@ public class Pupil : MonoBehaviour
             spriteRenderer.sprite = shouldHaveSprite;
         }
     }
+
+    void Update()
+    {
+        if (displayRadius && radiusObject == null)
+        {
+            CreateRadius();
+        }
+        else if (!displayRadius && radiusObject != null)
+        {
+            Destroy(radiusObject);
+        }
+
+        if (radiusObject != null)
+        {
+            float diameter = stats.radius * 2f;
+            radiusObject.transform.localScale = new Vector3(diameter, diameter, 1f);
+        }
+    }
+
+    void CreateRadius()
+    {
+        radiusObject = new GameObject("RadiusVisual");
+        radiusObject.transform.SetParent(transform);
+        radiusObject.transform.localPosition = Vector3.zero;
+
+        var sr = radiusObject.AddComponent<SpriteRenderer>();
+        sr.sprite = circleSprite;
+        sr.color = radiusColor;
+        sr.sortingOrder = -10;
+    }
 }
 
 
@@ -372,8 +407,8 @@ public class PupilStats
     public static string[] names = {
     "Paul", "Jakob", "Maximilian", "Elias", "Felix", "Leon", "Tobias", "Jonas", "Noah", "Lukas",
     "Alexander", "Moritz", "Leo", "Julian", "Simon", "Matteo", "Fabian", "Valentin", "Raphael", "Emil",
-    "Luca", "Samuel", "Anton", "Florian", "David", "Jakob", "Felix", "Lukas", "Noah", "Paul",
-    "Maximilian", "Elias", "Jonas", "Leon", "Tobias", "Jakob", "Maximilian", "Elias", "David", "Felix",
+    "Luca", "Samuel", "Anton", "Florian", "David", "Philipp", "Felix", "Lukas", "Noah", "Paul",
+    "Maximilian", "Elias", "Jonas", "Leon", "Tobias", "Gunnar", "Maximilian", "Elias", "David", "Felix",
     "Leon", "Tobias", "Jonas", "Noah", "Lukas", "Alexander", "Moritz", "Leo", "Julian", "Simon",
     "Matteo", "Fabian", "Valentin", "Raphael", "Emil", "Luca", "Samuel", "Anton", "Florian", "David",
     "Emilia", "Emma", "Marie", "Anna", "Sophia", "Mia", "Lena", "Valentina", "Laura", "Lea",
