@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88d02b45310fc9e478f77093a7f2f6e9, type: 3}
-  m_Name: HW_Money
+  m_Name: HW_Support
   m_EditorClassIdentifier: Assembly-CSharp::HoverableWord
-  category: 4
-  title: Money
-  description: Currency used to do any action
+  category: 0
+  title: Support
+  description: A percentage that shows how much someone supports your ideawith you
+    ideas. This is the chance of them voting for you.
   iconName: 
-  fontColor: {r: 0.9685534, g: 0.82786125, b: 0.4294528, a: 1}
+  fontColor: {r: 0.91823894, g: 0.53419554, b: 0.78026915, a: 1}

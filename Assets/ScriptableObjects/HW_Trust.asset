@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88d02b45310fc9e478f77093a7f2f6e9, type: 3}
-  m_Name: HW_Money
+  m_Name: HW_Trust
   m_EditorClassIdentifier: Assembly-CSharp::HoverableWord
-  category: 4
-  title: Money
-  description: Currency used to do any action
+  category: 1
+  title: Trust
+  description: The more someone trusts you the easier it is to gain their support
   iconName: 
-  fontColor: {r: 0.9685534, g: 0.82786125, b: 0.4294528, a: 1}
+  fontColor: {r: 0.53333336, g: 0.7535574, b: 0.91764706, a: 1}

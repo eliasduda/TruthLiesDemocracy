@@ -5,6 +5,7 @@ public class HoverableWord : ScriptableObject
 {
     [System.NonSerialized]
     public int link;
+    public InfluencableStats category;
     public string title;
     public string description; 
     public string iconName;

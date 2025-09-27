@@ -1,32 +1,81 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class EventManager : MonoBehaviour
 {
-    public UnityEvent<EventData> onTryEventTrigger = new UnityEvent<EventData>();
+    public UnityEvent<EventData> onTryBuyEvent = new UnityEvent<EventData>();
     public UnityEvent<InfluencableStats, float> onOneTimeStatInfluenced = new UnityEvent<InfluencableStats, float>();
     public UnityEvent<InfluencableStats, float, Pupil> onPupilStatInfluenced = new UnityEvent<InfluencableStats, float, Pupil>();
     public UnityEvent<InfluencableStats, float> OnStatChanged = new UnityEvent<InfluencableStats, float>();
 
     public UnityEvent<int, TMPHoverableText, Vector2> onHoverableWordHovered = new UnityEvent<int, TMPHoverableText, Vector2>();
+    public UnityEvent<int, EventData, Vector2> onHoverableEventHovered = new UnityEvent<int, EventData, Vector2>();
     public UnityEvent<HoverInfoPopUp> onPopUpUnhovered = new UnityEvent<HoverInfoPopUp>();
+
+
+    public List<EventInstance> activeTimedEvents = new List<EventInstance>();
+    public List<EventInstance> activeInstantEvents = new List<EventInstance>();
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        onTryEventTrigger.AddListener(OnEventTriggerd);
+        onTryBuyEvent.AddListener(OnEventBought);
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        foreach (EventInstance eI in activeTimedEvents)
+        {
+            float delta = Mathf.Min(eI.timeRemaining, Time.fixedDeltaTime);
+            eI.timeRemaining -= delta;
+            if (eI.timeRemaining >= 0)
+            {
+                TriggerEvent(eI.eventData, delta / eI.eventData.duration.amount);
+            }
+        }
+        foreach (EventInstance eI in activeInstantEvents)
+        {
+            eI.timeRemaining = 0;
+            TriggerEvent(eI.eventData, 1);
+        }
+
+        activeInstantEvents.Clear();
+        for (int i = activeTimedEvents.Count - 1; i >= 0; i--)
+        {
+            if (activeTimedEvents[i].timeRemaining <= 0)
+            {
+                activeTimedEvents.RemoveAt(i);
+            }
+        }
     }
 
-    void OnEventTriggerd(EventData eventData)
+    void OnEventBought(EventData eventData)
     {
+        if (!eventData.CanAfford())
+        {
+            Debug.Log("Cannot afford event: " + eventData.eventName);
+            return;
+        }
+        ApplyEffect(eventData.cost, null);
+        if(eventData.duration != null && eventData.duration.amount > 0)
+        {
+            activeTimedEvents.Add(new EventInstance(eventData));
+        }
+        else
+        {
+            activeInstantEvents.Add(new EventInstance(eventData));
+        }
+
+
+    }
+
+    void TriggerEvent(EventData eventData, float ratio = 1)
+    {
+
         foreach (EventEffect effect in eventData.PerPupilEffects)
         {
             foreach (var pupil in GameManager.instance.pupilManager.pupils)
@@ -39,8 +88,8 @@ public class EventManager : MonoBehaviour
         {
             TriggerEventEffectOneTime(effect);
         }
-
     }
+
     private void TriggerEventEffectPerPupil(EventEffect effect, Pupil pupil)
     {
         if(pupil == null) Debug.LogError("Pupil is null in TriggerEventEffectPerPupil");

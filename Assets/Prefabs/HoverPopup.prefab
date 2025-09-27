@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 74.799225, y: 0}
+  m_SizeDelta: {x: 349.5945, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5511925231170893333
 CanvasRenderer:
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 2.3913574, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -189,6 +189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HoverInfoPopUp
   titleTMP: {fileID: 2834088191141360520}
   decription: {fileID: 7722132418825630058}
+  changes: {fileID: 0}
   hoverableText: {fileID: 7758419533685965889}
 --- !u!1 &8232741831408254624
 GameObject:
@@ -225,8 +226,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -50.7}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 74.798, y: -124.8301}
+  m_SizeDelta: {x: 349.6, y: 198.2602}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4741124720592670263
 CanvasRenderer:
@@ -321,7 +322,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -265.4298, w: -70.38359}
+  m_margin: {x: 0, y: 0, z: 0.0036621094, w: 1.9530182}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

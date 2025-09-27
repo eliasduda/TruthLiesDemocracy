@@ -40,3 +40,11 @@ public class EventSelector
         }
     }
 }
+
+[System.Serializable]
+public class EventUnlockCondition
+{
+    public EventSelector[] AllOfTheseApply;
+    public EventSelector[] andOneOfTheseApply;
+    public EventEffectPair cost;
+}
