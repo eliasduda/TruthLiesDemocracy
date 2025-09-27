@@ -13,6 +13,7 @@ public class EventManager : MonoBehaviour
     public UnityEvent<int, TMPHoverableText, Vector2> onHoverableWordHovered = new UnityEvent<int, TMPHoverableText, Vector2>();
     public UnityEvent<int, EventData, Vector2> onHoverableEventHovered = new UnityEvent<int, EventData, Vector2>();
     public UnityEvent<HoverInfoPopUp> onPopUpUnhovered = new UnityEvent<HoverInfoPopUp>();
+    public UnityEvent onRecastVote = new UnityEvent();
 
 
     public List<EventInstance> activeTimedEvents = new List<EventInstance>();
@@ -48,6 +49,7 @@ public class EventManager : MonoBehaviour
         {
             if (activeTimedEvents[i].timeRemaining <= 0)
             {
+                onRecastVote.Invoke();
                 activeTimedEvents.RemoveAt(i);
             }
         }
@@ -86,7 +88,7 @@ public class EventManager : MonoBehaviour
                     continue;
                 }
                 if(effect.pupilSelector == PupilSelector.InMyRadius) Debug.Log("pupil " + pupil.name+ " is in radius");
-                TriggerEventEffectPerPupil(effect, pupil);
+                TriggerEventEffectPerPupil(effect, pupil, ratio);
             }
         }
 
@@ -96,17 +98,17 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    private void TriggerEventEffectPerPupil(EventEffect effect, Pupil pupil)
+    private void TriggerEventEffectPerPupil(EventEffect effect, Pupil pupil, float ratio)
     {
         if(pupil == null) Debug.LogError("Pupil is null in TriggerEventEffectPerPupil");
-        TriggerEffect(effect, pupil);
+        TriggerEffect(effect, pupil, ratio);
     }
     private void TriggerEventEffectOneTime(EventEffect effect)
     {
         TriggerEffect(effect, null);
     }
 
-    private void TriggerEffect(EventEffect effect, Pupil pupil)
+    private void TriggerEffect(EventEffect effect, Pupil pupil, float ratio = 1)
     {
         bool allConditionsMet = true;
         // Check all "whereAllOfTheseApply" conditions
@@ -133,19 +135,19 @@ public class EventManager : MonoBehaviour
             }
             allConditionsMet = oneConditionMet;
         }
-        Debug.Log("TriggerEffect on " + (pupil != null ? pupil.name : "Game") + " allConditionsMet: " + allConditionsMet + " wanted to chane "+ effect.effects[0].stat);
+        //Debug.Log("TriggerEffect on " + (pupil != null ? pupil.name : "Game") + " allConditionsMet: " + allConditionsMet + " wanted to chane "+ effect.effects[0].stat);
         // If all conditions are met, apply the effects
         if (allConditionsMet)
         {
 
             foreach (var effectPair in effect.effects)
             {
-                ApplyEffect(effectPair, pupil);
+                ApplyEffect(effectPair, pupil, ratio);
             }
         }
     }
 
-    private bool ApplyEffect(EventEffectPair effect, Pupil pupil)
+    private bool ApplyEffect(EventEffectPair effect, Pupil pupil, float ratio = 1)
     {
         if (PupilStats.IsPerPupilStat(effect.stat))
         {
@@ -154,7 +156,7 @@ public class EventManager : MonoBehaviour
                 Debug.LogError("Trying to apply per-pupil stat effect without a pupil context"); 
                 return false;
             }
-            onPupilStatInfluenced.Invoke(effect.stat, effect.amount, pupil);
+            onPupilStatInfluenced.Invoke(effect.stat, effect.amount * ratio, pupil);
         }
         else
         {

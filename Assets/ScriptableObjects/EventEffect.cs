@@ -30,7 +30,6 @@ public class EventSelector
         switch(comparator)
         {
             case StatComparator.GreaterThan:
-                Debug.Log("Comparing if " + amount + " > " + this.amount);
                 return amount >= this.amount;
             case StatComparator.LessThan:
                 return amount <= this.amount;

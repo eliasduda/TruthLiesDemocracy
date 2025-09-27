@@ -6,6 +6,7 @@ public class TimeAndMoneyManager : MonoBehaviour
     public int DaysPassed { get; private set; }
     public float MoneyTotal { get; private set; }
     public float MoneyPerDay { get; private set; }
+    public float SignaturesGained { get; private set; }
 
     private float dayTimer;
 
@@ -56,6 +57,10 @@ public class TimeAndMoneyManager : MonoBehaviour
             case InfluencableStats.DaysPassed:
                 DaysPassed += (int)amount;
                 GameManager.instance.eventManager.OnStatChanged.Invoke(stat, DaysPassed);
+                break;
+            case InfluencableStats.Signatures:
+                SignaturesGained += (int)amount;
+                GameManager.instance.eventManager.OnStatChanged.Invoke(stat, SignaturesGained);
                 break;
             default:
                 Debug.LogError("Unknown stat in TimeAndMoneyManager: " + stat);
