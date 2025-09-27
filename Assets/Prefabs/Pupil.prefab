@@ -64,6 +64,11 @@ MonoBehaviour:
     trust: 0
     isAware: 0
     radius: 0
+    name: 
+    hasSigned: 0
+  displayRadius: 0
+  circleSprite: {fileID: 357124911013023051, guid: d9303220dbfaa6248a4f336f53b2fb40, type: 3}
+  radiusColor: {r: 1, g: 1, b: 1, a: 0.02745098}
   pendingVelocity: {x: 0, y: 0}
   ringTargetPosition: {x: 0, y: 0}
   moveToRing: 0

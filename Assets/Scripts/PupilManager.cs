@@ -7,7 +7,7 @@ using UnityEngine.Audio;
 public class PupilManager : MonoBehaviour
 {
     public Pupil pupilPrefab;
-    public int pupilCount = 50;
+    private int pupilCount = 50;
 
     [SerializeField] private float _maxSpeed = 1f;
     public float MaxSpeed => _maxSpeed;
@@ -33,6 +33,7 @@ public class PupilManager : MonoBehaviour
     {
         pupilArea = GetComponentInChildren<BoxCollider2D>();
         bounds = pupilArea.bounds;
+        pupilCount = GameManager.instance.gamePlaySettings.signatureGoal;
 
         // Set areaSize to match the screen size in world units
         Vector3 bottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));

@@ -13,7 +13,7 @@ public class EventManager : MonoBehaviour
     public UnityEvent<int, TMPHoverableText, Vector2> onHoverableWordHovered = new UnityEvent<int, TMPHoverableText, Vector2>();
     public UnityEvent<int, EventData, Vector2> onHoverableEventHovered = new UnityEvent<int, EventData, Vector2>();
     public UnityEvent<HoverInfoPopUp> onPopUpUnhovered = new UnityEvent<HoverInfoPopUp>();
-    public UnityEvent onRecastVote = new UnityEvent();
+    public UnityEvent<EventData> onTimedEventEnded = new UnityEvent<EventData>();
 
 
     public List<EventInstance> activeTimedEvents = new List<EventInstance>();
@@ -31,6 +31,7 @@ public class EventManager : MonoBehaviour
     {
         foreach (EventInstance eI in activeTimedEvents)
         {
+            if (!GameManager.instance.pupilManager.you.IsFrozen) GameManager.instance.pupilManager.you.IsFrozen = true;
             float delta = Mathf.Min(eI.timeRemaining, Time.fixedDeltaTime);
             eI.timeRemaining -= delta;
             if (eI.timeRemaining >= 0)
@@ -49,7 +50,7 @@ public class EventManager : MonoBehaviour
         {
             if (activeTimedEvents[i].timeRemaining <= 0)
             {
-                onRecastVote.Invoke();
+                onTimedEventEnded.Invoke(activeTimedEvents[i].eventData);
                 activeTimedEvents.RemoveAt(i);
             }
         }
@@ -87,7 +88,8 @@ public class EventManager : MonoBehaviour
                 {
                     continue;
                 }
-                if(effect.pupilSelector == PupilSelector.InMyRadius) Debug.Log("pupil " + pupil.name+ " is in radius");
+                if(!pupil.IsFrozen) pupil.IsFrozen = true;
+                if (effect.pupilSelector == PupilSelector.InMyRadius) Debug.Log("pupil " + pupil.name+ " is in radius");
                 TriggerEventEffectPerPupil(effect, pupil, ratio);
             }
         }
