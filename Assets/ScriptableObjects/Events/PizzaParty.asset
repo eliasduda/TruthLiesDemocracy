@@ -16,7 +16,7 @@ MonoBehaviour:
   eventDescription: You hand out pizza to everyone to instantly gain $awarenes_awareness
     and $trust_trust
   eventImage: {fileID: 0}
-  category: 2
+  category: 1
   PerPupilEffects:
   - effects:
     - stat: 1

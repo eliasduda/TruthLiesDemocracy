@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: SideJob
   m_EditorClassIdentifier: Assembly-CSharp::EventData
   eventName: Side Job
-  eventDescription: Tho get your $money_funds up you decide to take a small side
-    job
+  eventDescription: To get your $money_funds up you decide to take a small side job.
   eventImage: {fileID: 0}
   category: 4
   PerPupilEffects: []
@@ -24,6 +23,7 @@ MonoBehaviour:
       amount: 5
     whereAllOfTheseApply: []
     andWhereOneOfTheseApply: []
+    pupilSelector: 0
   cost:
     stat: 0
     amount: 0

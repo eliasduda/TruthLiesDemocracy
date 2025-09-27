@@ -206,12 +206,13 @@ public class Pupil : MonoBehaviour
                 pupil.connectedPupils.Remove(pupil); // Don't include self
             }
 
+            float discussDuration = manager.ArrangeRing(new List<Pupil>(group));
+
             // Discuss and arrange ring for all
             foreach (var pupil in group)
             {
-                pupil.Discuss();
+                pupil.Discuss(discussDuration);
             }
-            manager.ArrangeRing(new List<Pupil>(group));
 
             // Play bump sounds
             manager.PlayBumpSound(audioSource);
@@ -234,11 +235,11 @@ public class Pupil : MonoBehaviour
             CollectGroup(p, group);
     }
 
-    public void Discuss()
+    public void Discuss(float duration)
     {
         if (discussCoroutine != null)
             StopCoroutine(discussCoroutine);
-        discussCoroutine = StartCoroutine(DiscussCoroutine(manager.DiscussDuration));
+        discussCoroutine = StartCoroutine(DiscussCoroutine(duration));
     }
 
     IEnumerator DiscussCoroutine(float duration)
