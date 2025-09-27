@@ -1,6 +1,7 @@
 using NUnit.Framework.Constraints;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.MemoryProfiler;
 using UnityEngine;
 
 public class Pupil : MonoBehaviour
@@ -33,6 +34,24 @@ public class Pupil : MonoBehaviour
     [HideInInspector] public bool moveToRing = false;
     [HideInInspector] public Vector2 ringCenter;
 
+    private bool _isFrozen = false;
+    public bool IsFrozen
+    {
+        get { return _isFrozen; }
+        set
+        {
+            _isFrozen = value;
+            if (value) // if freezing, stop all movement
+            {
+                rb.angularVelocity = 0f;
+                rb.linearVelocity = Vector2.zero;
+                lastPos = null;
+                rb.bodyType = RigidbodyType2D.Kinematic;
+            }
+            else rb.bodyType = RigidbodyType2D.Dynamic;
+        }
+    }
+
     public HashSet<Pupil> connectedPupils = new HashSet<Pupil>();
 
     private AudioSource audioSource;
@@ -44,6 +63,7 @@ public class Pupil : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.gravityScale = 0f;
+        rb.linearDamping = 0f;
         velocity = Random.insideUnitCircle.normalized * manager.MaxSpeed;
 
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -70,6 +90,8 @@ public class Pupil : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (_isFrozen) return;
+
         // --- Move ---
         if (inDiscussion)
         {
@@ -226,7 +248,7 @@ public class Pupil : MonoBehaviour
     void ApplyStatChange(InfluencableStats stat, float amount, Pupil pupil)
     {
         UpdateSprite();
-        if(pupil == this && !isYou) stats.ApplyChange(stat, amount);
+        if (pupil == this && !isYou) stats.ApplyChange(stat, amount);
     }
     public bool IsInMyRadius(Pupil other)
     {
@@ -247,6 +269,7 @@ public class Pupil : MonoBehaviour
         }
     }
 }
+
 
 [System.Serializable]
 public class PupilStats
