@@ -137,6 +137,7 @@ public class PupilManager : MonoBehaviour
             Pupil pupil = unassignedPupils[bestPupilIdx];
             Vector2 pos = unassignedPositions[bestPosIdx];
             pupil.ringTargetPosition = pos;
+            pupil.ringCenter = center;
 
             // Set velocity outward from center (optional, for bounce effect)
             Vector2 outOfCircle = pupil.transform.position - (Vector3)center;

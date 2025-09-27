@@ -20,6 +20,7 @@ public class Pupil : MonoBehaviour
 
     [HideInInspector] public Vector2 ringTargetPosition;
     [HideInInspector] public bool moveToRing = false;
+    [HideInInspector] public Vector2 ringCenter;
 
     public HashSet<Pupil> connectedPupils = new HashSet<Pupil>();
 
@@ -47,6 +48,7 @@ public class Pupil : MonoBehaviour
 
     void FixedUpdate()
     {
+        // --- Move ---
         if (inDiscussion)
         {
             if (moveToRing)
@@ -73,22 +75,28 @@ public class Pupil : MonoBehaviour
             rb.linearVelocity = velocity;
         }
 
-      
-        Vector2 v = rb.linearVelocity;
-        if (v.sqrMagnitude > 0.001f)
-        {
-            // Rotate to face movement direction
-            float movementAngle = Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg;
-            rb.MoveRotation(movementAngle - 90f);
 
-            // Swing arms
+        // --- Rotate Arms ---
+        float rotateAngle = 0f;
+        if (!inDiscussion)
+        {
+            rotateAngle = Mathf.Atan2(rb.linearVelocity.y, rb.linearVelocity.x) * Mathf.Rad2Deg;
+        }
+        else if (moveToRing)
+        {
+            rotateAngle = Mathf.Atan2((ringCenter-rb.position).y, (ringCenter - rb.position).x) * Mathf.Rad2Deg;
+        }
+        rb.MoveRotation(rotateAngle - 90f);
+
+        // Swing arms
+        if (!inDiscussion)
+        {
             float swingAngle = Mathf.Sin(Time.time * swingSpeed) * swingAmplitude;
             armLeft.transform.localRotation = Quaternion.Euler(swingAngle, 0f, 0f);
             armRight.transform.localRotation = Quaternion.Euler(-swingAngle, 0f, 0f);
         }
         else
         {
-            // reset to rest pose when not moving
             armLeft.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
             armRight.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
         }
