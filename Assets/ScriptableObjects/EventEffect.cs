@@ -30,9 +30,9 @@ public class EventSelector
         switch(comparator)
         {
             case StatComparator.GreaterThan:
-                return amount > this.amount;
+                return amount >= this.amount;
             case StatComparator.LessThan:
-                return amount < this.amount;
+                return amount <= this.amount;
             case StatComparator.EqualTo:
                 return Mathf.Approximately(amount, this.amount);
             default:

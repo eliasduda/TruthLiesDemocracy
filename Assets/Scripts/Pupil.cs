@@ -1,6 +1,7 @@
 using NUnit.Framework.Constraints;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.MemoryProfiler;
 using UnityEngine;
 
 public class Pupil : MonoBehaviour
@@ -17,10 +18,11 @@ public class Pupil : MonoBehaviour
 
     public GameObject armLeft;
     public GameObject armRight;
-    public float swingAmplitude = 40f;  // max angle (±40)
+    public float swingAmplitude = 40f;  // max angle (ï¿½40)
     public float swingSpeed = 3f;
 
     public PupilStats stats = new PupilStats();
+    private bool updatedSupportSinceLastVote;
 
     private Rigidbody2D rb;
     private Vector2? lastPos = null;
@@ -33,6 +35,24 @@ public class Pupil : MonoBehaviour
     [HideInInspector] public bool moveToRing = false;
     [HideInInspector] public Vector2 ringCenter;
 
+    private bool _isFrozen = false;
+    public bool IsFrozen
+    {
+        get { return _isFrozen; }
+        set
+        {
+            _isFrozen = value;
+            if (value) // if freezing, stop all movement
+            {
+                rb.angularVelocity = 0f;
+                rb.linearVelocity = Vector2.zero;
+                lastPos = null;
+                rb.bodyType = RigidbodyType2D.Kinematic;
+            }
+            else rb.bodyType = RigidbodyType2D.Dynamic;
+        }
+    }
+
     public HashSet<Pupil> connectedPupils = new HashSet<Pupil>();
 
     private AudioSource audioSource;
@@ -44,6 +64,7 @@ public class Pupil : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.gravityScale = 0f;
+        rb.linearDamping = 0f;
         velocity = Random.insideUnitCircle.normalized * manager.MaxSpeed;
 
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -66,10 +87,13 @@ public class Pupil : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         GameManager.instance.eventManager.onPupilStatInfluenced.AddListener(ApplyStatChange);
+        GameManager.instance.eventManager.onRecastVote.AddListener(OnRecastVote);
     }
 
     void FixedUpdate()
     {
+        if (_isFrozen) return;
+
         // --- Move ---
         if (inDiscussion)
         {
@@ -226,10 +250,28 @@ public class Pupil : MonoBehaviour
     void ApplyStatChange(InfluencableStats stat, float amount, Pupil pupil)
     {
         UpdateSprite();
-        if(pupil == this && !isYou) stats.ApplyChange(stat, amount);
+        if (pupil == this && !isYou)
+        {
+            if(stat == InfluencableStats.Support) updatedSupportSinceLastVote = true;
+            stats.ApplyChange(stat, amount);
+        }
     }
+
+    void OnRecastVote()
+    {
+        if (updatedSupportSinceLastVote)
+        {
+            updatedSupportSinceLastVote = false;
+            if (stats.AskToSign())
+            {
+                GameManager.instance.eventManager.onOneTimeStatInfluenced.Invoke(InfluencableStats.Signatures, 1);
+            }
+        }
+    }
+
     public bool IsInMyRadius(Pupil other)
     {
+        Debug.Log("Checking if " + other.name + " is in radius of " + name + " dist "+(other.transform.position - transform.position).magnitude + " rad "+ stats.radius);
         return (other.transform.position - transform.position).magnitude < stats.radius;
     }
 
@@ -248,6 +290,7 @@ public class Pupil : MonoBehaviour
     }
 }
 
+
 [System.Serializable]
 public class PupilStats
 {
@@ -256,6 +299,8 @@ public class PupilStats
     public float isAware;
 
     public float radius;
+    public string name;
+    public bool hasSigned;
 
     public PupilStats()
     {
@@ -279,13 +324,30 @@ public class PupilStats
     {
         switch (stat)
         {
-            case InfluencableStats.Support:
-                trust = Mathf.Clamp01(trust + amount);
-                break;
             case InfluencableStats.Trust:
+                trust = Mathf.Clamp01(trust + amount);
+                Debug.Log("Pupil's trust changed to " + trust);
+                break;
+            case InfluencableStats.Support:
                 support = Mathf.Clamp01(support + amount);
+                Debug.Log("Pupil's support changed to " + support);
+                break;
+            case InfluencableStats.Awareness:
+                isAware = Mathf.Clamp01(isAware + amount);
+                Debug.Log("Pupil's awareness changed to " + isAware);
                 break;
         }
+    }
+
+    public bool AskToSign()
+    {
+        float r = Random.Range(0f, 1f);
+        if (r < support && !hasSigned)
+        {
+            hasSigned = true;
+            return true;
+        }
+        return false;
     }
 
     public static bool IsPerPupilStat(InfluencableStats stat)
@@ -299,5 +361,19 @@ public class PupilStats
         this.trust = stats.trust;
         this.isAware = stats.isAware;
         this.radius = stats.radius;
+        this.name = PupilStats.names[Random.Range(0, PupilStats.names.Length)];
     }
+
+    public static string[] names = {
+    "Paul", "Jakob", "Maximilian", "Elias", "Felix", "Leon", "Tobias", "Jonas", "Noah", "Lukas",
+    "Alexander", "Moritz", "Leo", "Julian", "Simon", "Matteo", "Fabian", "Valentin", "Raphael", "Emil",
+    "Luca", "Samuel", "Anton", "Florian", "David", "Jakob", "Felix", "Lukas", "Noah", "Paul",
+    "Maximilian", "Elias", "Jonas", "Leon", "Tobias", "Jakob", "Maximilian", "Elias", "David", "Felix",
+    "Leon", "Tobias", "Jonas", "Noah", "Lukas", "Alexander", "Moritz", "Leo", "Julian", "Simon",
+    "Matteo", "Fabian", "Valentin", "Raphael", "Emil", "Luca", "Samuel", "Anton", "Florian", "David",
+    "Emilia", "Emma", "Marie", "Anna", "Sophia", "Mia", "Lena", "Valentina", "Laura", "Lea",
+    "Hannah", "Lina", "Sophie", "Johanna", "Leonie", "Lina", "Mia", "Valentina", "Anna", "Sophia",
+    "Emilia", "Marie", "Emma", "Anna", "Sophia", "Mia", "Lena", "Valentina", "Laura", "Lea",
+    "Hannah", "Lina", "Sophie", "Johanna", "Leonie", "Lina", "Mia", "Valentina", "Anna", "Sophia"
+    };
 }

@@ -27,6 +27,18 @@ public class EventData : ScriptableObject
         return unlockCondition.cost != null && GameManager.instance.timeMoneyManager.CanAfford(unlockCondition.cost.amount);
     }
 
+    public bool AffectedSupport()
+    {
+        foreach(EventEffect effect in PerPupilEffects)
+        {
+            foreach(EventEffectPair pair in effect.effects)
+            {
+                if(pair.stat == InfluencableStats.Support && pair.amount > 0) return true;
+            }
+        }
+        return false;
+    }
+
 }
 
 public class EventInstance
