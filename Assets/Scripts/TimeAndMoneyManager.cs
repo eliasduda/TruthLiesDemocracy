@@ -7,18 +7,34 @@ public class TimeAndMoneyManager : MonoBehaviour
     public float MoneyTotal { get; private set; }
     public float MoneyPerDay { get; private set; }
 
+    private float dayTimer;
+
 
 // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         GameManager.instance.eventManager.onOneTimeStatInfluenced.AddListener(ChangeStat);
         MoneyTotal = GameManager.instance.gamePlaySettings.startMoney;
+
+        NewDayStarts();
+        GameManager.instance.eventManager.OnStatChanged.Invoke(InfluencableStats.MoneyTotal, MoneyTotal);
+        GameManager.instance.eventManager.OnStatChanged.Invoke(InfluencableStats.DaysPassed, DaysPassed);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        dayTimer -= Time.deltaTime;
+        if(dayTimer <= 0)
+        {
+            NewDayStarts();
+        }
+    }
+
+    public void NewDayStarts()
+    {
+        ChangeStat(InfluencableStats.DaysPassed, DaysPassed+1);
+        dayTimer = GameManager.instance.gamePlaySettings.dayDurationSeconds;
     }
 
     public void ChangeStat(InfluencableStats stat, float amount)

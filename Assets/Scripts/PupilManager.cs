@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -55,6 +56,7 @@ public class PupilManager : MonoBehaviour
             {
                 you = pupil;
                 pupil.isYou = true;
+                pupil.stats.CopyStats(GameManager.instance.gamePlaySettings.startStats);
                 youSpawned = true;
             }
             pupils.Add(pupil);
@@ -111,7 +113,7 @@ public class PupilManager : MonoBehaviour
     public void PlayBumpSound(AudioSource source)
     {
         if (concurrentBumpSounds >= maxConcurrentBump) return; // Limit concurrent sounds
-        int i = Random.Range(0, bumpSounds.Count);
+        int i = Random.Range(0, bumpSounds.Count-1);
         AudioClip audioClip = bumpSounds[i];
         StartCoroutine(PlayBump(source, audioClip));
     }

@@ -67,16 +67,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PupilManager
   pupilPrefab: {fileID: -3267188324088731708, guid: b1c138f706f734648aa23d5e6f25dff8, type: 3}
   pupilCount: 50
-  areaSize: {x: 0, y: 0}
-  neighborRadius: 3
-  separationDistance: 1
-  maxSpeed: 5
-  maxForce: 0.5
-  separationWeight: 1.5
-  alignmentWeight: 1
-  cohesionWeight: 1
-  boundaryWeight: 5
+  _maxSpeed: 1
+  _discussDuration: 1
+  discussGroupSize: 1
   pupils: []
+  you: {fileID: 0}
+  bumpSounds:
+  - {fileID: 8300000, guid: 281f4237bf11cf14894a1751fbf8ff23, type: 3}
+  - {fileID: 8300000, guid: c6f25138ba2f90b428ace9297000b201, type: 3}
+  maxConcurrentBump: 3
+  discussionSound: {fileID: 8300000, guid: 6994c4245c8414c418e9e265f07f6773, type: 3}
+  discussionSoundThreshold: 4
 --- !u!114 &4584034827258009542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,7 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f78913d2a2332446ad211473c860be7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EventManager
-  onTryEventTrigger:
+  onTryBuyEvent:
     m_PersistentCalls:
       m_Calls: []
   onOneTimeStatInfluenced:
@@ -102,6 +103,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   onHoverableWordHovered:
+    m_PersistentCalls:
+      m_Calls: []
+  onHoverableEventHovered:
     m_PersistentCalls:
       m_Calls: []
   onPopUpUnhovered:

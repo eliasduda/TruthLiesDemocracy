@@ -56,7 +56,6 @@ public class Pupil : MonoBehaviour
         audioSource = GetComponentInChildren<AudioSource>();
 
         GameManager.instance.eventManager.onPupilStatInfluenced.AddListener(ApplyStatChange);
-        stats.CopyStats(GameManager.instance.gamePlaySettings.startStats);
     }
 
     void FixedUpdate()
@@ -218,7 +217,6 @@ public class Pupil : MonoBehaviour
     {
         if(pupil == this && !isYou) stats.ApplyChange(stat, amount);
     }
-
     public bool IsInMyRadius(Pupil other)
     {
         return (other.transform.position - transform.position).magnitude < stats.radius;
@@ -226,6 +224,7 @@ public class Pupil : MonoBehaviour
 
 }
 
+[System.Serializable]
 public class PupilStats
 {
     public float support;
@@ -233,6 +232,14 @@ public class PupilStats
     public float isAware;
 
     public float radius;
+
+    public PupilStats()
+    {
+        support = 0f;
+        trust = 0f;
+        isAware = 0f;
+        radius = 0f;
+    }
 
     public float GetStat(InfluencableStats stat)
     {

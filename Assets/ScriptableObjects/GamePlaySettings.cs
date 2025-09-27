@@ -12,4 +12,7 @@ public class GamePlaySettings : ScriptableObject
     public float startMoney;
     public PupilStats startStats;
 
+    public int daysTotal;
+    public float dayDurationSeconds;
+
 }
