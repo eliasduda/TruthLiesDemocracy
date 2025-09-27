@@ -5,7 +5,8 @@ using UnityEngine;
 public class Pupil : MonoBehaviour
 {
     [HideInInspector] public PupilManager manager;
-    public Vector2 velocity;
+    private Vector2 velocity;
+    private float colliderRadius;
 
     public GameObject armLeft;
     public GameObject armRight;
@@ -13,6 +14,7 @@ public class Pupil : MonoBehaviour
     public float swingSpeed = 3f;
 
     private Rigidbody2D rb;
+    private Vector2? lastPos = null;
 
     private bool inDiscussion = false;
     [HideInInspector] public Vector2 pendingVelocity;
@@ -35,15 +37,15 @@ public class Pupil : MonoBehaviour
         // --- Arm positioning ---
         // Get the radius from the CircleCollider2D
         var circle = GetComponent<CircleCollider2D>();
-        float radius = circle.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.y);
+        colliderRadius = circle.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.y);
 
         Transform capsuleTransform = armLeft.transform.Find("Capsule");
         var armCollider = armLeft.GetComponent<CapsuleCollider>();
         CapsuleCollider capsuleCol = capsuleTransform.GetComponent<CapsuleCollider>();
         float margin = capsuleCol.radius*capsuleCol.transform.lossyScale.x;
 
-        armLeft.transform.localPosition = new Vector3(-(radius + margin), 0, 0);
-        armRight.transform.localPosition = new Vector3((radius + margin), 0, 0);
+        armLeft.transform.localPosition = new Vector3(-(colliderRadius + margin), 0, 0);
+        armRight.transform.localPosition = new Vector3((colliderRadius + margin), 0, 0);
     }
 
     void FixedUpdate()
@@ -69,9 +71,29 @@ public class Pupil : MonoBehaviour
             {
                 rb.linearVelocity = Vector2.zero;
             }
+            lastPos = null; // Reset last position tracking while in discussion
         }
         else
         {
+            // Detect if stuck against wall
+            if (lastPos != null) //only check if they moved normally last frame
+            {
+                Vector2 intendedMove = velocity * Time.fixedDeltaTime;
+                Vector2 actualMove = (Vector2)transform.position - (Vector2)lastPos;
+
+                float intendedMag = intendedMove.magnitude;
+                float actualMag = actualMove.magnitude;
+
+                // If actual movement is much smaller, we probably hit or are stuck against a wall
+                if (actualMove.magnitude < intendedMove.magnitude * 0.9f)
+                {
+                    Debug.Log("Pupil is stuck against wall, correcting..." + this);
+                    TryBounce();
+                }
+            }
+            lastPos = transform.position;
+
+            // Normal movement
             rb.linearVelocity = velocity;
         }
 
@@ -102,6 +124,12 @@ public class Pupil : MonoBehaviour
         }
     }
 
+    void TryBounce()
+    {
+        // Move them back slightly to make them bounce off the wall
+        transform.position = (Vector2)transform.position + -velocity.normalized * 0.1f;
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.contacts.Length == 0) return;
@@ -110,13 +138,13 @@ public class Pupil : MonoBehaviour
         Vector2 normal = collision.contacts[0].normal;
         Vector2 bounceVelocity = normal * manager.MaxSpeed;
 
-        if (otherPupil != null)
+        if (otherPupil != null)  //collision with another pupil
         {
             if (connectedPupils.Contains(otherPupil))
             {
                 return; // ignore collisions with other pupils in the same group
             }
-                
+
             // Build the full group (including all connected pupils recursively)
             HashSet<Pupil> group = new HashSet<Pupil>();
             CollectGroup(this, group);
@@ -129,12 +157,6 @@ public class Pupil : MonoBehaviour
                 pupil.connectedPupils.Remove(pupil); // Don't include self
             }
 
-            // Set pending velocity for all
-            foreach (var pupil in group)
-            {
-                pupil.pendingVelocity = bounceVelocity;
-            }
-
             // Discuss and arrange ring for all
             foreach (var pupil in group)
             {
@@ -145,7 +167,9 @@ public class Pupil : MonoBehaviour
         else
         {
             // Wall collision
+            bounceVelocity = Vector2.Reflect(velocity, bounceVelocity);
             velocity = bounceVelocity;
+            lastPos = null; // Reset last position tracking after bounce
         }
     }
 
