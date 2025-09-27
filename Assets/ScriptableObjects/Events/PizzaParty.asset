@@ -31,8 +31,9 @@ MonoBehaviour:
     stat: 4
     amount: -30
   duration:
-    stat: 0
+    stat: 6
     amount: 0
+  coolDown: 0
   unlockCondition:
     AllOfTheseApply: []
     andOneOfTheseApply: []

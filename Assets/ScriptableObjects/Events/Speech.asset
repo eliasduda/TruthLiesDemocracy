@@ -20,7 +20,7 @@ MonoBehaviour:
   PerPupilEffects:
   - effects:
     - stat: 0
-      amount: 5
+      amount: 0.2
     whereAllOfTheseApply:
     - stat: 2
       comparator: 0
@@ -43,6 +43,7 @@ MonoBehaviour:
   duration:
     stat: 6
     amount: 3
+  coolDown: 0
   unlockCondition:
     AllOfTheseApply: []
     andOneOfTheseApply: []

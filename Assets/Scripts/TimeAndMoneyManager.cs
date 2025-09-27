@@ -20,6 +20,7 @@ public class TimeAndMoneyManager : MonoBehaviour
         NewDayStarts();
         GameManager.instance.eventManager.OnStatChanged.Invoke(InfluencableStats.MoneyTotal, MoneyTotal);
         GameManager.instance.eventManager.OnStatChanged.Invoke(InfluencableStats.DaysPassed, DaysPassed);
+        GameManager.instance.eventManager.OnStatChanged.Invoke(InfluencableStats.Signatures, SignaturesGained);
     }
 
     // Update is called once per frame

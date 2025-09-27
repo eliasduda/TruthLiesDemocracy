@@ -87,7 +87,7 @@ public class Pupil : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         GameManager.instance.eventManager.onPupilStatInfluenced.AddListener(ApplyStatChange);
-        GameManager.instance.eventManager.onRecastVote.AddListener(OnRecastVote);
+        GameManager.instance.eventManager.onTimedEventEnded.AddListener(OnRecastVote);
     }
 
     void FixedUpdate()
@@ -252,13 +252,18 @@ public class Pupil : MonoBehaviour
         UpdateSprite();
         if (pupil == this && !isYou)
         {
-            if(stat == InfluencableStats.Support) updatedSupportSinceLastVote = true;
+            if (stat == InfluencableStats.Support)
+            {
+                updatedSupportSinceLastVote = true;
+                amount *= GameManager.instance.gamePlaySettings.trustSupportMultiplier.Evaluate(stats.trust) +1;
+            }
             stats.ApplyChange(stat, amount);
         }
     }
 
-    void OnRecastVote()
+    void OnRecastVote(EventData eventData)
     {
+        if(IsFrozen) IsFrozen = false;
         if (updatedSupportSinceLastVote)
         {
             updatedSupportSinceLastVote = false;

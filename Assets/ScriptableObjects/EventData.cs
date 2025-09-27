@@ -16,6 +16,8 @@ public class EventData : ScriptableObject
     public EventEffectPair cost;
     public EventEffectPair duration;
 
+    public float coolDown;
+
     public EventUnlockCondition unlockCondition;
 
     public bool CanAfford()

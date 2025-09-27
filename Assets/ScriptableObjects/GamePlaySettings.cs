@@ -15,4 +15,8 @@ public class GamePlaySettings : ScriptableObject
     public int daysTotal;
     public float dayDurationSeconds;
 
+    public int signatureGoal;
+
+    public AnimationCurve trustSupportMultiplier;
+
 }
