@@ -148,8 +148,8 @@ MonoBehaviour:
   pupilPrefab: {fileID: -3267188324088731708, guid: b1c138f706f734648aa23d5e6f25dff8, type: 3}
   pupilCount: 50
   _maxSpeed: 1
-  _discussDuration: 1
-  discussGroupSize: 1
+  _discussDuration: 1.5
+  discussGroupSize: 0.5
   pupils: []
   you: {fileID: 0}
   bumpSounds:
