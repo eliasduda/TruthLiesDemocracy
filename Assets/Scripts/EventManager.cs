@@ -80,6 +80,11 @@ public class EventManager : MonoBehaviour
         {
             foreach (var pupil in GameManager.instance.pupilManager.pupils)
             {
+                if(effect.pupilSelector == PupilSelector.InMyRadius &&
+                    !GameManager.instance.pupilManager.you.IsInMyRadius(pupil))
+                {
+                    continue;
+                }
                 TriggerEventEffectPerPupil(effect, pupil);
             }
         }
