@@ -16,7 +16,8 @@ public enum InfluencableStats
     Awareness,
     MoneyPerDay,
     MoneyTotal,
-    DaysPassed
+    DaysPassed,
+    Time
 }
 
 public enum StatComparator

@@ -26,6 +26,7 @@ public class EventData : ScriptableObject
     {
         return unlockCondition.cost != null && GameManager.instance.timeMoneyManager.CanAfford(unlockCondition.cost.amount);
     }
+
 }
 
 public class EventInstance

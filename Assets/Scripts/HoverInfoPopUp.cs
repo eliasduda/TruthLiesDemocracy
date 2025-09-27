@@ -4,6 +4,7 @@ using Unity.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class HoverInfoPopUp : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -12,8 +13,7 @@ public class HoverInfoPopUp : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public TextMeshProUGUI titleTMP;
     public TextMeshProUGUI decription;
-
-    public TextMeshProUGUI changes;
+    public RectTransform background;
 
     public TMPHoverableText hoverableText;
 
@@ -33,6 +33,7 @@ public class HoverInfoPopUp : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         titleTMP.text = word.title;
         decription.text = word.description;
+        //UpdateBackground();
     }
 
     public void SetupEvent(EventData eventData, bool isLocked, bool isUnaffordable)
@@ -42,6 +43,7 @@ public class HoverInfoPopUp : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         string fulltext = GameManager.instance.hoverPopUpManager.Parse(eventData.eventDescription);
         string changes = GetChangesText(eventData);
         decription.text = fulltext + "\n\n" + changes;
+        //UpdateBackground();
     }
 
     public void Close()
@@ -58,6 +60,22 @@ public class HoverInfoPopUp : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         isMouseOver = false;
         GameManager.instance.eventManager.onPopUpUnhovered.Invoke(this);
+    }
+
+    public void UpdateBackground()
+    {
+        // Force TMP to update its layout
+        decription.ForceMeshUpdate();
+
+        // Get preferred size
+        Vector2 textSize = new Vector2(
+            decription.preferredWidth,
+            decription.preferredHeight
+        );
+
+
+        // Resize background
+        background.sizeDelta = textSize;
     }
 
     public string GetChangesText(EventData eventData)

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88d02b45310fc9e478f77093a7f2f6e9, type: 3}
-  m_Name: HW_Awareness
+  m_Name: HW_Time
   m_EditorClassIdentifier: Assembly-CSharp::HoverableWord
-  category: 1
-  title: Awareness
-  description: The more someone trusts you the easier it is to gain their support
+  category: 6
+  title: Time
+  description: The actual time in seconds
   iconName: 
-  fontColor: {r: 0.53333336, g: 0.7535574, b: 0.91764706, a: 1}
+  fontColor: {r: 0.5120461, g: 0.43137252, b: 0.96862745, a: 1}
