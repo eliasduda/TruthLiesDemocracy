@@ -31,16 +31,22 @@ public class EventManager : MonoBehaviour
     {
         foreach (EventInstance eI in activeTimedEvents)
         {
-            if (!GameManager.instance.pupilManager.you.IsFrozen) GameManager.instance.pupilManager.you.IsFrozen = true;
             float delta = Mathf.Min(eI.timeRemaining, Time.fixedDeltaTime);
             eI.timeRemaining -= delta;
+            delta = delta / eI.eventData.duration.amount;
+            
+            if (!GameManager.instance.pupilManager.you.IsFrozen) GameManager.instance.pupilManager.you.IsFrozen = true;
+            if(eI.eventData.occupiesYou) GameManager.instance.pupilManager.you.isOccupied = true;
+
+
             if (eI.timeRemaining >= 0)
             {
-                TriggerEvent(eI.eventData, delta / eI.eventData.duration.amount);
+                TriggerEvent(eI.eventData, delta);
             }
         }
         foreach (EventInstance eI in activeInstantEvents)
         {
+
             eI.timeRemaining = 0;
             TriggerEvent(eI.eventData, 1);
         }
@@ -64,7 +70,7 @@ public class EventManager : MonoBehaviour
             return;
         }
         ApplyEffect(eventData.cost, null);
-        if(eventData.duration != null && eventData.duration.amount > 0)
+        if(eventData.IsTimedEvent())
         {
             activeTimedEvents.Add(new EventInstance(eventData));
         }
@@ -83,20 +89,20 @@ public class EventManager : MonoBehaviour
         {
             foreach (Pupil pupil in GameManager.instance.pupilManager.pupils)
             {
-                if(effect.pupilSelector == PupilSelector.InMyRadius &&
-                    !GameManager.instance.pupilManager.you.IsInMyRadius(pupil))
+                if(effect.pupilSelector == PupilSelector.InMyRadius)
                 {
-                    continue;
+                    if (!GameManager.instance.pupilManager.you.IsInMyRadius(pupil))continue;
+                    else if (eventData.IsTimedEvent() && !pupil.IsFrozen) pupil.IsFrozen = true;
                 }
-                if(!pupil.IsFrozen) pupil.IsFrozen = true;
+
                 if (effect.pupilSelector == PupilSelector.InMyRadius) Debug.Log("pupil " + pupil.name+ " is in radius");
                 TriggerEventEffectPerPupil(effect, pupil, ratio);
             }
         }
 
-        foreach (EventEffect effect in eventData.OneTimeEffects)
+        foreach (EventEffect effect in eventData.GeneralEffects)
         {
-            TriggerEventEffectOneTime(effect);
+            TriggerEventEffectGeneral(effect, ratio);
         }
     }
 
@@ -105,9 +111,10 @@ public class EventManager : MonoBehaviour
         if(pupil == null) Debug.LogError("Pupil is null in TriggerEventEffectPerPupil");
         TriggerEffect(effect, pupil, ratio);
     }
-    private void TriggerEventEffectOneTime(EventEffect effect)
+    private void TriggerEventEffectGeneral(EventEffect effect, float ratio)
     {
-        TriggerEffect(effect, null);
+        Debug.Log("TriggerEventEffectGeneral on Game for effect with "+ effect.effects.Length+" effects ratio is "+ratio);
+        TriggerEffect(effect, null, ratio);
     }
 
     private void TriggerEffect(EventEffect effect, Pupil pupil, float ratio = 1)
@@ -162,7 +169,7 @@ public class EventManager : MonoBehaviour
         }
         else
         {
-            onOneTimeStatInfluenced.Invoke(effect.stat, effect.amount);
+            onOneTimeStatInfluenced.Invoke(effect.stat, effect.amount * ratio);
         }
         return true;
     }

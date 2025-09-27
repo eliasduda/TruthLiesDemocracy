@@ -7,12 +7,16 @@ using UnityEngine.UI;
 public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public Button button;
+    public Slider cooldownSlider;
     public TextMeshProUGUI buttonTitle;
     public EventData triggeringEvent;
 
     public bool isUnlocked = false;
     [System.NonSerialized]
     public bool canAfford = false;
+    public bool isOnCooldown;
+
+    private float coolDownTimer = 0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,6 +27,19 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         GameManager.instance.eventManager.OnStatChanged.AddListener(MoneyUpdated);
 
         if (isUnlocked) OnLockStateChanged(true);
+    }
+
+    private void Update()
+    {
+        if (isOnCooldown)
+        {
+            coolDownTimer -= Time.deltaTime;
+            cooldownSlider.value = 1 - (coolDownTimer / (triggeringEvent.coolDown + triggeringEvent.duration.amount));
+            if (coolDownTimer <= 0)
+            {
+                OnCoolDownChanged(false);
+            }
+        }
     }
 
     private void MoneyUpdated(InfluencableStats stat, float amount)
@@ -45,8 +62,12 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     void OnTriggerEvent()
     {
-        if (canAfford && isUnlocked)
+        if (canAfford && isUnlocked && !isOnCooldown)
         {
+            if (triggeringEvent.IsTimedEvent())
+            {
+                OnCoolDownChanged(true);
+            }
             GameManager.instance.eventManager.onTryBuyEvent.Invoke(triggeringEvent);
         }
     }
@@ -70,6 +91,12 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         this.canAfford = canAfford;
         button.enabled = isUnlocked && canAfford;
+    }
+    void OnCoolDownChanged(bool isOnCooldown)
+    {
+        coolDownTimer = triggeringEvent.coolDown + triggeringEvent.duration.amount;
+        this.isOnCooldown = isOnCooldown;
+        cooldownSlider.enabled = isOnCooldown;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

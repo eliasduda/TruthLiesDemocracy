@@ -22,6 +22,7 @@ public class Pupil : MonoBehaviour
     public float swingSpeed = 3f;
 
     public PupilStats stats = new PupilStats();
+    public bool isOccupied = false;
     public bool displayRadius = false;
     public Sprite circleSprite;
     public Color radiusColor = new Color(1f, 1f, 1f, 0.10f);
@@ -268,7 +269,8 @@ public class Pupil : MonoBehaviour
 
     void OnRecastVote(EventData eventData)
     {
-        if(IsFrozen) IsFrozen = false;
+        if(isYou && eventData.occupiesYou) isOccupied = false;
+        if (IsFrozen) IsFrozen = false;
         if (updatedSupportSinceLastVote)
         {
             updatedSupportSinceLastVote = false;
