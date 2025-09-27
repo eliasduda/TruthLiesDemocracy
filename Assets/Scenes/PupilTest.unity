@@ -238,6 +238,14 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4830637231211274579, guid: 487bdab5e0bf42b458d3ebbef20674f2, type: 3}
+      propertyPath: _discussDuration
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4830637231211274579, guid: 487bdab5e0bf42b458d3ebbef20674f2, type: 3}
+      propertyPath: discussGroupSize
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4830637231211274579, guid: 487bdab5e0bf42b458d3ebbef20674f2, type: 3}
       propertyPath: bumpSounds.Array.size
       value: 4
       objectReference: {fileID: 0}

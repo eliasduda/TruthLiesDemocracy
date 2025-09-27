@@ -137,7 +137,7 @@ public class PupilManager : MonoBehaviour
 
         // Choose radius
         float pupilRadius = group[0].GetComponent<CircleCollider2D>().radius * group[0].transform.lossyScale.x;
-        float ringRadius = (pupilRadius * group.Count + discussGroupSize) / (2 * Mathf.PI);
+        float ringRadius = (pupilRadius * group.Count + discussGroupSize * (group.Count - 1)) / (2 * Mathf.PI);
 
         // Generate all possible ring positions
         List<Vector2> ringPositions = new List<Vector2>();
