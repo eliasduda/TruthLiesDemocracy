@@ -127,6 +127,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1114941363}
     m_Modifications:
+    - target: {fileID: 943305264207675388, guid: 76cce783114640247af883ab23452c17, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 81e7d27be30261444a33d2bbfcb4d279, type: 2}
+    - target: {fileID: 943305264207675388, guid: 76cce783114640247af883ab23452c17, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -4621721769329715147, guid: 81e7d27be30261444a33d2bbfcb4d279, type: 2}
+    - target: {fileID: 943305264207675388, guid: 76cce783114640247af883ab23452c17, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2330066702057752404, guid: 76cce783114640247af883ab23452c17, type: 3}
       propertyPath: m_Name
       value: SideJob
@@ -709,6 +721,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1114941363}
     m_Modifications:
+    - target: {fileID: 943305264207675388, guid: 76cce783114640247af883ab23452c17, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 81e7d27be30261444a33d2bbfcb4d279, type: 2}
+    - target: {fileID: 943305264207675388, guid: 76cce783114640247af883ab23452c17, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -4621721769329715147, guid: 81e7d27be30261444a33d2bbfcb4d279, type: 2}
+    - target: {fileID: 943305264207675388, guid: 76cce783114640247af883ab23452c17, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2330066702057752404, guid: 76cce783114640247af883ab23452c17, type: 3}
       propertyPath: m_Name
       value: Speech
@@ -876,6 +900,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1114941363}
     m_Modifications:
+    - target: {fileID: 943305264207675388, guid: 76cce783114640247af883ab23452c17, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 81e7d27be30261444a33d2bbfcb4d279, type: 2}
+    - target: {fileID: 943305264207675388, guid: 76cce783114640247af883ab23452c17, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -4621721769329715147, guid: 81e7d27be30261444a33d2bbfcb4d279, type: 2}
+    - target: {fileID: 943305264207675388, guid: 76cce783114640247af883ab23452c17, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2330066702057752404, guid: 76cce783114640247af883ab23452c17, type: 3}
       propertyPath: m_Name
       value: PizzaParty

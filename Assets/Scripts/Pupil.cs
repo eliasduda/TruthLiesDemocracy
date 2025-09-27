@@ -21,6 +21,7 @@ public class Pupil : MonoBehaviour
     public float swingSpeed = 3f;
 
     public PupilStats stats = new PupilStats();
+    private bool updatedSupportSinceLastVote;
 
     private Rigidbody2D rb;
     private Vector2? lastPos = null;
@@ -66,6 +67,7 @@ public class Pupil : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         GameManager.instance.eventManager.onPupilStatInfluenced.AddListener(ApplyStatChange);
+        GameManager.instance.eventManager.onRecastVote.AddListener(OnRecastVote);
     }
 
     void FixedUpdate()
@@ -226,8 +228,25 @@ public class Pupil : MonoBehaviour
     void ApplyStatChange(InfluencableStats stat, float amount, Pupil pupil)
     {
         UpdateSprite();
-        if(pupil == this && !isYou) stats.ApplyChange(stat, amount);
+        if (pupil == this && !isYou)
+        {
+            if(stat == InfluencableStats.Support) updatedSupportSinceLastVote = true;
+            stats.ApplyChange(stat, amount);
+        }
     }
+
+    void OnRecastVote()
+    {
+        if (updatedSupportSinceLastVote)
+        {
+            updatedSupportSinceLastVote = false;
+            if (stats.AskToSign())
+            {
+                GameManager.instance.eventManager.onOneTimeStatInfluenced.Invoke(InfluencableStats.Signatures, 1);
+            }
+        }
+    }
+
     public bool IsInMyRadius(Pupil other)
     {
         Debug.Log("Checking if " + other.name + " is in radius of " + name + " dist "+(other.transform.position - transform.position).magnitude + " rad "+ stats.radius);
@@ -258,6 +277,7 @@ public class PupilStats
 
     public float radius;
     public string name;
+    public bool hasSigned;
 
     public PupilStats()
     {
@@ -294,6 +314,17 @@ public class PupilStats
                 Debug.Log("Pupil's awareness changed to " + isAware);
                 break;
         }
+    }
+
+    public bool AskToSign()
+    {
+        float r = Random.Range(0f, 1f);
+        if (r < support && !hasSigned)
+        {
+            hasSigned = true;
+            return true;
+        }
+        return false;
     }
 
     public static bool IsPerPupilStat(InfluencableStats stat)
