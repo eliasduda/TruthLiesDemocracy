@@ -74,7 +74,7 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        GameManager.instance.eventManager.onHoverableEventHovered.Invoke(canAfford && isUnlocked? 0 : isUnlocked ? 1 : 2, triggeringEvent, eventData.position);
+        //GameManager.instance.eventManager.onHoverableEventHovered.Invoke(canAfford && isUnlocked? 0 : isUnlocked ? 1 : 2, triggeringEvent, eventData.position);
     }
 
     public void OnPointerExit(PointerEventData eventData)
