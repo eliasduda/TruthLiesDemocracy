@@ -28,6 +28,8 @@ public class Pupil : MonoBehaviour
 
     public HashSet<Pupil> connectedPupils = new HashSet<Pupil>();
 
+    private AudioSource audioSource;
+
     public bool isYou;
 
     void Start()
@@ -49,6 +51,8 @@ public class Pupil : MonoBehaviour
 
         armLeft.transform.localPosition = new Vector3(-(colliderRadius + margin), 0, 0);
         armRight.transform.localPosition = new Vector3((colliderRadius + margin), 0, 0);
+
+        audioSource = GetComponentInChildren<AudioSource>();
 
         GameManager.instance.eventManager.onPupilStatInfluenced.AddListener(ApplyStatChange);
     }
@@ -166,7 +170,10 @@ public class Pupil : MonoBehaviour
             {
                 pupil.Discuss();
             }
-            PupilManager.ArrangeRing(new List<Pupil>(group));
+            manager.ArrangeRing(new List<Pupil>(group));
+
+            // Play bump sounds
+            manager.PlayBumpSound(audioSource);
         }
         else
         {
@@ -190,7 +197,7 @@ public class Pupil : MonoBehaviour
     {
         if (discussCoroutine != null)
             StopCoroutine(discussCoroutine);
-        discussCoroutine = StartCoroutine(DiscussCoroutine(manager.discussDuration));
+        discussCoroutine = StartCoroutine(DiscussCoroutine(manager.DiscussDuration));
     }
 
     IEnumerator DiscussCoroutine(float duration)

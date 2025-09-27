@@ -11,6 +11,7 @@ public class HoverPopUpManager : MonoBehaviour
 
     public HoverInfoPopUp hoverInfoPopUpPrefab;
     public Canvas popUpCanvas;
+    private RectTransform popUpCanvasTransform;
 
     private List<HoverInfoPopUp> popUpStack = new List<HoverInfoPopUp>();
 
@@ -37,6 +38,8 @@ public class HoverPopUpManager : MonoBehaviour
         GameManager.instance.eventManager.onHoverableWordHovered.AddListener(OnOpenNewPopUp);
         GameManager.instance.eventManager.onHoverableEventHovered.AddListener(OnOpenNewPopUp);
         GameManager.instance.eventManager.onPopUpUnhovered.AddListener(OnLefPopUp);
+
+        popUpCanvasTransform = popUpCanvas.GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
@@ -83,39 +86,65 @@ public class HoverPopUpManager : MonoBehaviour
 
     void OnOpenNewPopUp(int wordIndex, TMPHoverableText hoverable, Vector2 mousePos)
     {
-        Debug.Log("Opening pop-up for word index: " + wordIndex);
-        Vector2 pos;
+        HoverInfoPopUp ui = Instantiate(hoverInfoPopUpPrefab, popUpCanvas.transform);
+        RectTransform uiRect = ui.GetComponent<RectTransform>();
+        ui.SetupWord(hoverableWords[wordIndex]);
+
+        // Convert screen point to canvas local point
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            popUpCanvas.transform as RectTransform,
+            popUpCanvasTransform,
             mousePos,
             popUpCanvas.worldCamera,
-            out pos
+            out Vector2 localPos
         );
 
-        HoverInfoPopUp ui = Instantiate(hoverInfoPopUpPrefab, popUpCanvas.transform);
-        ui.transform.localPosition = pos;
-        ui.transform.localScale = Vector3.one;
+        // Start with bottom-left corner at the mouse
+        Vector2 pivot = new Vector2(0, 0);
 
-        ui.SetupWord(hoverableWords[wordIndex]);
+        // Calculate pop-up size
+        Vector2 size = uiRect.rect.size;
+        Vector2 canvasSize = popUpCanvasTransform.rect.size;
+
+        // Adjust pivot if it would go off canvas
+        if (localPos.x + size.x > canvasSize.x / 2) pivot.x = 1;      // flip horizontally
+        if (localPos.y + size.y > canvasSize.y / 2) pivot.y = 1;      // flip vertically
+
+        uiRect.pivot = pivot;
+        uiRect.localPosition = localPos;
 
         popUpStack.Add(ui);
     }
     void OnOpenNewPopUp(int unlockedAffordableState, EventData eventData, Vector2 mousePos)
     {
-        Debug.Log("Opening pop-up for event : " + eventData.eventName);
-        Vector2 pos;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            popUpCanvas.transform as RectTransform,
-            mousePos,
-            popUpCanvas.worldCamera,
-            out pos
-        );
-
+        // Instantiate the pop-up
         HoverInfoPopUp ui = Instantiate(hoverInfoPopUpPrefab, popUpCanvas.transform);
-        ui.transform.localPosition = pos;
-        ui.transform.localScale = Vector3.one;
+        RectTransform uiRect  = ui.GetComponent<RectTransform>();
+        uiRect.localScale = Vector3.one;
 
         ui.SetupEvent(eventData, unlockedAffordableState > 1, unlockedAffordableState > 0);
+
+        // Convert screen point to canvas local point
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            popUpCanvasTransform,
+            mousePos,
+            popUpCanvas.worldCamera,
+            out Vector2 localPos
+        );
+
+        // Start with bottom-left corner at the mouse
+        Vector2 pivot = new Vector2(0, 0);
+
+        // Calculate pop-up size
+        Vector2 size = uiRect.rect.size;
+        Vector2 canvasSize = popUpCanvasTransform.rect.size;
+
+        // Adjust pivot if it would go off canvas
+        if (localPos.x + size.x > canvasSize.x / 2) pivot.x = 1;      // flip horizontally
+        if (localPos.y + size.y > canvasSize.y / 2) pivot.y = 1;      // flip vertically
+
+        uiRect.pivot = pivot;
+        uiRect.localPosition = localPos;
+
 
         popUpStack.Add(ui);
     }

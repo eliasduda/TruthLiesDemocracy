@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 74.799225, y: 0}
-  m_SizeDelta: {x: 349.5945, y: 50}
+  m_AnchoredPosition: {x: 0, y: 105}
+  m_SizeDelta: {x: 349.5945, y: 39.5605}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5511925231170893333
 CanvasRenderer:
@@ -92,8 +92,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 2.3913574, w: 0}
+  m_margin: {x: 0, y: 0, z: 2.3913574, w: -1.6483154}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -172,8 +172,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -121, y: -254.16666}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 0, y: 67.2948}
+  m_SizeDelta: {x: 400, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5233148126153688133
 MonoBehaviour:
@@ -187,9 +187,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2e6f3b9b3761c46a4fed69f3813c62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HoverInfoPopUp
+  isMouseOver: 0
   titleTMP: {fileID: 2834088191141360520}
   decription: {fileID: 7722132418825630058}
-  changes: {fileID: 0}
+  background: {fileID: 3543155461260440758}
   hoverableText: {fileID: 7758419533685965889}
 --- !u!1 &8232741831408254624
 GameObject:
@@ -226,7 +227,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 74.798, y: -124.8301}
+  m_AnchoredPosition: {x: 0, y: -13}
   m_SizeDelta: {x: 349.6, y: 198.2602}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4741124720592670263
@@ -375,8 +376,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 70.024734, y: -20.361786}
-  m_SizeDelta: {x: 389.0381, y: 140.7236}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 389.0381, y: 290.1729}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &250547760567021734
 CanvasRenderer:
