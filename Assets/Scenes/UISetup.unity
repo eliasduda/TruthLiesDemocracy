@@ -2046,6 +2046,7 @@ GameObject:
   - component: {fileID: 1924297531}
   - component: {fileID: 1924297533}
   - component: {fileID: 1924297532}
+  - component: {fileID: 1924297534}
   m_Layer: 5
   m_Name: Signatures
   m_TagString: Untagged
@@ -2111,6 +2112,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1924297530}
   m_CullTransparentMesh: 1
+--- !u!114 &1924297534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924297530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b127a1ab28ee5f43b7f9627cee9e82e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatUpdater
+  updatedStat: 7
+  updateField: {fileID: 1510634608}
+  replacestring: 25
 --- !u!1 &1952161293
 GameObject:
   m_ObjectHideFlags: 0
@@ -2197,6 +2213,7 @@ GameObject:
   - component: {fileID: 1979285614}
   - component: {fileID: 1979285616}
   - component: {fileID: 1979285615}
+  - component: {fileID: 1979285617}
   m_Layer: 5
   m_Name: Funds
   m_TagString: Untagged
@@ -2262,6 +2279,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1979285613}
   m_CullTransparentMesh: 1
+--- !u!114 &1979285617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979285613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b127a1ab28ee5f43b7f9627cee9e82e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatUpdater
+  updatedStat: 4
+  updateField: {fileID: 2041964908}
+  replacestring: 39
 --- !u!1 &2041964906
 GameObject:
   m_ObjectHideFlags: 0

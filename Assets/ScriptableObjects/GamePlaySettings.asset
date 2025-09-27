@@ -16,3 +16,11 @@ MonoBehaviour:
   lightColor: {r: 0, g: 0.8509804, b: 1, a: 1}
   backgroundColor: {r: 0.1254902, g: 0.12941177, b: 0.16470589, a: 1}
   defaultFont: {fileID: 12800000, guid: ab5f9196eb1ae8046b56f03b78dd7c29, type: 3}
+  startMoney: 30
+  startStats:
+    support: 1
+    trust: 1
+    isAware: 1
+    radius: 10
+  daysTotal: 30
+  dayDurationSeconds: 10

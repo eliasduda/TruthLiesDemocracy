@@ -17,7 +17,8 @@ public enum InfluencableStats
     MoneyPerDay,
     MoneyTotal,
     DaysPassed,
-    Time
+    Time,
+    Signatures
 }
 
 public enum StatComparator
