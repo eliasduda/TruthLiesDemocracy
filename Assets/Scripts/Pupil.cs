@@ -9,6 +9,11 @@ public class Pupil : MonoBehaviour
     private Vector2 velocity;
     private float colliderRadius;
 
+    public Sprite unawareSprite;
+    public Sprite awareSprite;
+    public Sprite supportingSprite;
+    private SpriteRenderer spriteRenderer;
+
     public GameObject armLeft;
     public GameObject armRight;
     public float swingAmplitude = 40f;  // max angle (±40)
@@ -40,6 +45,8 @@ public class Pupil : MonoBehaviour
         rb.gravityScale = 0f;
         velocity = Random.insideUnitCircle.normalized * manager.MaxSpeed;
 
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
         // --- Arm positioning ---
         // Get the radius from the CircleCollider2D
         var circle = GetComponent<CircleCollider2D>();
@@ -48,12 +55,12 @@ public class Pupil : MonoBehaviour
         Transform capsuleTransform = armLeft.transform.Find("Capsule");
         var armCollider = armLeft.GetComponent<CapsuleCollider>();
         CapsuleCollider capsuleCol = capsuleTransform.GetComponent<CapsuleCollider>();
-        float margin = capsuleCol.radius*capsuleCol.transform.lossyScale.x;
+        float margin = capsuleCol.radius * capsuleCol.transform.lossyScale.x;
 
         armLeft.transform.localPosition = new Vector3(-(colliderRadius + margin), 0, 0);
         armRight.transform.localPosition = new Vector3((colliderRadius + margin), 0, 0);
 
-        audioSource = GetComponentInChildren<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
 
         GameManager.instance.eventManager.onPupilStatInfluenced.AddListener(ApplyStatChange);
     }
@@ -115,7 +122,7 @@ public class Pupil : MonoBehaviour
         }
         else if (moveToRing)
         {
-            rotateAngle = Mathf.Atan2((ringCenter-rb.position).y, (ringCenter - rb.position).x) * Mathf.Rad2Deg;
+            rotateAngle = Mathf.Atan2((ringCenter - rb.position).y, (ringCenter - rb.position).x) * Mathf.Rad2Deg;
         }
         rb.MoveRotation(rotateAngle - 90f);
 
@@ -222,6 +229,13 @@ public class Pupil : MonoBehaviour
         return (other.transform.position - transform.position).magnitude < stats.radius;
     }
 
+    void UpdateSprite()
+    {
+        if (stats.isAware == 0f) spriteRenderer.sprite = unawareSprite;
+        else if (stats.support < 0.5f) spriteRenderer.sprite = awareSprite;
+        else spriteRenderer.sprite = supportingSprite;
+
+    }
 }
 
 [System.Serializable]
