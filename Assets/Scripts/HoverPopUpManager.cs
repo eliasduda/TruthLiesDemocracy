@@ -100,9 +100,9 @@ public class HoverPopUpManager : MonoBehaviour
 
         popUpStack.Add(ui);
     }
-    void OnOpenNewPopUp(int wordIndex, EventData eventData, Vector2 mousePos)
+    void OnOpenNewPopUp(int unlockedAffordableState, EventData eventData, Vector2 mousePos)
     {
-        Debug.Log("Opening pop-up for word index: " + wordIndex);
+        Debug.Log("Opening pop-up for event : " + eventData.eventName);
         Vector2 pos;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             popUpCanvas.transform as RectTransform,
@@ -115,7 +115,7 @@ public class HoverPopUpManager : MonoBehaviour
         ui.transform.localPosition = pos;
         ui.transform.localScale = Vector3.one;
 
-        ui.SetupEvent(eventData);
+        ui.SetupEvent(eventData, unlockedAffordableState > 1, unlockedAffordableState > 0);
 
         popUpStack.Add(ui);
     }

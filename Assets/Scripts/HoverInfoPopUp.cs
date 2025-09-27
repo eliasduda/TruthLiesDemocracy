@@ -35,9 +35,10 @@ public class HoverInfoPopUp : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         decription.text = word.description;
     }
 
-    public void SetupEvent(EventData eventData)
+    public void SetupEvent(EventData eventData, bool isLocked, bool isUnaffordable)
     {
-        titleTMP.text = eventData.eventName;
+        string lockedOrUnaffordable = isLocked ? "<color=grey> (LOCKED)</color>" : isUnaffordable ? "<color=red> (UNAFFORDABLE)</color>" : "";
+        titleTMP.text = eventData.eventName + lockedOrUnaffordable;
         string fulltext = GameManager.instance.hoverPopUpManager.Parse(eventData.eventDescription);
         string changes = GetChangesText(eventData);
         decription.text = fulltext + "\n\n" + changes;
