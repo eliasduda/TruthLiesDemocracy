@@ -16,5 +16,5 @@ MonoBehaviour:
   title: Support
   description: A percentage that shows how much someone supports your ideawith you
     ideas. This is the chance of them voting for you.
-  iconName: 
+  iconName: support
   fontColor: {r: 0.91823894, g: 0.53419554, b: 0.78026915, a: 1}

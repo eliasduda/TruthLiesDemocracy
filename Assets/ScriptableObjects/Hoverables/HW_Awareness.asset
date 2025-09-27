@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88d02b45310fc9e478f77093a7f2f6e9, type: 3}
   m_Name: HW_Awareness
   m_EditorClassIdentifier: Assembly-CSharp::HoverableWord
-  category: 1
+  category: 2
   title: Awareness
-  description: Only someone eho is aware of your idea can support ans spread it
-  iconName: 
+  description: 'Only someone who is aware of your idea can support and spread it. '
+  iconName: aware
   fontColor: {r: 0.53333336, g: 0.7535574, b: 0.91764706, a: 1}

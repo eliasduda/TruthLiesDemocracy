@@ -15,5 +15,5 @@ MonoBehaviour:
   category: 4
   title: Money
   description: Currency used to do any action
-  iconName: 
+  iconName: money
   fontColor: {r: 0.9685534, g: 0.82786125, b: 0.4294528, a: 1}
