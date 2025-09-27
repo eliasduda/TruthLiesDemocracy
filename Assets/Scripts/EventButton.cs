@@ -24,6 +24,8 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         buttonTitle.text = triggeringEvent.eventName;
         button.onClick.AddListener(OnTryUnlock);
 
+        cooldownSlider.gameObject.SetActive(false);
+
         GameManager.instance.eventManager.OnStatChanged.AddListener(MoneyUpdated);
 
         if (isUnlocked) OnLockStateChanged(true);
@@ -34,7 +36,7 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         if (isOnCooldown)
         {
             coolDownTimer -= Time.deltaTime;
-            cooldownSlider.value = 1 - (coolDownTimer / (triggeringEvent.coolDown + triggeringEvent.duration.amount));
+            cooldownSlider.value = (coolDownTimer / (triggeringEvent.coolDown + triggeringEvent.duration.amount));
             if (coolDownTimer <= 0)
             {
                 OnCoolDownChanged(false);
@@ -97,6 +99,7 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         coolDownTimer = triggeringEvent.coolDown + triggeringEvent.duration.amount;
         this.isOnCooldown = isOnCooldown;
         cooldownSlider.enabled = isOnCooldown;
+        cooldownSlider.gameObject.SetActive(isOnCooldown);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
