@@ -235,7 +235,6 @@ public class Pupil : MonoBehaviour
 
     void UpdateSprite()
     {
-        Debug.Log("Updating sprite for pupil. isYou: " + isYou + ", support: " + stats.support + ", isAware: " + stats.isAware);
         Sprite shouldHaveSprite;
         if (isYou) shouldHaveSprite = youSprite;
         else if (stats.isAware == 0f) shouldHaveSprite = unawareSprite;
