@@ -7,6 +7,11 @@ public class Pupil : MonoBehaviour
     [HideInInspector] public PupilManager manager;
     public Vector2 velocity;
 
+    public GameObject armLeft;
+    public GameObject armRight;
+    public float swingAmplitude = 40f;  // max angle (±40)
+    public float swingSpeed = 3f;
+
     private Rigidbody2D rb;
 
     private bool inDiscussion = false;
@@ -25,6 +30,19 @@ public class Pupil : MonoBehaviour
         rb.gravityScale = 0f;
         velocity = Random.insideUnitCircle.normalized * manager.MaxSpeed;
         rb.linearVelocity = velocity;
+
+        // --- Arm positioning ---
+        // Get the radius from the CircleCollider2D
+        var circle = GetComponent<CircleCollider2D>();
+        float radius = circle.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.y);
+
+        Transform capsuleTransform = armLeft.transform.Find("Capsule");
+        var armCollider = armLeft.GetComponent<CapsuleCollider>();
+        CapsuleCollider capsuleCol = capsuleTransform.GetComponent<CapsuleCollider>();
+        float margin = capsuleCol.radius*capsuleCol.transform.lossyScale.x;
+
+        armLeft.transform.localPosition = new Vector3(-(radius + margin), 0, 0);
+        armRight.transform.localPosition = new Vector3((radius + margin), 0, 0);
     }
 
     void FixedUpdate()
@@ -53,6 +71,26 @@ public class Pupil : MonoBehaviour
         else
         {
             rb.linearVelocity = velocity;
+        }
+
+      
+        Vector2 v = rb.linearVelocity;
+        if (v.sqrMagnitude > 0.001f)
+        {
+            // Rotate to face movement direction
+            float movementAngle = Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg;
+            rb.MoveRotation(movementAngle - 90f);
+
+            // Swing arms
+            float swingAngle = Mathf.Sin(Time.time * swingSpeed) * swingAmplitude;
+            armLeft.transform.localRotation = Quaternion.Euler(swingAngle, 0f, 0f);
+            armRight.transform.localRotation = Quaternion.Euler(-swingAngle, 0f, 0f);
+        }
+        else
+        {
+            // reset to rest pose when not moving
+            armLeft.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+            armRight.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
         }
     }
 
