@@ -24,7 +24,7 @@ public class Pupil : MonoBehaviour
     public PupilStats stats = new PupilStats();
     public bool displayRadius = false;
     public Sprite circleSprite;
-    public Color radiusColor = new Color(1f, 1f, 1f, 0.25f);
+    public Color radiusColor = new Color(1f, 1f, 1f, 0.10f);
     private GameObject radiusObject;
 
     private bool updatedSupportSinceLastVote;
