@@ -26,3 +26,9 @@ public enum StatComparator
     LessThan,
     EqualTo
 }
+
+public enum PupilSelector
+{
+    All,
+    InMyRadius
+}

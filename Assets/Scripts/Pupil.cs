@@ -216,7 +216,12 @@ public class Pupil : MonoBehaviour
     }
     void ApplyStatChange(InfluencableStats stat, float amount, Pupil pupil)
     {
-        if(pupil == this) stats.ApplyChange(stat, amount);
+        if(pupil == this && !isYou) stats.ApplyChange(stat, amount);
+    }
+
+    public bool IsInMyRadius(Pupil other)
+    {
+        return (other.transform.position - transform.position).magnitude < stats.radius;
     }
 
 }
@@ -226,6 +231,8 @@ public class PupilStats
     public float support;
     public float trust;
     public float isAware;
+
+    public float radius;
 
     public float GetStat(InfluencableStats stat)
     {
@@ -260,5 +267,6 @@ public class PupilStats
         this.support = stats.support;
         this.trust = stats.trust;
         this.isAware = stats.isAware;
+        this.radius = stats.radius;
     }
 }

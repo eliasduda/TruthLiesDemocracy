@@ -7,6 +7,7 @@ public class EventEffect
     public EventEffectPair[] effects;
     public EventSelector[] whereAllOfTheseApply;
     public EventSelector[] andWhereOneOfTheseApply;
+    public PupilSelector pupilSelector;
 }
 
 [System.Serializable]
