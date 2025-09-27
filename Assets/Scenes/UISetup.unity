@@ -1523,6 +1523,18 @@ PrefabInstance:
       propertyPath: popUpCanvas
       value: 
       objectReference: {fileID: 341688545}
+    - target: {fileID: 4830637231211274579, guid: 487bdab5e0bf42b458d3ebbef20674f2, type: 3}
+      propertyPath: bumpSounds.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4830637231211274579, guid: 487bdab5e0bf42b458d3ebbef20674f2, type: 3}
+      propertyPath: 'bumpSounds.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 4aca3328aff35874594b1b0963d82b37, type: 3}
+    - target: {fileID: 4830637231211274579, guid: 487bdab5e0bf42b458d3ebbef20674f2, type: 3}
+      propertyPath: 'bumpSounds.Array.data[3]'
+      value: 
+      objectReference: {fileID: 8300000, guid: f7f7e5889a1efc446847d88ae340f4de, type: 3}
     - target: {fileID: 6993759569265847366, guid: 487bdab5e0bf42b458d3ebbef20674f2, type: 3}
       propertyPath: m_LocalScale.x
       value: 10.68

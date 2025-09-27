@@ -48,8 +48,8 @@ public class PupilManager : MonoBehaviour
         for (int i = 0; i < pupilCount; i++)
         {
             Vector2 pos = (Vector2)transform.position + new Vector2(
-                Random.Range(bounds.min.x / 2, bounds.max.x / 2),
-                Random.Range(bounds.min.y / 2, bounds.max.y / 2)
+                Random.Range(bounds.min.x , bounds.max.x ),
+                Random.Range(bounds.min.y , bounds.max.y )
             );
             Pupil pupil = Instantiate(pupilPrefab, pos, Quaternion.identity);
             pupil.manager = this;
