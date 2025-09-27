@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class PupilManager : MonoBehaviour
 {
@@ -8,13 +10,20 @@ public class PupilManager : MonoBehaviour
 
     [SerializeField] private float _maxSpeed = 1f;
     public float MaxSpeed => _maxSpeed;
-    public float discussDuration = 1f; // Duration to freeze on collision
-    static public float discussGroupSize = 1f; // Extra space for discussion ring
+
+    [SerializeField] private float _discussDuration = 1f; // Duration to freeze on collision
+    public float DiscussDuration => _discussDuration;
+    [SerializeField] private float discussGroupSize = 1f; // Extra space for discussion ring
 
     private Vector2 areaSize; // box width/height
 
     [HideInInspector] public List<Pupil> pupils = new List<Pupil>();
     public Pupil you;
+
+    public List<AudioClip> bumpSounds;
+    private int concurrentBumpSounds = 0;
+    [SerializeField] private int maxConcurrentBump = 3; // Max concurrent bump sounds
+    public AudioClip discussionSound;
 
     void Start()
     {
@@ -95,7 +104,25 @@ public class PupilManager : MonoBehaviour
         collider.isTrigger = false;
     }
 
-    public static void ArrangeRing(List<Pupil> group)
+    public void PlayBumpSound(AudioSource source)
+    {
+        if (concurrentBumpSounds >= maxConcurrentBump) return; // Limit concurrent sounds
+        int i = Random.Range(0, bumpSounds.Count);
+        AudioClip audioClip = bumpSounds[i];
+        StartCoroutine(PlayBump(source, audioClip));
+    }
+
+    IEnumerator PlayBump(AudioSource source, AudioClip clip)
+    {
+        concurrentBumpSounds++;
+        source.pitch = Random.Range(0.9f, 1.1f);
+        source.volume = Random.Range(1f, 2f);
+        source.PlayOneShot(clip);
+        yield return new WaitForSeconds(clip.length);
+        concurrentBumpSounds--;
+    }
+
+    public void ArrangeRing(List<Pupil> group)
     {
         // Calculate center
         Vector2 center = Vector2.zero;
