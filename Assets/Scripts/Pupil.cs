@@ -157,19 +157,6 @@ public class Pupil : MonoBehaviour
             rotateAngle = Mathf.Atan2((ringCenter - rb.position).y, (ringCenter - rb.position).x) * Mathf.Rad2Deg;
         }
         rb.MoveRotation(rotateAngle - 90f);
-
-        // Swing arms
-        if (!inDiscussion)
-        {
-            float swingAngle = Mathf.Sin(Time.time * swingSpeed) * swingAmplitude;
-            armLeft.transform.localRotation = Quaternion.Euler(swingAngle, 0f, 0f);
-            armRight.transform.localRotation = Quaternion.Euler(-swingAngle, 0f, 0f);
-        }
-        else
-        {
-            armLeft.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-            armRight.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-        }
     }
 
     void TryBounce()
@@ -315,6 +302,19 @@ public class Pupil : MonoBehaviour
         {
             float diameter = stats.radius * 2f;
             radiusObject.transform.localScale = new Vector3(diameter, diameter, 1f);
+        }
+
+        // Swing arms
+        if (!inDiscussion)
+        {
+            float swingAngle = Mathf.Sin(Time.time * swingSpeed) * swingAmplitude;
+            armLeft.transform.localRotation = Quaternion.Euler(swingAngle, 0f, 0f);
+            armRight.transform.localRotation = Quaternion.Euler(-swingAngle, 0f, 0f);
+        }
+        else
+        {
+            armLeft.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+            armRight.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
         }
     }
 

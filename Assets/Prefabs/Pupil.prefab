@@ -57,7 +57,7 @@ MonoBehaviour:
   youSprite: {fileID: 663144637380208133, guid: ac4d4872c199aad42a95e967ca529bb6, type: 3}
   armLeft: {fileID: 5203024945206717571}
   armRight: {fileID: 8141284958600533632}
-  swingAmplitude: 40
+  swingAmplitude: 180
   swingSpeed: 6
   stats:
     support: 0
@@ -606,11 +606,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8141284958600533632}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.2773147, y: 0, z: 0, w: 0.96077913}
   m_LocalPosition: {x: 0.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 940604331996559911}
   m_Father: {fileID: 7208647508178326773}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -32.2, y: 0, z: 0}
