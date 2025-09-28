@@ -29,6 +29,8 @@ public class Pupil : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private bool updatedSupportSinceLastVote;
 
+    public bool isBeingPunched = false;
+
     private Rigidbody2D rb;
     private Vector2? lastPos = null;
 
