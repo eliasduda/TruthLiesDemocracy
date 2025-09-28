@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Newspaper delivery
   m_EditorClassIdentifier: Assembly-CSharp::EventData
   eventName: Delivering Newspaper
-  eventDescription: To get your $money_funds up you take on to delivery the local
-    newspaper.
+  eventDescription: To get your $money_funds up you start delivering the local newspaper.
   eventImage: {fileID: 0}
   category: 4
   PerPupilEffects: []
@@ -26,7 +25,7 @@ MonoBehaviour:
     andWhereOneOfTheseApply: []
     pupilSelector: 0
   cost:
-    stat: 0
+    stat: 4
     amount: 0
   duration:
     stat: 6

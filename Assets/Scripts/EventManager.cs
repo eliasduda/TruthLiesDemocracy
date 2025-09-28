@@ -125,7 +125,7 @@ public class EventManager : MonoBehaviour
     }
     private void TriggerEventEffectGeneral(EventEffect effect, float ratio)
     {
-        Debug.Log("TriggerEventEffectGeneral on Game for effect with "+ effect.effects.Length+" effects ratio is "+ratio);
+        //Debug.Log("TriggerEventEffectGeneral on Game for effect with "+ effect.effects.Length+" effects ratio is "+ratio);
         TriggerEffect(effect, null, ratio);
     }
 

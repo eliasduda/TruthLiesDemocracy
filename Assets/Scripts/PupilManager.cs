@@ -31,6 +31,7 @@ public class PupilManager : MonoBehaviour
     private AudioSource discussionSource;
     [SerializeField] private int discussionSoundThreshold = 4; // Minimum group size to play discussion sound
 
+    bool sendFirstDignature = false;
     void Start()
     {
         pupilArea = GetComponentInChildren<BoxCollider2D>();
@@ -73,6 +74,15 @@ public class PupilManager : MonoBehaviour
         }
 
         discussionSource = GetComponent<AudioSource>();
+    }
+
+    private void Update()
+    {
+        if (!sendFirstDignature)
+        {
+            sendFirstDignature = true;
+            GameManager.instance.eventManager.onOneTimeStatInfluenced.Invoke(InfluencableStats.Signatures, 1);
+        }
     }
 
     void CreateScreenWalls()
