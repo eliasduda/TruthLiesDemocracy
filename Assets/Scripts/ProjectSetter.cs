@@ -8,6 +8,7 @@ public class ProjectSetter : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        text = GetComponent<TextMeshProUGUI>();
         text.text = text.text.Replace("NAME", GameManager.instance.gamePlaySettings.playerName);
         text.text = text.text.Replace("PROJECT", GameManager.instance.gamePlaySettings.projectName);
     }
