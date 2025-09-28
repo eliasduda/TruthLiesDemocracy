@@ -186,6 +186,8 @@ public class Pupil : MonoBehaviour
             CollectGroup(this, group);
             CollectGroup(otherPupil, group);
 
+            List<Pupil> groupList = new List<Pupil>(group);
+
             // Update all group members' connectedPupils sets
             foreach (var pupil in group)
             {
@@ -193,7 +195,7 @@ public class Pupil : MonoBehaviour
                 pupil.connectedPupils.Remove(pupil); // Don't include self
             }
 
-            float discussDuration = manager.ArrangeRing(new List<Pupil>(group));
+            float discussDuration = manager.ArrangeRing(groupList);
 
             // Discuss and arrange ring for all
             foreach (var pupil in group)
