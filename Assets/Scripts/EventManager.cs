@@ -16,6 +16,9 @@ public class EventManager : MonoBehaviour
     public UnityEvent<EventData> onTimedEventEnded = new UnityEvent<EventData>();
     public UnityEvent onUpdateVisuals = new UnityEvent();
 
+    public UnityEvent<Pupil> onClickedPupil = new UnityEvent<Pupil>();
+    public UnityEvent onClickedBackground = new UnityEvent();
+
 
     public List<EventInstance> activeTimedEvents = new List<EventInstance>();
     public List<EventInstance> activeInstantEvents = new List<EventInstance>();

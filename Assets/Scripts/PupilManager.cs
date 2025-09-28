@@ -59,7 +59,11 @@ public class PupilManager : MonoBehaviour
                 pupil.stats.CopyStats(GameManager.instance.gamePlaySettings.startStats);
                 youSpawned = true;
             }
-            pupils.Add(pupil);
+            else
+            {
+                pupil.stats.SetRandomName();
+            }
+                pupils.Add(pupil);
         }
 
         discussionSource = GetComponent<AudioSource>();

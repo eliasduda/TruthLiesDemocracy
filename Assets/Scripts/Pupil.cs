@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.MemoryProfiler;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class Pupil : MonoBehaviour
+public class Pupil : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [HideInInspector] public PupilManager manager;
     private Vector2 velocity;
@@ -331,6 +332,15 @@ public class Pupil : MonoBehaviour
         sr.color = radiusColor;
         sr.sortingOrder = 0;
     }
+    public void OnPointerDown(PointerEventData eventData)
+    {
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        Debug.Log("Pointer Pupil");
+        GameManager.instance.eventManager.onClickedPupil.Invoke(this);
+    }
 }
 
 
@@ -351,6 +361,7 @@ public class PupilStats
         trust = 0f;
         isAware = 0f;
         radius = 0f;
+        
     }
 
     public float GetStat(InfluencableStats stat)
@@ -405,7 +416,11 @@ public class PupilStats
         this.isAware = stats.isAware;
         this.radius = stats.radius;
         this.hasSigned = stats.hasSigned;
-        this.name = PupilStats.names[Random.Range(0, PupilStats.names.Length)];
+    }
+
+    public void SetRandomName()
+    {
+        name = PupilStats.names[Random.Range(0, PupilStats.names.Length)];
     }
 
     public static string[] names = {
