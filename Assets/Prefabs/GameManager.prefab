@@ -134,6 +134,8 @@ MonoBehaviour:
   eventManager: {fileID: 0}
   timeMoneyManager: {fileID: 0}
   hoverPopUpManager: {fileID: 0}
+  playerName: Student 404
+  playerColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &4830637231211274579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,6 +199,15 @@ MonoBehaviour:
   onTimedEventEnded:
     m_PersistentCalls:
       m_Calls: []
+  onUpdateVisuals:
+    m_PersistentCalls:
+      m_Calls: []
+  onClickedPupil:
+    m_PersistentCalls:
+      m_Calls: []
+  onClickedBackground:
+    m_PersistentCalls:
+      m_Calls: []
   activeTimedEvents: []
   activeInstantEvents: []
 --- !u!114 &5856936539743806147
@@ -211,6 +222,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe8618958ac5ae4bb6f90969928c5a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeAndMoneyManager
+  dayPassedSound: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!114 &3618698471025772336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,8 +237,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HoverPopUpManager
   hoverableWords:
-  - {fileID: 11400000, guid: b48d93e674838de41b4ce065808f8b2c, type: 2}
+  - {fileID: 11400000, guid: 3b210551f6d5a0944a1f7f65c40190a4, type: 2}
   - {fileID: 11400000, guid: 2182169dce5ee9647bcbd171c6b34e41, type: 2}
+  - {fileID: 11400000, guid: b48d93e674838de41b4ce065808f8b2c, type: 2}
+  - {fileID: 11400000, guid: 6c94a6aec6698b04da992fdd2ce3d113, type: 2}
+  - {fileID: 11400000, guid: b8151294fc49484459fcbd66404110f5, type: 2}
   hoverInfoPopUpPrefab: {fileID: 5233148126153688133, guid: 1212037a881c2cd46a943d98563c9e92, type: 3}
   popUpCanvas: {fileID: 0}
 --- !u!82 &1869503139767922035
