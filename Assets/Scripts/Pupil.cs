@@ -40,6 +40,7 @@ public class Pupil : MonoBehaviour
     private Coroutine discussCoroutine;
 
     public event Action<Pupil, List<Pupil>> OnBump;
+    public event Action<Pupil, InfluencableStats> onStatChanged;
 
     [HideInInspector] public Vector2 ringTargetPosition;
     [HideInInspector] public bool moveToRing = false;
@@ -265,12 +266,19 @@ public class Pupil : MonoBehaviour
         UpdateSprite();
         if (pupil == this && !isYou)
         {
+            List<float> before = new List<float> { stats.trust, stats.support, stats.isAware };
             if (stat == InfluencableStats.Support)
             {
                 updatedSupportSinceLastVote = true;
                 amount *= GameManager.instance.gamePlaySettings.trustSupportMultiplier.Evaluate(stats.trust) +1;
             }
             stats.ApplyChange(stat, amount);
+
+            List<float> after = new List<float> { stats.trust, stats.support, stats.isAware };
+            if (before[0] != after[0] || before[1] != after[1] || before[2] != after[2])
+            {
+                onStatChanged.Invoke(this, stat);
+            }
         }
     }
 
