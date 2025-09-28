@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
     public TimeAndMoneyManager timeMoneyManager;
     public HoverPopUpManager hoverPopUpManager;
 
+    public string playerName = "Student 404";
+    public Color playerColor = Color.white;
+
     private void Awake()
     {
         if (!instance)
