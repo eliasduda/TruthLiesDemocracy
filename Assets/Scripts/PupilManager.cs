@@ -151,6 +151,7 @@ public class PupilManager : MonoBehaviour
         }
     }
 
+
     public void PlayBumpSound(AudioSource source)
     {
         if (concurrentBumpSounds >= maxConcurrentBump) return; // Limit concurrent sounds

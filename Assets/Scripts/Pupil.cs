@@ -195,7 +195,10 @@ public class Pupil : MonoBehaviour
             // Trigger bump event 
             if (connectedPupils.Count == 0 && otherPupil.connectedPupils.Count == 0)
             {
-                // Both pupils were alone, so select one to trigger event
+                if (this.GetInstanceID() < otherPupil.GetInstanceID())
+                {
+                    OnBump?.Invoke(this, groupList);
+                }
             }
             else if (connectedPupils.Count == 0)
             {
