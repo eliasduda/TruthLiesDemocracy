@@ -26,11 +26,9 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         buttonTitle.text = triggeringEvent.eventName; ;
         float day = triggeringEvent.duration.amount / GameManager.instance.gamePlaySettings.dayDurationSeconds;
         costsText.text = day == 1 ? day+" day" : day+" days" + " || " + triggeringEvent.cost.stat.ToString() + " " + triggeringEvent.cost.amount;
-      eventDescription.text = triggeringEvent.eventDescription;
+        eventDescription.text = GameManager.instance.hoverPopUpManager.Parse(triggeringEvent.eventDescription);
 
         button.onClick.AddListener(OnTryUnlock);
-
-        cooldownSlider.gameObject.SetActive(false);
 
         GameManager.instance.eventManager.OnStatChanged.AddListener(MoneyUpdated);
 
@@ -109,8 +107,6 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             coolDownTimer = triggeringEvent.coolDown + triggeringEvent.duration.amount;
         }     
         this.isOnCooldown = isOnCooldown;
-        cooldownSlider.enabled = isOnCooldown;
-        cooldownSlider.gameObject.SetActive(isOnCooldown);
     }
 
    public void OnCoolDownChanged(bool isOnCooldown, float totalCD, EventInstance eI)
