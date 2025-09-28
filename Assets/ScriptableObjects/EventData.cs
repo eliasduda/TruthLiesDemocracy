@@ -55,12 +55,12 @@ public class EventData : ScriptableObject
         {
             Color c = canAfford ? Color.white : Color.red;
             string hex = UnityEngine.ColorUtility.ToHtmlStringRGB(c); ;
-            costStr += "Cost: \n";
+            costStr += "\nCost: \n";
             costStr += $"<color=#{hex}>{cost.amount}</color>\n"; 
         }
         if (duration != null && duration.amount > 0)
         {
-            costStr += "Takes: \n";
+            costStr += "\nTakes: \n";
             costStr += duration.amount / GameManager.instance.gamePlaySettings.dayDurationSeconds + " Days \n";
         }
         return costStr;

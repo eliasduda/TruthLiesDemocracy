@@ -29,7 +29,7 @@ public class StatUpdater : MonoBehaviour
             updateField.text = startstring.Replace(replacestring, amount.ToString("0"));
             if(updatedStat == InfluencableStats.Signatures)
             {
-                updateField.text = "<sprite name=signature> "+amount + " / " + GameManager.instance.gamePlaySettings.signatureGoal;
+                updateField.text = "<sprite name=signature> "+amount + "/" + GameManager.instance.gamePlaySettings.signatureGoal;
             }
         }
     }
