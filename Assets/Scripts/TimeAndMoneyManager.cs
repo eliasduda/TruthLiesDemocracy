@@ -10,6 +10,9 @@ public class TimeAndMoneyManager : MonoBehaviour
 
     private float dayTimer;
 
+    public AudioClip dayPassedSound;
+    public AudioSource audioSource;
+
 
 // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -17,7 +20,8 @@ public class TimeAndMoneyManager : MonoBehaviour
         GameManager.instance.eventManager.onOneTimeStatInfluenced.AddListener(ChangeStat);
         MoneyTotal = GameManager.instance.gamePlaySettings.startMoney;
 
-        NewDayStarts();
+        dayTimer = GameManager.instance.gamePlaySettings.dayDurationSeconds;
+        //NewDayStarts();
         GameManager.instance.eventManager.OnStatChanged.Invoke(InfluencableStats.MoneyTotal, MoneyTotal);
         GameManager.instance.eventManager.OnStatChanged.Invoke(InfluencableStats.DaysPassed, DaysPassed);
         GameManager.instance.eventManager.OnStatChanged.Invoke(InfluencableStats.Signatures, SignaturesGained);
@@ -35,7 +39,7 @@ public class TimeAndMoneyManager : MonoBehaviour
 
     public void NewDayStarts()
     {
-        ChangeStat(InfluencableStats.DaysPassed, DaysPassed+1);
+        ChangeStat(InfluencableStats.DaysPassed, 1);
         dayTimer = GameManager.instance.gamePlaySettings.dayDurationSeconds;
     }
 
@@ -57,6 +61,7 @@ public class TimeAndMoneyManager : MonoBehaviour
                 break;
             case InfluencableStats.DaysPassed:
                 DaysPassed += (int)amount;
+                audioSource.PlayOneShot(dayPassedSound);
                 GameManager.instance.eventManager.OnStatChanged.Invoke(stat, DaysPassed);
                 break;
             case InfluencableStats.Signatures:
@@ -71,7 +76,7 @@ public class TimeAndMoneyManager : MonoBehaviour
 
     internal bool CanAfford(float amount)
     {
-        Debug.Log("Checking if can afford " + amount + " with total " + MoneyTotal);
+        //Debug.Log("Checking if can afford " + amount + " with total " + MoneyTotal);
         return MoneyTotal - Mathf.Abs(amount) >= 0;
     }
 }

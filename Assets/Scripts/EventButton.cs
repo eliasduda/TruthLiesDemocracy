@@ -7,17 +7,27 @@ using UnityEngine.UI;
 public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public Button button;
+    public Slider cooldownSlider;
     public TextMeshProUGUI buttonTitle;
     public EventData triggeringEvent;
+    public TextMeshProUGUI costsText;
+    public TextMeshProUGUI eventDescription;
 
     public bool isUnlocked = false;
     [System.NonSerialized]
     public bool canAfford = false;
+    public bool isOnCooldown;
+
+    private float coolDownTimer = 0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        buttonTitle.text = triggeringEvent.eventName;
+        buttonTitle.text = triggeringEvent.eventName; ;
+        
+        costsText.text = triggeringEvent.GetCostDescription();
+        eventDescription.text = GameManager.instance.hoverPopUpManager.Parse(triggeringEvent.eventDescription);
+
         button.onClick.AddListener(OnTryUnlock);
 
         GameManager.instance.eventManager.OnStatChanged.AddListener(MoneyUpdated);
@@ -25,11 +35,26 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         if (isUnlocked) OnLockStateChanged(true);
     }
 
+    private void Update()
+    {
+        if (isOnCooldown)
+        {
+            coolDownTimer -= Time.deltaTime;
+            cooldownSlider.value = (coolDownTimer / (triggeringEvent.coolDown + triggeringEvent.duration.amount));
+            if (coolDownTimer <= 0)
+            {
+                OnCoolDownChanged(false);
+            }
+        }
+    }
+
+
+
     private void MoneyUpdated(InfluencableStats stat, float amount)
     {
         if(stat == InfluencableStats.MoneyTotal)
         {
-            Debug.Log("MoneyUpdated for " + triggeringEvent.eventName + " to "+amount);
+            //Debug.Log("MoneyUpdated for " + triggeringEvent.eventName + " to "+amount);
             bool affrd = isUnlocked? triggeringEvent.CanAfford() : triggeringEvent.CanAffordUnlock();
             if (affrd != canAfford) OnCanAffordChanged(affrd);
         }
@@ -45,8 +70,12 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     void OnTriggerEvent()
     {
-        if (canAfford && isUnlocked)
+        if (canAfford && isUnlocked && !isOnCooldown)
         {
+            if (triggeringEvent.IsTimedEvent())
+            {
+                OnCoolDownChanged(true);
+            }
             GameManager.instance.eventManager.onTryBuyEvent.Invoke(triggeringEvent);
         }
     }
@@ -54,7 +83,7 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     void OnLockStateChanged(bool isUnlocked)
     {
         this.isUnlocked = isUnlocked;
-        button.enabled = isUnlocked && canAfford;
+        button.interactable = isUnlocked && canAfford && !isOnCooldown;
 
         if (isUnlocked)
         {
@@ -69,7 +98,27 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     void OnCanAffordChanged(bool canAfford)
     {
         this.canAfford = canAfford;
-        button.enabled = isUnlocked && canAfford;
+        costsText.color = canAfford ? Color.white : Color.red;
+        button.interactable = isUnlocked && canAfford && !isOnCooldown;
+    }
+    void OnCoolDownChanged(bool isOnCooldown)
+    {
+        if(isOnCooldown)
+        {
+            coolDownTimer = triggeringEvent.coolDown + triggeringEvent.duration.amount;
+        }     
+        this.isOnCooldown = isOnCooldown;
+        button.interactable = isUnlocked && canAfford && !isOnCooldown;
+    }
+
+   public void OnCoolUpdated(bool isOnCooldown, float totalCD, EventInstance eI)
+    {
+        if (eI.eventData.eventName == triggeringEvent.eventName) return;
+        coolDownTimer = totalCD;
+        this.isOnCooldown = isOnCooldown;
+        cooldownSlider.enabled = isOnCooldown;
+        cooldownSlider.gameObject.SetActive(isOnCooldown);
+        button.interactable = isUnlocked && canAfford && !isOnCooldown;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

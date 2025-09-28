@@ -81,7 +81,7 @@ public class HoverInfoPopUp : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public string GetChangesText(EventData eventData)
     {
         string text = "Get: \n";
-        foreach (EventEffect effects in eventData.OneTimeEffects)
+        foreach (EventEffect effects in eventData.GeneralEffects)
         {
             foreach (EventEffectPair effect in effects.effects) {
                 text += GetChangesText(effect, 0);

@@ -10,42 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 477ed058351877c459af045004f3a91d, type: 3}
-  m_Name: Speech
+  m_Name: Newspaper delivery
   m_EditorClassIdentifier: Assembly-CSharp::EventData
-  eventName: Speech
-  eventDescription: 'You give a speech to spread $awareness_awareness and increase
-    $support_support '
+  eventName: Delivering Newspaper
+  eventDescription: To get your $money_funds up you take on to delivery the local
+    newspaper.
   eventImage: {fileID: 0}
-  category: 1
-  PerPupilEffects:
+  category: 4
+  PerPupilEffects: []
+  GeneralEffects:
   - effects:
-    - stat: 0
-      amount: 0.2
-    - stat: 1
-      amount: 0.1
-    whereAllOfTheseApply:
-    - stat: 2
-      comparator: 0
-      amount: 0.9
+    - stat: 4
+      amount: 40
+    whereAllOfTheseApply: []
     andWhereOneOfTheseApply: []
-    pupilSelector: 1
-  - effects:
-    - stat: 2
-      amount: 1
-    whereAllOfTheseApply:
-    - stat: 2
-      comparator: 1
-      amount: 0.9
-    andWhereOneOfTheseApply: []
-    pupilSelector: 1
-  GeneralEffects: []
+    pupilSelector: 0
   cost:
-    stat: 4
+    stat: 0
     amount: 0
   duration:
     stat: 6
-    amount: 3
-  coolDown: 5
+    amount: 10
+  coolDown: 15
   occupiesYou: 1
   unlockCondition:
     AllOfTheseApply: []

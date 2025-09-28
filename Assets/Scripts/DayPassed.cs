@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,7 @@ public class DayPassed : MonoBehaviour
 
     public void PassDay()
     {
+        transform.DOPunchScale(new Vector3(1.2f, 1.2f, 0), 1f, 5, 1);
         dayPassed.enabled = true;
     }
 }

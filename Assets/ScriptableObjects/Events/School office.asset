@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 477ed058351877c459af045004f3a91d, type: 3}
-  m_Name: SideJob
+  m_Name: School office
   m_EditorClassIdentifier: Assembly-CSharp::EventData
-  eventName: Side Job
-  eventDescription: To get your $money_funds up you decide to take a small side job.
+  eventName: School office work
+  eventDescription: To get your $money_funds up you decide to help out in your school.
   eventImage: {fileID: 0}
   category: 4
   PerPupilEffects: []
-  OneTimeEffects:
+  GeneralEffects:
   - effects:
     - stat: 4
-      amount: 5
+      amount: 15
     whereAllOfTheseApply: []
     andWhereOneOfTheseApply: []
     pupilSelector: 0
@@ -30,6 +30,8 @@ MonoBehaviour:
   duration:
     stat: 6
     amount: 5
+  coolDown: 10
+  occupiesYou: 1
   unlockCondition:
     AllOfTheseApply: []
     andOneOfTheseApply: []

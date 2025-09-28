@@ -33,3 +33,11 @@ public enum PupilSelector
     All,
     InMyRadius
 }
+
+public enum GameState
+{
+    Playing,
+    Paused,
+    GameOver,
+    Victory
+}

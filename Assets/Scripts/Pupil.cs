@@ -22,6 +22,7 @@ public class Pupil : MonoBehaviour
     public float swingSpeed = 3f;
 
     public PupilStats stats = new PupilStats();
+    public bool isOccupied = false;
     public bool displayRadius = false;
     public Sprite circleSprite;
     public Color radiusColor = new Color(1f, 1f, 1f, 0.10f);
@@ -256,7 +257,8 @@ public class Pupil : MonoBehaviour
 
     void OnRecastVote(EventData eventData)
     {
-        if(IsFrozen) IsFrozen = false;
+        if(isYou && eventData.occupiesYou) isOccupied = false;
+        if (IsFrozen) IsFrozen = false;
         if (updatedSupportSinceLastVote)
         {
             updatedSupportSinceLastVote = false;
@@ -269,7 +271,7 @@ public class Pupil : MonoBehaviour
 
     public bool IsInMyRadius(Pupil other)
     {
-        Debug.Log("Checking if " + other.name + " is in radius of " + name + " dist "+(other.transform.position - transform.position).magnitude + " rad "+ stats.radius);
+        //Debug.Log("Checking if " + other.name + " is in radius of " + name + " dist "+(other.transform.position - transform.position).magnitude + " rad "+ stats.radius);
         return (other.transform.position - transform.position).magnitude < stats.radius;
     }
 
@@ -327,7 +329,7 @@ public class Pupil : MonoBehaviour
         var sr = radiusObject.AddComponent<SpriteRenderer>();
         sr.sprite = circleSprite;
         sr.color = radiusColor;
-        sr.sortingOrder = -10;
+        sr.sortingOrder = 0;
     }
 }
 
@@ -367,15 +369,15 @@ public class PupilStats
         {
             case InfluencableStats.Trust:
                 trust = Mathf.Clamp01(trust + amount);
-                Debug.Log("Pupil's trust changed to " + trust);
+               // Debug.Log("Pupil's trust changed to " + trust);
                 break;
             case InfluencableStats.Support:
                 support = Mathf.Clamp01(support + amount);
-                Debug.Log("Pupil's support changed to " + support);
+                //Debug.Log("Pupil's support changed to " + support);
                 break;
             case InfluencableStats.Awareness:
                 isAware = Mathf.Clamp01(isAware + amount);
-                Debug.Log("Pupil's awareness changed to " + isAware);
+                //Debug.Log("Pupil's awareness changed to " + isAware);
                 break;
         }
     }
@@ -402,6 +404,7 @@ public class PupilStats
         this.trust = stats.trust;
         this.isAware = stats.isAware;
         this.radius = stats.radius;
+        this.hasSigned = stats.hasSigned;
         this.name = PupilStats.names[Random.Range(0, PupilStats.names.Length)];
     }
 
