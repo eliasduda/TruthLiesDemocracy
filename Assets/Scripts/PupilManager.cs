@@ -57,6 +57,7 @@ public class PupilManager : MonoBehaviour
                 you = pupil;
                 pupil.isYou = true;
                 pupil.stats.CopyStats(GameManager.instance.gamePlaySettings.startStats);
+                you.stats.name = GameManager.instance.gamePlaySettings.playerName;
                 youSpawned = true;
             }
             else
