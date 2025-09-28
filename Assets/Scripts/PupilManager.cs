@@ -59,7 +59,13 @@ public class PupilManager : MonoBehaviour
                 pupil.stats.CopyStats(GameManager.instance.gamePlaySettings.startStats);
                 youSpawned = true;
             }
-            pupils.Add(pupil);
+            else
+            {
+                pupil.stats.SetRandomName();
+            }
+                pupils.Add(pupil);
+            pupil.OnBump += SpreadThroughDiscussion;
+            pupil.onStatChanged += PupilStatChanged;
         }
 
         discussionSource = GetComponent<AudioSource>();
@@ -99,6 +105,66 @@ public class PupilManager : MonoBehaviour
         collider.size = size;
         collider.isTrigger = false;
     }
+
+    private void SpreadThroughDiscussion(Pupil sourcePupil, List<Pupil> group)
+    {
+
+        DisussionSettings discussionSpreadStats = GameManager.instance.gamePlaySettings.disussionSettings;
+        List<Pupil> otherPupils = new List<Pupil>(group);
+        otherPupils.Remove(sourcePupil);
+
+        for (int i = 0; i < Mathf.Min(discussionSpreadStats.maxPeople, otherPupils.Count); i++)
+        {
+            Pupil pupil = otherPupils[i];
+
+            Pupil trustiestPupil = pupil.stats.trust > sourcePupil.stats.trust ? pupil : sourcePupil;
+            Pupil lessTrustyPupil = trustiestPupil == pupil ? sourcePupil : pupil;
+
+            float trustToSpread = trustiestPupil.stats.trust * discussionSpreadStats.baseTrustInfluence;
+            EventEffectPair trustEffect = new EventEffectPair
+            {
+                stat = InfluencableStats.Trust,
+                amount = trustToSpread
+            };
+            GameManager.instance.eventManager.ApplyEffect(trustEffect, lessTrustyPupil);
+
+            Pupil supportiestPupil = pupil.stats.support > sourcePupil.stats.support ? pupil : sourcePupil;
+            Pupil lessSupportyPupil = supportiestPupil == pupil ? sourcePupil : pupil;
+
+            float supportToSpread = trustiestPupil.stats.support * discussionSpreadStats.baseSupportInfluence;
+            EventEffectPair supportEffect = new EventEffectPair
+            {
+                stat = InfluencableStats.Support,
+                amount = supportToSpread
+            };
+            GameManager.instance.eventManager.ApplyEffect(supportEffect, lessTrustyPupil);
+
+            //Maybe we could just compare isAware, but since they are floats I wanted to make sure
+            if (sourcePupil.stats.isAware == 0 && pupil.stats.isAware == 0)
+                continue;
+
+            if (sourcePupil.stats.isAware > 0 && pupil.stats.isAware > 0)
+                continue;
+
+            Pupil unawarePupil = sourcePupil.stats.isAware == 0 ? sourcePupil : pupil;
+            EventEffectPair awareEffect = new EventEffectPair
+            {
+                stat = InfluencableStats.Awareness,
+                amount = 1f
+            };
+            GameManager.instance.eventManager.ApplyEffect(awareEffect, unawarePupil);
+        }
+    }
+
+    private void PupilStatChanged(Pupil pupil, InfluencableStats stat)
+    {
+        Vector3 spawnPos = pupil.transform.position + Vector3.up * 1.5f; // 1.5 units above head
+        //GameObject icon = Instantiate(statChangeImagePrefab, spawnPos, Quaternion.identity);
+
+        // parent it to the pupil so it follows them
+        //icon.transform.SetParent(pupil.transform, true);
+    }
+
 
     public void PlayBumpSound(AudioSource source)
     {

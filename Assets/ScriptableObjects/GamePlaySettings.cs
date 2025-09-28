@@ -24,4 +24,6 @@ public class GamePlaySettings : ScriptableObject
 
     public AnimationCurve trustSupportMultiplier;
 
+    public DisussionSettings disussionSettings;
+
 }

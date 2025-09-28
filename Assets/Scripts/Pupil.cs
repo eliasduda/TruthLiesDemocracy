@@ -1,10 +1,9 @@
-using NUnit.Framework.Constraints;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.MemoryProfiler;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class Pupil : MonoBehaviour
+public class Pupil : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [HideInInspector] public PupilManager manager;
     private Vector2 velocity;
@@ -36,6 +35,9 @@ public class Pupil : MonoBehaviour
     private bool inDiscussion = false;
     [HideInInspector] public Vector2 pendingVelocity;
     private Coroutine discussCoroutine;
+
+    public event System.Action<Pupil, List<Pupil>> OnBump;
+    public event System.Action<Pupil, InfluencableStats> onStatChanged;
 
     [HideInInspector] public Vector2 ringTargetPosition;
     [HideInInspector] public bool moveToRing = false;
@@ -71,7 +73,7 @@ public class Pupil : MonoBehaviour
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.gravityScale = 0f;
         rb.linearDamping = 0f;
-        velocity = Random.insideUnitCircle.normalized * manager.MaxSpeed;
+        velocity = UnityEngine.Random.insideUnitCircle.normalized * manager.MaxSpeed;
 
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         UpdateSprite();
@@ -186,6 +188,21 @@ public class Pupil : MonoBehaviour
             CollectGroup(this, group);
             CollectGroup(otherPupil, group);
 
+            List<Pupil> groupList = new List<Pupil>(group);
+
+            // Trigger bump event 
+            if (connectedPupils.Count == 0 && otherPupil.connectedPupils.Count == 0)
+            {
+                if (this.GetInstanceID() < otherPupil.GetInstanceID())
+                {
+                    OnBump?.Invoke(this, groupList);
+                }
+            }
+            else if (connectedPupils.Count == 0)
+            {
+                OnBump?.Invoke(this, groupList);
+            }
+
             // Update all group members' connectedPupils sets
             foreach (var pupil in group)
             {
@@ -193,7 +210,7 @@ public class Pupil : MonoBehaviour
                 pupil.connectedPupils.Remove(pupil); // Don't include self
             }
 
-            float discussDuration = manager.ArrangeRing(new List<Pupil>(group));
+            float discussDuration = manager.ArrangeRing(groupList);
 
             // Discuss and arrange ring for all
             foreach (var pupil in group)
@@ -246,12 +263,19 @@ public class Pupil : MonoBehaviour
         UpdateSprite();
         if (pupil == this && !isYou)
         {
+            List<float> before = new List<float> { stats.trust, stats.support, stats.isAware };
             if (stat == InfluencableStats.Support)
             {
                 updatedSupportSinceLastVote = true;
                 amount *= GameManager.instance.gamePlaySettings.trustSupportMultiplier.Evaluate(stats.trust) +1;
             }
             stats.ApplyChange(stat, amount);
+
+            List<float> after = new List<float> { stats.trust, stats.support, stats.isAware };
+            if (before[0] != after[0] || before[1] != after[1] || before[2] != after[2])
+            {
+                onStatChanged.Invoke(this, stat);
+            }
         }
     }
 
@@ -307,7 +331,7 @@ public class Pupil : MonoBehaviour
         }
 
         // Swing arms
-        if (!inDiscussion)
+        if (!inDiscussion && !isOccupied && !_isFrozen)
         {
             float swingAngle = Mathf.Sin(Time.time * swingSpeed) * swingAmplitude;
             armLeft.transform.localRotation = Quaternion.Euler(swingAngle, 0f, 0f);
@@ -331,6 +355,15 @@ public class Pupil : MonoBehaviour
         sr.color = radiusColor;
         sr.sortingOrder = 0;
     }
+    public void OnPointerDown(PointerEventData eventData)
+    {
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        Debug.Log("Pointer Pupil");
+        GameManager.instance.eventManager.onClickedPupil.Invoke(this);
+    }
 }
 
 
@@ -351,6 +384,7 @@ public class PupilStats
         trust = 0f;
         isAware = 0f;
         radius = 0f;
+        
     }
 
     public float GetStat(InfluencableStats stat)
@@ -384,7 +418,7 @@ public class PupilStats
 
     public bool AskToSign()
     {
-        float r = Random.Range(0f, 1f);
+        float r = UnityEngine.Random.Range(0f, 1f);
         if (r < support && !hasSigned)
         {
             hasSigned = true;
@@ -405,7 +439,11 @@ public class PupilStats
         this.isAware = stats.isAware;
         this.radius = stats.radius;
         this.hasSigned = stats.hasSigned;
-        this.name = PupilStats.names[Random.Range(0, PupilStats.names.Length)];
+    }
+
+    public void SetRandomName()
+    {
+        name = PupilStats.names[Random.Range(0, PupilStats.names.Length)];
     }
 
     public static string[] names = {
