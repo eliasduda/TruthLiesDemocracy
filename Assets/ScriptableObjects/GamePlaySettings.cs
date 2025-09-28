@@ -21,6 +21,7 @@ public class GamePlaySettings : ScriptableObject
     public float dayDurationSeconds;
 
     public int signatureGoal;
+    public float spawnScale = 1f;
 
     public AnimationCurve trustSupportMultiplier;
 

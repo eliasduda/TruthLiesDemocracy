@@ -1119,8 +1119,8 @@ MonoBehaviour:
       nextDialogueContainer: {fileID: 0}
       triggersIconAppearance: 1
       iconToAppear: {fileID: 738345645}
-  - text: As real-world initiatives are having a deadline to reach their goal, we
-      set one as well.
+  - text: As real-world initiatives have a deadline to reach their goal, we set one
+      as well.
     eventAfterLine: 0
     inputRequired: 0
     eventArgs:

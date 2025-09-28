@@ -55,6 +55,7 @@ public class PupilManager : MonoBehaviour
                 Random.Range(bounds.min.y , bounds.max.y )
             );
             Pupil pupil = Instantiate(pupilPrefab, pos, Quaternion.identity);
+            pupil.transform.localScale = Vector3.one * GameManager.instance.gamePlaySettings.spawnScale;
             pupil.manager = this;
             if (!youSpawned)
             {

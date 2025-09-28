@@ -48,6 +48,16 @@ public class EventData : ScriptableObject
         return false;
     }
 
+    public bool AppliedInRadius()
+    {
+        bool f = false;
+        foreach(EventEffect ee in PerPupilEffects)
+        {
+            if (ee.pupilSelector == PupilSelector.InMyRadius) f = true;
+        }
+        return f;
+    }
+
     public string GetCostDescription(bool canAfford)
     {
         string costStr = "";

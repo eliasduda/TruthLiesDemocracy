@@ -123,12 +123,17 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (triggeringEvent.AppliedInRadius())
+        {
+            GameManager.instance.pupilManager.you.displayRadius = true;
+        }
         //GameManager.instance.eventManager.onHoverableEventHovered.Invoke(canAfford && isUnlocked? 0 : isUnlocked ? 1 : 2, triggeringEvent, eventData.position);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
 
+        if(GameManager.instance.pupilManager.you.displayRadius) GameManager.instance.pupilManager.you.displayRadius = false;
     }
 
 }

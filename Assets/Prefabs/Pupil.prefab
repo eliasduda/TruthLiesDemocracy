@@ -72,6 +72,7 @@ MonoBehaviour:
   displayRadius: 0
   circleSprite: {fileID: 357124911013023051, guid: d9303220dbfaa6248a4f336f53b2fb40, type: 3}
   radiusColor: {r: 1, g: 1, b: 1, a: 0.02745098}
+  isBeingPunched: 0
   pendingVelocity: {x: 0, y: 0}
   ringTargetPosition: {x: 0, y: 0}
   moveToRing: 0
@@ -252,8 +253,8 @@ MonoBehaviour:
   pupil: {fileID: -3267188324088731708}
   sefaultSR: {fileID: 1632370592937457032}
   glowSR: {fileID: 713156444127312085}
-  minMaxGlow: {x: 0, y: 0.3}
-  minMaxOutline: {x: 0.08, y: 0.16}
+  minMaxGlow: {x: 0, y: 0.5}
+  minMaxOutline: {x: 0.08, y: 0.2}
   smooth: 2
 --- !u!1 &5203024945206717571
 GameObject:
