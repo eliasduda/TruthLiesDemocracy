@@ -12,7 +12,7 @@ public class PupilVisualUpdater : MonoBehaviour
     private float innerIsColored, innerIsColoredCurrent;
     private float outline, outlineCurrent;
     private float outerOpacity, outerOpacityCurrent;
-    private Color mainColor;
+    private Color mainColor, mainColorCurrent;
     public float smooth = 0.2f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -40,13 +40,14 @@ public class PupilVisualUpdater : MonoBehaviour
         innerIsColoredCurrent = Mathf.Lerp(innerIsColoredCurrent, innerIsColored, Time.deltaTime * smooth);
         outerOpacityCurrent = Mathf.Lerp(outerOpacityCurrent, outerOpacity, Time.deltaTime * smooth);
         outlineCurrent = Mathf.Lerp(outlineCurrent, outline, Time.deltaTime * smooth);
+        mainColorCurrent = Color.Lerp(mainColorCurrent, mainColor, Time.deltaTime * smooth);
         sefaultSR.material.SetFloat("_radius", radiusCurrent);
         sefaultSR.material.SetFloat("_hasBackgroundColor", 1 - innerIsColoredCurrent);
         sefaultSR.material.SetFloat("_outline", outlineCurrent);
-        sefaultSR.material.SetColor("_innerColor", mainColor);
+        sefaultSR.material.SetColor("_innerColor", mainColorCurrent);
         glowSR.material.SetFloat("_outerOpacity", outerOpacityCurrent);
         glowSR.material.SetFloat("_radius", radiusCurrent);
-        glowSR.material.SetColor("_innerColor", mainColor);
+        glowSR.material.SetColor("_innerColor", mainColorCurrent);
     }
 
     // Update is called once per frame
