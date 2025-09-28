@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,8 @@ public class PupilManager : MonoBehaviour
 {
     public Pupil pupilPrefab;
     private int pupilCount = 50;
+
+
 
     [SerializeField] private float _maxSpeed = 1f;
     public float MaxSpeed => _maxSpeed;
@@ -57,6 +60,7 @@ public class PupilManager : MonoBehaviour
                 you = pupil;
                 pupil.isYou = true;
                 pupil.stats.CopyStats(GameManager.instance.gamePlaySettings.startStats);
+                you.stats.name = GameManager.instance.gamePlaySettings.playerName;
                 youSpawned = true;
             }
             else
@@ -158,11 +162,21 @@ public class PupilManager : MonoBehaviour
 
     private void PupilStatChanged(Pupil pupil, InfluencableStats stat)
     {
-        Vector3 spawnPos = pupil.transform.position + Vector3.up * 1.5f; // 1.5 units above head
-        //GameObject icon = Instantiate(statChangeImagePrefab, spawnPos, Quaternion.identity);
+        //Vector3 spawnPos = pupil.transform.position + Vector3.up * 1.5f; // 1.5 units above head
+        //GameObject icon = new GameObject("StatChangeIcon");
+        //icon.AddComponent<SpriteRenderer>();
 
+        //icon.GetComponent<SpriteRenderer>().sortingLayerName = "UI";
+        //icon.GetComponent<SpriteRenderer>().sprite = GameManager.instance.
+
+        //Instantiate(icon, spawnPos, Quaternion.identity);
         // parent it to the pupil so it follows them
         //icon.transform.SetParent(pupil.transform, true);
+
+        if(pupil.isBeingPunched) return; // Don't punch again if already punched
+        pupil.transform.DOPunchScale(new Vector3(0.1f, 0.1f, 0), 0.3f, 2, 0.3f).OnComplete(() => pupil.isBeingPunched = false);
+        pupil.isBeingPunched = true;
+
     }
 
 

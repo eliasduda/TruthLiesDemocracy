@@ -4,7 +4,6 @@ using UnityEngine;
 public class GamePlaySettings : ScriptableObject
 {
     public string playerName;
-    public Color playerColor;
     public string projectName;
 
     public Color mainColor;
@@ -27,4 +26,23 @@ public class GamePlaySettings : ScriptableObject
 
     public DisussionSettings disussionSettings;
 
+
+    public Color GetColorForStat(InfluencableStats stat)
+    {
+        switch(stat)
+        {
+            case InfluencableStats.Support:
+                return colorSupport;
+            case InfluencableStats.Trust:
+                return colorTrust;
+            case InfluencableStats.Awareness:
+                return colorAwareness;
+            case InfluencableStats.Signatures:
+                return mainColor;
+            default:
+                return Color.white;
+
+        }
+
+    }
 }

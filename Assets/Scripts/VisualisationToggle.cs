@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,6 +11,8 @@ public class VisualisationToggle : MonoBehaviour, IPointerEnterHandler, IPointer
     private Image image;
     public Color normalColor = new Color(1,1,1,0.5f);
     public Color clickedColor = new Color(1, 1, 1, 1f);
+
+    public TextMeshProUGUI title;
 
     private InfluencableStats prevStat;
     private bool clicked;
@@ -34,6 +37,8 @@ public class VisualisationToggle : MonoBehaviour, IPointerEnterHandler, IPointer
     {
         prevStat = GameManager.instance.pupilManager.visualizeStat;
         image.color = clickedColor;
+        if (title) title.text = stat.ToString();
+        if (title) title.color = GameManager.instance.gamePlaySettings.GetColorForStat(stat);
         //GameManager.instance.pupilManager.ChnangeVisualisation(stat);
     }
 
@@ -41,6 +46,7 @@ public class VisualisationToggle : MonoBehaviour, IPointerEnterHandler, IPointer
     {
         if (clicked) return;
         image.color = normalColor;
+        if (title) title.text = "";
         //GameManager.instance.pupilManager.ChnangeVisualisation(prevStat);
     }
 
