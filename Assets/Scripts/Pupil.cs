@@ -1,11 +1,7 @@
-using NUnit.Framework.Constraints;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.MemoryProfiler;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using System;
-using UnityEngine.Rendering.Universal;
 
 public class Pupil : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -40,7 +36,7 @@ public class Pupil : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [HideInInspector] public Vector2 pendingVelocity;
     private Coroutine discussCoroutine;
 
-    public event Action<Pupil, List<Pupil>> OnBump;
+    public event System.Action<Pupil, List<Pupil>> OnBump;
 
     [HideInInspector] public Vector2 ringTargetPosition;
     [HideInInspector] public bool moveToRing = false;
