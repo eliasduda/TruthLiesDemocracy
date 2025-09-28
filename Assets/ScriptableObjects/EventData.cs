@@ -48,13 +48,15 @@ public class EventData : ScriptableObject
         return false;
     }
 
-    public string GetCostDescription()
+    public string GetCostDescription(bool canAfford)
     {
         string costStr = "";
-        if (cost != null && cost.amount > 0)
+        if (cost != null && Mathf.Abs(cost.amount) > 0)
         {
+            Color c = canAfford ? Color.white : Color.red;
+            string hex = UnityEngine.ColorUtility.ToHtmlStringRGB(c); ;
             costStr += "Cost: \n";
-            costStr += cost.amount + " Money \n";
+            costStr += $"<color=#{hex}>{cost.amount}</color>\n"; 
         }
         if (duration != null && duration.amount > 0)
         {

@@ -89,6 +89,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VisualisationToggle
   stat: 1
+  normalColor: {r: 1, g: 1, b: 1, a: 0.45882353}
+  clickedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &4207082329750754074
 GameObject:
   m_ObjectHideFlags: 0
@@ -100,6 +102,7 @@ GameObject:
   - component: {fileID: 262998495094487157}
   - component: {fileID: 5342819255135211155}
   - component: {fileID: 2898433297539533528}
+  - component: {fileID: 1959512773025615059}
   m_Layer: 5
   m_Name: Icon (3)
   m_TagString: Untagged
@@ -147,14 +150,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.24313727, g: 0.79215693, b: 0.9176471, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8475607634464612067, guid: 9342e66693cd78e498eecafd400662b1, type: 3}
+  m_Sprite: {fileID: -5200155220287120408, guid: d0fabb1bacfd91a478f421afe9a1e32b, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -164,6 +167,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1959512773025615059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4207082329750754074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 220c9eba294ce004db0057058be21803, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VisualisationToggle
+  stat: 7
+  normalColor: {r: 1, g: 1, b: 1, a: 0.45882353}
+  clickedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &7456975868421455315
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,6 +271,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VisualisationToggle
   stat: 0
+  normalColor: {r: 1, g: 1, b: 1, a: 0.45882353}
+  clickedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &8068857985637128593
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,3 +428,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VisualisationToggle
   stat: 2
+  normalColor: {r: 1, g: 1, b: 1, a: 0.45882353}
+  clickedColor: {r: 1, g: 1, b: 1, a: 1}

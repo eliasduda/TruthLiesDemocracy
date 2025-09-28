@@ -49,3 +49,11 @@ public class EventUnlockCondition
     public EventSelector[] andOneOfTheseApply;
     public EventEffectPair cost;
 }
+
+public class DisussionSettings
+{
+    public int maxPeople;
+    public float baseTrustInfluence;
+    public float baseSupportInfluence;
+
+}
