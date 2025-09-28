@@ -9,7 +9,7 @@ public class PupilVisualUpdater : MonoBehaviour
     private float radius, radiusCurrent;
     public Vector2 minMaxGlow;
     public Vector2 minMaxOutline;
-    private float innerOpacity, innerOpacityCurrent;
+    private float innerIsColored, innerIsColoredCurrent;
     private float outline, outlineCurrent;
     private float outerOpacity, outerOpacityCurrent;
     private Color mainColor;
@@ -28,7 +28,7 @@ public class PupilVisualUpdater : MonoBehaviour
     void Start()
     {
         radius = sefaultSR.material.GetFloat("_radius");
-        innerOpacity = sefaultSR.material.GetFloat("_innerOpacity");
+        innerIsColored = sefaultSR.material.GetFloat("_hasBackgroundColor");
         outline = sefaultSR.material.GetFloat("_outline");
         outerOpacity = glowSR.material.GetFloat("_outerOpacity");
         UpdateVisuals();
@@ -37,11 +37,11 @@ public class PupilVisualUpdater : MonoBehaviour
     void Update()
     {
         radiusCurrent = Mathf.Lerp(radiusCurrent, radius, Time.deltaTime * smooth);
-        innerOpacityCurrent = Mathf.Lerp(innerOpacityCurrent, innerOpacity, Time.deltaTime * smooth);
+        innerIsColoredCurrent = Mathf.Lerp(innerIsColoredCurrent, innerIsColored, Time.deltaTime * smooth);
         outerOpacityCurrent = Mathf.Lerp(outerOpacityCurrent, outerOpacity, Time.deltaTime * smooth);
         outlineCurrent = Mathf.Lerp(outlineCurrent, outline, Time.deltaTime * smooth);
         sefaultSR.material.SetFloat("_radius", radiusCurrent);
-        sefaultSR.material.SetFloat("_innerOpacity", innerOpacityCurrent);
+        sefaultSR.material.SetFloat("_hasBackgroundColor", 1 - innerIsColoredCurrent);
         sefaultSR.material.SetFloat("_outline", outlineCurrent);
         sefaultSR.material.SetColor("_innerColor", mainColor);
         glowSR.material.SetFloat("_outerOpacity", outerOpacityCurrent);
@@ -61,20 +61,20 @@ public class PupilVisualUpdater : MonoBehaviour
         radius = pupil.stats.trust;
         //spriteRenderer.material.SetFloat("outline", pupil.stats.isAware);
 
-        innerOpacity = pupil.stats.hasSigned ? 1 : 0;
+        innerIsColored = pupil.stats.hasSigned ? 1 : 0;
         mainColor = GameManager.instance.gamePlaySettings.mainColor;
         switch (GameManager.instance.pupilManager.visualizeStat)
         {
             case InfluencableStats.Awareness:
-                innerOpacity = pupil.stats.isAware;
+                innerIsColored = pupil.stats.isAware;
                 mainColor = GameManager.instance.gamePlaySettings.colorAwareness;
                 break;
             case InfluencableStats.Trust:
-                innerOpacity = pupil.stats.trust;
+                innerIsColored = pupil.stats.trust;
                 mainColor = GameManager.instance.gamePlaySettings.colorTrust;
                 break;
             case InfluencableStats.Support:
-                innerOpacity = pupil.stats.support;
+                innerIsColored = pupil.stats.support;
                 mainColor = GameManager.instance.gamePlaySettings.colorSupport;
                 break;
         }

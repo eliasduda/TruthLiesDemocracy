@@ -56,7 +56,8 @@ Material:
     - _EnableExternalAlpha: 0
     - _Outline: 0.12
     - _ZWrite: 0
-    - _innerOpacity: 0
+    - _hasBackgroundColor: 1
+    - _innerOpacity: 1
     - _outerOpacity: 1
     - _outline: 0.15
     - _radius: 1
@@ -68,6 +69,7 @@ Material:
     - _OutlineColor: {r: 0, g: 0.8470589, b: 0.9921569, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _Size: {r: 0.8, g: 0.8, b: 0, a: 0}
+    - _backgroundColor: {r: 0.1254902, g: 0.12941177, b: 0.16470589, a: 1}
     - _innerColor: {r: 0, g: 1, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

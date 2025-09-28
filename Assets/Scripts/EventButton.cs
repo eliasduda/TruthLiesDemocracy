@@ -25,7 +25,7 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         buttonTitle.text = triggeringEvent.eventName; ;
         
-        costsText.text = triggeringEvent.GetCostDescription();
+        costsText.text = triggeringEvent.GetCostDescription(canAfford);
         eventDescription.text = GameManager.instance.hoverPopUpManager.Parse(triggeringEvent.eventDescription);
 
         button.onClick.AddListener(OnTryUnlock);
@@ -98,7 +98,7 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     void OnCanAffordChanged(bool canAfford)
     {
         this.canAfford = canAfford;
-        costsText.color = canAfford ? Color.white : Color.red;
+        costsText.text = triggeringEvent.GetCostDescription(canAfford);
         button.interactable = isUnlocked && canAfford && !isOnCooldown;
     }
     void OnCoolDownChanged(bool isOnCooldown)
