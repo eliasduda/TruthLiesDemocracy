@@ -25,7 +25,7 @@ MonoBehaviour:
     andWhereOneOfTheseApply: []
     pupilSelector: 0
   cost:
-    stat: 0
+    stat: 4
     amount: 0
   duration:
     stat: 6
