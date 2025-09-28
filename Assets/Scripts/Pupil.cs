@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.MemoryProfiler;
 using UnityEngine;
+using System;
+using UnityEngine.Rendering.Universal;
 
 public class Pupil : MonoBehaviour
 {
@@ -36,6 +38,8 @@ public class Pupil : MonoBehaviour
     private bool inDiscussion = false;
     [HideInInspector] public Vector2 pendingVelocity;
     private Coroutine discussCoroutine;
+
+    public event Action<Pupil, List<Pupil>> OnBump;
 
     [HideInInspector] public Vector2 ringTargetPosition;
     [HideInInspector] public bool moveToRing = false;
@@ -71,7 +75,7 @@ public class Pupil : MonoBehaviour
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.gravityScale = 0f;
         rb.linearDamping = 0f;
-        velocity = Random.insideUnitCircle.normalized * manager.MaxSpeed;
+        velocity = UnityEngine.Random.insideUnitCircle.normalized * manager.MaxSpeed;
 
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         UpdateSprite();
@@ -187,6 +191,16 @@ public class Pupil : MonoBehaviour
             CollectGroup(otherPupil, group);
 
             List<Pupil> groupList = new List<Pupil>(group);
+
+            // Trigger bump event 
+            if (connectedPupils.Count == 0 && otherPupil.connectedPupils.Count == 0)
+            {
+                // Both pupils were alone, so select one to trigger event
+            }
+            else if (connectedPupils.Count == 0)
+            {
+                OnBump?.Invoke(this, groupList);
+            }
 
             // Update all group members' connectedPupils sets
             foreach (var pupil in group)
@@ -386,7 +400,7 @@ public class PupilStats
 
     public bool AskToSign()
     {
-        float r = Random.Range(0f, 1f);
+        float r = UnityEngine.Random.Range(0f, 1f);
         if (r < support && !hasSigned)
         {
             hasSigned = true;
@@ -407,7 +421,7 @@ public class PupilStats
         this.isAware = stats.isAware;
         this.radius = stats.radius;
         this.hasSigned = stats.hasSigned;
-        this.name = PupilStats.names[Random.Range(0, PupilStats.names.Length)];
+        this.name = PupilStats.names[UnityEngine.Random.Range(0, PupilStats.names.Length)];
     }
 
     public static string[] names = {

@@ -50,6 +50,7 @@ public class EventUnlockCondition
     public EventEffectPair cost;
 }
 
+[System.Serializable]
 public class DisussionSettings
 {
     public int maxPeople;
