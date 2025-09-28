@@ -48,6 +48,22 @@ public class EventData : ScriptableObject
         return false;
     }
 
+    public string GetCostDescription()
+    {
+        string costStr = "";
+        if (cost != null && cost.amount > 0)
+        {
+            costStr += "Cost: \n";
+            costStr += cost.amount + " Money \n";
+        }
+        if (duration != null && duration.amount > 0)
+        {
+            costStr += "Takes: \n";
+            costStr += duration.amount / GameManager.instance.gamePlaySettings.dayDurationSeconds + " Days \n";
+        }
+        return costStr;
+    }
+
 }
 
 [System.Serializable]

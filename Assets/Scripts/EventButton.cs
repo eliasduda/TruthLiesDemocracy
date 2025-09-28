@@ -24,8 +24,8 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     void Start()
     {
         buttonTitle.text = triggeringEvent.eventName; ;
-        float day = triggeringEvent.duration.amount / GameManager.instance.gamePlaySettings.dayDurationSeconds;
-        costsText.text = day == 1 ? day+" day" : day+" days" + " || " + triggeringEvent.cost.stat.ToString() + " " + triggeringEvent.cost.amount;
+        
+        costsText.text = triggeringEvent.GetCostDescription();
         eventDescription.text = GameManager.instance.hoverPopUpManager.Parse(triggeringEvent.eventDescription);
 
         button.onClick.AddListener(OnTryUnlock);
@@ -83,7 +83,7 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     void OnLockStateChanged(bool isUnlocked)
     {
         this.isUnlocked = isUnlocked;
-        button.enabled = isUnlocked && canAfford;
+        button.interactable = isUnlocked && canAfford && !isOnCooldown;
 
         if (isUnlocked)
         {
@@ -98,7 +98,8 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     void OnCanAffordChanged(bool canAfford)
     {
         this.canAfford = canAfford;
-        button.enabled = isUnlocked && canAfford;
+        costsText.color = canAfford ? Color.white : Color.red;
+        button.interactable = isUnlocked && canAfford && !isOnCooldown;
     }
     void OnCoolDownChanged(bool isOnCooldown)
     {
@@ -107,15 +108,17 @@ public class EventButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             coolDownTimer = triggeringEvent.coolDown + triggeringEvent.duration.amount;
         }     
         this.isOnCooldown = isOnCooldown;
+        button.interactable = isUnlocked && canAfford && !isOnCooldown;
     }
 
-   public void OnCoolDownChanged(bool isOnCooldown, float totalCD, EventInstance eI)
+   public void OnCoolUpdated(bool isOnCooldown, float totalCD, EventInstance eI)
     {
         if (eI.eventData.eventName == triggeringEvent.eventName) return;
         coolDownTimer = totalCD;
         this.isOnCooldown = isOnCooldown;
         cooldownSlider.enabled = isOnCooldown;
         cooldownSlider.gameObject.SetActive(isOnCooldown);
+        button.interactable = isUnlocked && canAfford && !isOnCooldown;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

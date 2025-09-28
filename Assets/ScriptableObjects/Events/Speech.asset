@@ -21,6 +21,8 @@ MonoBehaviour:
   - effects:
     - stat: 0
       amount: 0.2
+    - stat: 1
+      amount: 0.1
     whereAllOfTheseApply:
     - stat: 2
       comparator: 0

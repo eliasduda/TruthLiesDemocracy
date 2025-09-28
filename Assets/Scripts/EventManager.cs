@@ -43,7 +43,7 @@ public class EventManager : MonoBehaviour
                 EventButton[] buttons = FindObjectsByType<EventButton>(FindObjectsSortMode.None);
                 foreach (EventButton button in buttons)
                 {
-                    button.OnCoolDownChanged(true, eI.timeRemaining, eI);
+                    button.OnCoolUpdated(true, eI.timeRemaining, eI);
                 }
             }
 
