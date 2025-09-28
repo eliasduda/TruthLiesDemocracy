@@ -70,7 +70,7 @@ MonoBehaviour:
     hasSigned: 0
   isOccupied: 0
   displayRadius: 0
-  circleSprite: {fileID: 357124911013023051, guid: d9303220dbfaa6248a4f336f53b2fb40, type: 3}
+  circleSprite: {fileID: 21300000, guid: d9303220dbfaa6248a4f336f53b2fb40, type: 3}
   radiusColor: {r: 1, g: 1, b: 1, a: 0.02745098}
   isBeingPunched: 0
   pendingVelocity: {x: 0, y: 0}
