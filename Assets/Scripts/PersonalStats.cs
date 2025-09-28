@@ -25,8 +25,17 @@ public class PersonalStats : MonoBehaviour
 
         GameManager.instance.eventManager.onClickedPupil.AddListener(ShowPupil);
         GameManager.instance.eventManager.onClickedBackground.AddListener(ShowNothing);
+        GameManager.instance.eventManager.onPupilStatInfluenced.AddListener(UpdateCurrent);
 
         ShowNothing();
+    }
+
+    private void UpdateCurrent(InfluencableStats arg0, float arg1, Pupil arg2)
+    {
+        if(arg2 == currentPupil)
+        {
+            ShowPupil(currentPupil);
+        }
     }
 
     private void ShowNothing()
@@ -55,9 +64,9 @@ public class PersonalStats : MonoBehaviour
         currentPupil = pupil;
 
         nameUI.text = currentPupil.stats.name;
-        supportUI.text = currentPupil.stats.support.ToString();
-        trustUI.text = currentPupil.stats.trust.ToString();
-        awarenessUI.text = currentPupil.stats.isAware.ToString();
+        supportUI.text = currentPupil.stats.support.ToString("F1");
+        trustUI.text = currentPupil.stats.trust.ToString("F1");
+        awarenessUI.text = currentPupil.stats.isAware.ToString("F1");
         signedUI.text = currentPupil.stats.hasSigned.ToString();
         signedUI.color = currentPupil.stats.hasSigned ? GameManager.instance.gamePlaySettings.mainColor : Color.red;
     }
