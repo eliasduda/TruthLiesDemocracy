@@ -88,9 +88,11 @@ public class GameStatesManager : MonoBehaviour
     public void GameLost()
     {
         gameOverScreen.SetActive(true);
+        Time.timeScale = 0;
     }
     public void GameWon()
     {
         gameWonScreen.SetActive(true);
+        Time.timeScale = 0;
     }
 }
