@@ -4,7 +4,6 @@ using UnityEngine;
 public class GamePlaySettings : ScriptableObject
 {
     public string playerName;
-    public Color playerColor;
     public string projectName;
 
     public Color mainColor;
