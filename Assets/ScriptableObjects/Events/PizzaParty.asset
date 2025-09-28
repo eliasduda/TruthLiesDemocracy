@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PizzaParty
   m_EditorClassIdentifier: Assembly-CSharp::EventData
   eventName: Pizza Party
-  eventDescription: You hand out pizza to everyone to instantly gain $awarenes_awareness
+  eventDescription: You hand out pizza to everyone to instantly gain $awareness_awareness
     and $trust_trust
   eventImage: {fileID: 0}
   category: 1

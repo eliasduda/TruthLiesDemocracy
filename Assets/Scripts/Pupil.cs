@@ -97,7 +97,8 @@ public class Pupil : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         audioSource = GetComponent<AudioSource>();
 
         GameManager.instance.eventManager.onPupilStatInfluenced.AddListener(ApplyStatChange);
-        GameManager.instance.eventManager.onTimedEventEnded.AddListener(OnRecastVote);
+        GameManager.instance.eventManager.onTimedEventEnded.AddListener(OnRecastVoteAfterEvent);
+        GameManager.instance.eventManager.onEndOfPeriod.AddListener(OnRecastVote);
     }
 
     void FixedUpdate()
@@ -280,11 +281,8 @@ public class Pupil : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             }
         }
     }
-
-    void OnRecastVote(EventData eventData)
+    void OnRecastVote()
     {
-        if(isYou && eventData.occupiesYou) isOccupied = false;
-        if (IsFrozen) IsFrozen = false;
         if (updatedSupportSinceLastVote)
         {
             updatedSupportSinceLastVote = false;
@@ -293,6 +291,12 @@ public class Pupil : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 GameManager.instance.eventManager.onOneTimeStatInfluenced.Invoke(InfluencableStats.Signatures, 1);
             }
         }
+    }
+    void OnRecastVoteAfterEvent(EventData eventData)
+    {
+        if(isYou && eventData.occupiesYou) isOccupied = false;
+        if (IsFrozen) IsFrozen = false;
+        OnRecastVote();
     }
 
     public bool IsInMyRadius(Pupil other)

@@ -18,6 +18,7 @@ public class EventManager : MonoBehaviour
 
     public UnityEvent<Pupil> onClickedPupil = new UnityEvent<Pupil>();
     public UnityEvent onClickedBackground = new UnityEvent();
+    public UnityEvent onEndOfPeriod = new UnityEvent();
 
 
     public List<EventInstance> activeTimedEvents = new List<EventInstance>();

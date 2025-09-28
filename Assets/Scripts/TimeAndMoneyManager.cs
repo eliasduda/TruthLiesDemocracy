@@ -41,6 +41,7 @@ public class TimeAndMoneyManager : MonoBehaviour
     {
         ChangeStat(InfluencableStats.DaysPassed, 1);
         dayTimer = GameManager.instance.gamePlaySettings.dayDurationSeconds;
+        if (DaysPassed % 5 == 0) GameManager.instance.eventManager.onEndOfPeriod.Invoke();
     }
 
     public void ChangeStat(InfluencableStats stat, float amount)

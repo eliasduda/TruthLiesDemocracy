@@ -16,4 +16,4 @@ MonoBehaviour:
   title: Awareness
   description: 'Only someone who is aware of your idea can support and spread it. '
   iconName: aware
-  fontColor: {r: 0.53333336, g: 0.7535574, b: 0.91764706, a: 1}
+  fontColor: {r: 0.7921569, g: 0.6039216, b: 0.14117648, a: 1}
