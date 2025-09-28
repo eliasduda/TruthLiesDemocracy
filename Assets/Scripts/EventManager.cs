@@ -168,7 +168,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    private bool ApplyEffect(EventEffectPair effect, Pupil pupil, float ratio = 1)
+    public bool ApplyEffect(EventEffectPair effect, Pupil pupil, float ratio = 1)
     {
         if (PupilStats.IsPerPupilStat(effect.stat))
         {

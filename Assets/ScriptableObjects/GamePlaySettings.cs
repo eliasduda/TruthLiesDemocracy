@@ -3,6 +3,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GamePlaySettings", menuName = "Scriptable Objects/GamePlaySettings")]
 public class GamePlaySettings : ScriptableObject
 {
+    public string playerName;
+    public Color playerColor;
+    public string projectName;
+
     public Color mainColor;
     public Color lightColor;
     public Color backgroundColor;
@@ -20,5 +24,7 @@ public class GamePlaySettings : ScriptableObject
     public int signatureGoal;
 
     public AnimationCurve trustSupportMultiplier;
+
+    public DisussionSettings disussionSettings;
 
 }

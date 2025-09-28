@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEditor.MemoryProfiler;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System;
+using UnityEngine.Rendering.Universal;
 
 public class Pupil : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -37,6 +39,8 @@ public class Pupil : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     private bool inDiscussion = false;
     [HideInInspector] public Vector2 pendingVelocity;
     private Coroutine discussCoroutine;
+
+    public event Action<Pupil, List<Pupil>> OnBump;
 
     [HideInInspector] public Vector2 ringTargetPosition;
     [HideInInspector] public bool moveToRing = false;
@@ -72,7 +76,7 @@ public class Pupil : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.gravityScale = 0f;
         rb.linearDamping = 0f;
-        velocity = Random.insideUnitCircle.normalized * manager.MaxSpeed;
+        velocity = UnityEngine.Random.insideUnitCircle.normalized * manager.MaxSpeed;
 
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         UpdateSprite();
@@ -187,6 +191,21 @@ public class Pupil : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             CollectGroup(this, group);
             CollectGroup(otherPupil, group);
 
+            List<Pupil> groupList = new List<Pupil>(group);
+
+            // Trigger bump event 
+            if (connectedPupils.Count == 0 && otherPupil.connectedPupils.Count == 0)
+            {
+                if (this.GetInstanceID() < otherPupil.GetInstanceID())
+                {
+                    OnBump?.Invoke(this, groupList);
+                }
+            }
+            else if (connectedPupils.Count == 0)
+            {
+                OnBump?.Invoke(this, groupList);
+            }
+
             // Update all group members' connectedPupils sets
             foreach (var pupil in group)
             {
@@ -194,7 +213,7 @@ public class Pupil : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 pupil.connectedPupils.Remove(pupil); // Don't include self
             }
 
-            float discussDuration = manager.ArrangeRing(new List<Pupil>(group));
+            float discussDuration = manager.ArrangeRing(groupList);
 
             // Discuss and arrange ring for all
             foreach (var pupil in group)
@@ -395,7 +414,7 @@ public class PupilStats
 
     public bool AskToSign()
     {
-        float r = Random.Range(0f, 1f);
+        float r = UnityEngine.Random.Range(0f, 1f);
         if (r < support && !hasSigned)
         {
             hasSigned = true;
