@@ -59,7 +59,7 @@ MonoBehaviour:
   youSprite: {fileID: 663144637380208133, guid: ac4d4872c199aad42a95e967ca529bb6, type: 3}
   armLeft: {fileID: 5203024945206717571}
   armRight: {fileID: 8141284958600533632}
-  swingAmplitude: 180
+  swingAmplitude: 40
   swingSpeed: 6
   stats:
     support: 0

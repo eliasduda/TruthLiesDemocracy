@@ -6,7 +6,9 @@ public class GrabTextFieldInput : MonoBehaviour
     public bool changesName = true;
     public bool changeProject = false;
 
-    GamePlaySettings gamePlaySettings;
+    public GamePlaySettings gamePlaySettings;
+
+    public event System.EventHandler OnInputFinished;
 
     public void GrabInputFieldText(string input)
     {
@@ -20,6 +22,8 @@ public class GrabTextFieldInput : MonoBehaviour
         {
             gamePlaySettings.projectName = text;
         }
+        OnInputFinished?.Invoke(this, System.EventArgs.Empty);
+        this.gameObject.SetActive(false);
     }
 
 

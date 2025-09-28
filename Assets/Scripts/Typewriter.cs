@@ -6,6 +6,7 @@ public class Typewriter : MonoBehaviour
 
     public AudioClip[] typingSounds;
     public bool skipping = false;
+    public bool isPlaying = false;
 
     public void WriteText(SpeechHandler handler, string text, TextMeshProUGUI textComponent, bool hasEventAfterLine = false, bool isInputField = false, float delay = 0.04f)
     {
@@ -14,16 +15,17 @@ public class Typewriter : MonoBehaviour
 
     private System.Collections.IEnumerator TypeText(SpeechHandler handler, string text, TextMeshProUGUI textComponent, bool hasEventAfterLine, bool isInputField, float delay)
     {
+        isPlaying = true;
         textComponent.text = text;
         textComponent.maxVisibleCharacters = 0;
+        if (hasEventAfterLine && !isInputField) handler.InvokeInTextEvent();
         foreach (char c in text)
         {
-            if(skipping)
+            if (skipping)
             {
                 textComponent.maxVisibleCharacters = text.Length;
-                skipping = false;
-                if (hasEventAfterLine) handler.InvokeInTextEvent();
-                yield break;
+                skipping = false;              
+                break;
             }
             textComponent.maxVisibleCharacters++;
             if (typingSounds.Length > 0 && c != ' ')
@@ -32,5 +34,7 @@ public class Typewriter : MonoBehaviour
             }
             yield return new WaitForSeconds(delay);
         }
+
+        isPlaying = false;
     }
 }

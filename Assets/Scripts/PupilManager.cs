@@ -66,6 +66,7 @@ public class PupilManager : MonoBehaviour
             }
                 pupils.Add(pupil);
             pupil.OnBump += SpreadThroughDiscussion;
+            pupil.onStatChanged += PupilStatChanged;
         }
 
         discussionSource = GetComponent<AudioSource>();
@@ -154,6 +155,15 @@ public class PupilManager : MonoBehaviour
             };
             GameManager.instance.eventManager.ApplyEffect(awareEffect, unawarePupil);
         }
+    }
+
+    private void PupilStatChanged(Pupil pupil, InfluencableStats stat)
+    {
+        Vector3 spawnPos = pupil.transform.position + Vector3.up * 1.5f; // 1.5 units above head
+        //GameObject icon = Instantiate(statChangeImagePrefab, spawnPos, Quaternion.identity);
+
+        // parent it to the pupil so it follows them
+        //icon.transform.SetParent(pupil.transform, true);
     }
 
 
