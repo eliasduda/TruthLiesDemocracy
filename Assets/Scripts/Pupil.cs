@@ -331,7 +331,7 @@ public class Pupil : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         }
 
         // Swing arms
-        if (!inDiscussion)
+        if (!inDiscussion && !isOccupied && !_isFrozen)
         {
             float swingAngle = Mathf.Sin(Time.time * swingSpeed) * swingAmplitude;
             armLeft.transform.localRotation = Quaternion.Euler(swingAngle, 0f, 0f);
