@@ -22,7 +22,7 @@ public class SpeechEventsArgs : System.EventArgs
     public bool triggersIconAppearance = false;
     public GameObject iconToAppear;
 
-    public SpeechEventsArgs() { }
+    public bool endTutorial = false;
 
 }
 
@@ -64,10 +64,10 @@ public class SpeechHandler : MonoBehaviour
     public void WriteNextText()
     {
         if(!inputFinished) return;
-        if (typewriter.isPlaying)
+        if (Typewriter.isPlaying)
         {
             SkipLine();
-            typewriter.isPlaying = false;
+            Typewriter.isPlaying = false;
             return;
         }
         Debug.Log("Writing next text, index: " + index);
@@ -109,6 +109,10 @@ public class SpeechHandler : MonoBehaviour
         {
             e.nextDialogueContainer.SetActive(true);
             this.gameObject.SetActive(false);
+        }
+        if (e.endTutorial)
+        {
+            SceneSwitch.tutorialEnd = true;
         }
     }
 

@@ -18,9 +18,4 @@ public class ProjectSetter : MonoBehaviour
         looseScreen.text = looseScreen.text.Replace("PROJECT", GameManager.instance.gamePlaySettings.projectName);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

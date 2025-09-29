@@ -463,8 +463,8 @@ MonoBehaviour:
   m_text: Gratiulations NAME you won! \n\n Your initiative to PROJECT gained enough
     signatures before the deadline was reached
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6abb2fb62543e10418f49df8c7030f02, type: 2}
-  m_sharedMaterial: {fileID: -2996060820552891099, guid: 6abb2fb62543e10418f49df8c7030f02, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0e50034435e127945808bb27fb295a99, type: 2}
+  m_sharedMaterial: {fileID: -4621721769329715147, guid: 0e50034435e127945808bb27fb295a99, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

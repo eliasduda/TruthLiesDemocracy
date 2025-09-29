@@ -6,7 +6,7 @@ public class Typewriter : MonoBehaviour
 
     public AudioClip[] typingSounds;
     public bool skipping = false;
-    public bool isPlaying = false;
+    public static bool isPlaying = false;
 
     public void WriteText(SpeechHandler handler, string text, TextMeshProUGUI textComponent, bool hasEventAfterLine = false, bool isInputField = false, float delay = 0.04f)
     {
