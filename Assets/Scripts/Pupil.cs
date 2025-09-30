@@ -46,6 +46,7 @@ public class Pupil : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [HideInInspector] public Vector2 ringCenter;
 
     private bool _isFrozen = false;
+    public bool statIconBeingShown = false;
     public bool IsFrozen
     {
         get { return _isFrozen; }

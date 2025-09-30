@@ -10,30 +10,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 477ed058351877c459af045004f3a91d, type: 3}
-  m_Name: PizzaParty
+  m_Name: Karaoke Night
   m_EditorClassIdentifier: Assembly-CSharp::EventData
-  eventName: Pizza Party
-  eventDescription: You hand out pizza to everyone to instantly gain $awareness_awareness
-    and $trust_trust
+  eventName: Karaoke event
+  eventDescription: You host a karaoke event for people around you. It increases
+    $awareness_awareness and $trust_trust.
   eventImage: {fileID: 0}
   category: 1
   PerPupilEffects:
   - effects:
     - stat: 1
-      amount: 0.1
+      amount: 0.45
     - stat: 2
       amount: 1
     whereAllOfTheseApply: []
     andWhereOneOfTheseApply: []
-    pupilSelector: 0
+    pupilSelector: 1
   GeneralEffects: []
   cost:
     stat: 4
-    amount: -30
+    amount: -45
   duration:
     stat: 6
-    amount: 10
-  coolDown: 15
+    amount: 5
+  coolDown: 10
   occupiesYou: 1
   unlockCondition:
     AllOfTheseApply: []

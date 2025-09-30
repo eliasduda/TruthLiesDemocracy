@@ -173,23 +173,38 @@ public class PupilManager : MonoBehaviour
 
     private void PupilStatChanged(Pupil pupil, InfluencableStats stat)
     {
-        //Vector3 spawnPos = pupil.transform.position + Vector3.up * 1.5f; // 1.5 units above head
-        //GameObject icon = new GameObject("StatChangeIcon");
-        //icon.AddComponent<SpriteRenderer>();
+        if(!pupil.statIconBeingShown)
+        {
+            pupil.statIconBeingShown = true;
+            Vector3 spawnPos = pupil.transform.position + Vector3.up * 1.5f; // 1.5 units above head
+            GameObject icon = new GameObject("StatChangeIcon");
+            icon.transform.localScale = Vector3.one * 0.3f;
+            icon.AddComponent<SpriteRenderer>();
 
-        //icon.GetComponent<SpriteRenderer>().sortingLayerName = "UI";
-        //icon.GetComponent<SpriteRenderer>().sprite = GameManager.instance.
+            icon.GetComponent<SpriteRenderer>().sortingLayerName = "UI";
+            icon.GetComponent<SpriteRenderer>().sprite = GameManager.instance.GetStatImage(stat);
 
-        //Instantiate(icon, spawnPos, Quaternion.identity);
-        // parent it to the pupil so it follows them
-        //icon.transform.SetParent(pupil.transform, true);
 
-        if(pupil.isBeingPunched) return; // Don't punch again if already punched
+            GameObject spawn = Instantiate(icon, spawnPos, Quaternion.identity);
+            //parent it to the pupil so it follows them
+            spawn.transform.SetParent(spawn.transform, true);
+            spawn.transform.DOMoveY(spawn.transform.position.y+0.5f, 0.3f).SetEase(Ease.OutSine);
+            spawn.GetComponent<SpriteRenderer>().DOFade(0, 0.3f).SetEase(Ease.InSine);
+            StartCoroutine(DeletePopUpAfterDelay(spawn, pupil));
+        }
+
+        if (pupil.isBeingPunched) return; // Don't punch again if already punched
         pupil.transform.DOPunchScale(new Vector3(0.1f, 0.1f, 0), 0.3f, 2, 0.3f).OnComplete(() => pupil.isBeingPunched = false);
         pupil.isBeingPunched = true;
 
     }
 
+    private IEnumerator DeletePopUpAfterDelay(GameObject obj, Pupil pupil)
+    {
+        yield return new WaitForSeconds(0.3f);
+        pupil.statIconBeingShown = false;
+        Destroy(obj);
+    }
 
     public void PlayBumpSound(AudioSource source)
     {

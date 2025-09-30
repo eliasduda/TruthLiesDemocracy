@@ -10,31 +10,43 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 477ed058351877c459af045004f3a91d, type: 3}
-  m_Name: PizzaParty
+  m_Name: School newsletter
   m_EditorClassIdentifier: Assembly-CSharp::EventData
-  eventName: Pizza Party
-  eventDescription: You hand out pizza to everyone to instantly gain $awareness_awareness
-    and $trust_trust
+  eventName: School Newsletter
+  eventDescription: You pay to be featured in your school's newspaper. This increases
+    $support_support and $trust_trust for a while.
   eventImage: {fileID: 0}
   category: 1
   PerPupilEffects:
   - effects:
+    - stat: 0
+      amount: 0.01
     - stat: 1
-      amount: 0.1
+      amount: 0.05
+    whereAllOfTheseApply:
     - stat: 2
-      amount: 1
-    whereAllOfTheseApply: []
+      comparator: 0
+      amount: 0.5
     andWhereOneOfTheseApply: []
     pupilSelector: 0
+  - effects:
+    - stat: 2
+      amount: 1
+    whereAllOfTheseApply:
+    - stat: 2
+      comparator: 1
+      amount: 0.9
+    andWhereOneOfTheseApply: []
+    pupilSelector: 1
   GeneralEffects: []
   cost:
     stat: 4
-    amount: -30
+    amount: -60
   duration:
     stat: 6
-    amount: 10
-  coolDown: 15
-  occupiesYou: 1
+    amount: 20
+  coolDown: 5
+  occupiesYou: 0
   unlockCondition:
     AllOfTheseApply: []
     andOneOfTheseApply: []
