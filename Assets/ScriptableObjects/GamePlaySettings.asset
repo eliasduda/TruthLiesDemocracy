@@ -21,7 +21,7 @@ MonoBehaviour:
   colorAwareness: {r: 0.7924528, g: 0.6023003, b: 0.14204334, a: 1}
   colorTrust: {r: 0.134152, g: 0.836478, b: 0.70718485, a: 1}
   defaultFont: {fileID: 12800000, guid: ab5f9196eb1ae8046b56f03b78dd7c29, type: 3}
-  startMoney: 30
+  startMoney: 15
   startStats:
     support: 1
     trust: 1
@@ -32,6 +32,7 @@ MonoBehaviour:
   daysTotal: 30
   dayDurationSeconds: 10
   signatureGoal: 50
+  spawnScale: 1
   trustSupportMultiplier:
     serializedVersion: 2
     m_Curve:

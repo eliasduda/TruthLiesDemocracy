@@ -1,15 +1,12 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class BackgroundBlocker : MonoBehaviour,IPointerDownHandler, IPointerUpHandler
+public class BackgroundBlocker : MonoBehaviour
 {
-    public void OnPointerDown(PointerEventData eventData)
-    {
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
+    public void InvokeOnClick()
     {
         Debug.Log("PointerBackground");
         GameManager.instance.eventManager.onClickedBackground.Invoke();
     }
+
 }

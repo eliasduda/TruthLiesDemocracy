@@ -45,6 +45,8 @@ public class Pupil : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [HideInInspector] public bool moveToRing = false;
     [HideInInspector] public Vector2 ringCenter;
 
+    public List<InfluencableStats> displayedIconStats = new List<InfluencableStats>();
+
     private bool _isFrozen = false;
     public bool statIconBeingShown = false;
     public bool IsFrozen

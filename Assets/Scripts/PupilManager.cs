@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PupilManager : MonoBehaviour
@@ -18,7 +19,7 @@ public class PupilManager : MonoBehaviour
     [SerializeField] private float discussGroupSize = 1f; // Extra space for discussion ring
 
     public InfluencableStats visualizeStat = InfluencableStats.Signatures;
-    private BoxCollider2D pupilArea;
+    public BoxCollider2D pupilArea;
     Bounds bounds;
 
     public List<Pupil> pupils = new List<Pupil>();
@@ -32,11 +33,19 @@ public class PupilManager : MonoBehaviour
     [SerializeField] private int discussionSoundThreshold = 4; // Minimum group size to play discussion sound
 
     bool sendFirstDignature = false;
-    void Start()
+
+    public GameObject statIconContainer;
+    private Vector2 lastScreenSize = Vector2.zero;
+    IEnumerator Start()
     {
-        pupilArea = GetComponentInChildren<BoxCollider2D>();
+        statIconContainer = new("StatChangeIcon");
+        yield return StartCoroutine(WaitForPupilAreaToBeSet());
+        //pupilArea = GetComponentInChildren<BoxCollider2D>();
         bounds = pupilArea.bounds;
+        print(bounds);
         pupilCount = GameManager.instance.gamePlaySettings.signatureGoal;
+
+        lastScreenSize = new Vector2(Screen.width, Screen.height);
 
         // Set areaSize to match the screen size in world units
         Vector3 bottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
@@ -51,8 +60,8 @@ public class PupilManager : MonoBehaviour
         for (int i = 0; i < pupilCount; i++)
         {
             Vector2 pos = (Vector2)transform.position + new Vector2(
-                Random.Range(bounds.min.x , bounds.max.x ),
-                Random.Range(bounds.min.y , bounds.max.y )
+                Random.Range(bounds.min.x, bounds.max.x),
+                Random.Range(bounds.min.y, bounds.max.y)
             );
             Pupil pupil = Instantiate(pupilPrefab, pos, Quaternion.identity);
             pupil.transform.localScale = Vector3.one * GameManager.instance.gamePlaySettings.spawnScale;
@@ -69,7 +78,7 @@ public class PupilManager : MonoBehaviour
             {
                 pupil.stats.SetRandomName();
             }
-                pupils.Add(pupil);
+            pupils.Add(pupil);
             pupil.OnBump += SpreadThroughDiscussion;
             pupil.onStatChanged += PupilStatChanged;
         }
@@ -77,8 +86,34 @@ public class PupilManager : MonoBehaviour
         discussionSource = GetComponent<AudioSource>();
     }
 
+    private IEnumerator WaitForPupilAreaToBeSet()
+    {
+         while (pupilArea == null)
+        {
+            yield return new WaitForEndOfFrame(); // Wait for the next frame
+        }
+    }
+
+
     private void Update()
     {
+        if (pupilArea == null) return;
+        if (lastScreenSize.x != Screen.width || lastScreenSize.y != Screen.height)
+        {
+            lastScreenSize = new Vector2(Screen.width, Screen.height);
+            // Update bounds and walls if screen size changes
+            Vector3 bottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
+            Vector3 topRight = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+            transform.position = (bottomLeft + topRight) / 2f;
+            bounds = pupilArea.bounds;
+
+            CreateScreenWalls();
+
+            foreach(var pupil in pupils)
+            {
+                PutPupilInsideBorders(pupil);
+            }
+        }
         if (!sendFirstDignature)
         {
             sendFirstDignature = true;
@@ -86,8 +121,29 @@ public class PupilManager : MonoBehaviour
         }
     }
 
+    private void PutPupilInsideBorders(Pupil _pupil)
+    {
+        if(!pupilArea.bounds.Contains(_pupil.transform.position))
+        {
+            Vector2 newPos = _pupil.transform.position;
+            if (_pupil.transform.position.x < pupilArea.bounds.min.x)
+                newPos.x = pupilArea.bounds.max.x;
+            else if (_pupil.transform.position.x > pupilArea.bounds.max.x)
+                newPos.x = pupilArea.bounds.min.x;
+            if (_pupil.transform.position.y < pupilArea.bounds.min.y)
+                newPos.y = pupilArea.bounds.max.y;
+            else if (_pupil.transform.position.y > pupilArea.bounds.max.y)
+                newPos.y = pupilArea.bounds.min.y;
+            _pupil.transform.position = newPos;
+        }
+    }
+
+    List<GameObject> walls = new List<GameObject>();
     void CreateScreenWalls()
     {
+        foreach (var wall in walls)
+            Destroy(wall);
+
         float thickness = 1f; // Thickness of the wall
 
         // Bottom
@@ -119,6 +175,8 @@ public class PupilManager : MonoBehaviour
         var collider = wall.AddComponent<BoxCollider2D>();
         collider.size = size;
         collider.isTrigger = false;
+
+        walls.Add(wall);
     }
 
     private void SpreadThroughDiscussion(Pupil sourcePupil, List<Pupil> group)
@@ -171,26 +229,30 @@ public class PupilManager : MonoBehaviour
         }
     }
 
+
+
     private void PupilStatChanged(Pupil pupil, InfluencableStats stat)
     {
-        if(!pupil.statIconBeingShown)
+        if(!pupil.displayedIconStats.Contains(stat))
         {
-            pupil.statIconBeingShown = true;
-            Vector3 spawnPos = pupil.transform.position + Vector3.up * 1.5f; // 1.5 units above head
-            GameObject icon = new GameObject("StatChangeIcon");
-            icon.transform.localScale = Vector3.one * 0.3f;
-            icon.AddComponent<SpriteRenderer>();
+            pupil.displayedIconStats.Add(stat);
+            Vector3 spawnPos = pupil.transform.position + Vector3.up * 0.3f;
+            spawnPos = new Vector3(spawnPos.x + 0.3f*pupil.displayedIconStats.Count, spawnPos.y, spawnPos.z);
+            GameObject icon = Instantiate(statIconContainer, spawnPos, Quaternion.identity);
+            icon.transform.localScale = Vector3.one * 0.4f;
+            SpriteRenderer sR = icon.AddComponent<SpriteRenderer>();
+            icon.AddComponent<DestroyAfterSeconds>().SetTimer(2f); //destroy after timer ends
 
-            icon.GetComponent<SpriteRenderer>().sortingLayerName = "UI";
-            icon.GetComponent<SpriteRenderer>().sprite = GameManager.instance.GetStatImage(stat);
 
+            sR.sortingLayerName = "UI";
+            sR.sprite = GameManager.instance.GetStatImage(stat);
 
-            GameObject spawn = Instantiate(icon, spawnPos, Quaternion.identity);
             //parent it to the pupil so it follows them
-            spawn.transform.SetParent(spawn.transform, true);
-            spawn.transform.DOMoveY(spawn.transform.position.y+0.5f, 0.3f).SetEase(Ease.OutSine);
-            spawn.GetComponent<SpriteRenderer>().DOFade(0, 0.3f).SetEase(Ease.InSine);
-            StartCoroutine(DeletePopUpAfterDelay(spawn, pupil));
+            icon.transform.SetParent(icon.transform, true);
+            icon.transform.DOMoveY(icon.transform.position.y+0.2f,0.5f).SetEase(Ease.OutSine);
+            sR.DOFade(0, 0.5f).SetEase(Ease.InSine);
+
+            StartCoroutine(IconPopupCooldown(stat, pupil));
         }
 
         if (pupil.isBeingPunched) return; // Don't punch again if already punched
@@ -199,11 +261,10 @@ public class PupilManager : MonoBehaviour
 
     }
 
-    private IEnumerator DeletePopUpAfterDelay(GameObject obj, Pupil pupil)
+    private IEnumerator IconPopupCooldown(InfluencableStats stat, Pupil pupil)
     {
-        yield return new WaitForSeconds(0.3f);
-        pupil.statIconBeingShown = false;
-        Destroy(obj);
+        yield return new WaitForSeconds(0.5f);
+        pupil.displayedIconStats.Remove(stat);
     }
 
     public void PlayBumpSound(AudioSource source)

@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Image))]
-public class VisualisationToggle : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
+public class VisualisationToggle : MonoBehaviour
 {
     public InfluencableStats stat;
     private Image image;
@@ -33,7 +33,7 @@ public class VisualisationToggle : MonoBehaviour, IPointerEnterHandler, IPointer
         }
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public void OnPointerEnter()
     {
         prevStat = GameManager.instance.pupilManager.visualizeStat;
         image.color = clickedColor;
@@ -42,7 +42,7 @@ public class VisualisationToggle : MonoBehaviour, IPointerEnterHandler, IPointer
         //GameManager.instance.pupilManager.ChnangeVisualisation(stat);
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public void OnPointerExit()
     {
         if (clicked) return;
         image.color = normalColor;
@@ -50,14 +50,32 @@ public class VisualisationToggle : MonoBehaviour, IPointerEnterHandler, IPointer
         //GameManager.instance.pupilManager.ChnangeVisualisation(prevStat);
     }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
+    public void OnPointerUp()
     {
         GameManager.instance.pupilManager.ChnangeVisualisation(stat);
         clicked = true; 
         image.color = clickedColor;
     }
+
+    [ExecuteAlways]
+    public class DrawUIRect : MonoBehaviour
+    {
+        void OnDrawGizmos()
+        {
+            RectTransform rt = GetComponent<RectTransform>();
+            if (rt == null) return;
+
+            Vector3[] corners = new Vector3[4];
+            rt.GetWorldCorners(corners);
+
+            Gizmos.color = Color.red;
+            for (int i = 0; i < 4; i++)
+            {
+                Gizmos.DrawLine(corners[i], corners[(i + 1) % 4]);
+            }
+        }
+    }
+
 }
+
+
